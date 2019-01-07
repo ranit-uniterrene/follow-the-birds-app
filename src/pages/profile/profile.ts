@@ -104,11 +104,13 @@ export class ProfilePage {
 		this.post.getfeeds('posts_profile',this.profile_id,localStorage.getItem('user_id'),{'filter':'all'})
 		.then(data => {
 			let item = data[0];
-			localStorage.setItem('last_post_live','posts_profile-'+item[0].post_id);
+			localStorage.setItem('last_post_live',item[0].post_id);
 			for (var key in item) {
 			  this.postFeeds.push(item[key]);
 			}
 		});
+		this.sub = Observable.interval(10000)
+			.subscribe((val) => { this.getLiveLitePost() });
 	}
 	
 	ionViewDidLoad(){
@@ -137,13 +139,8 @@ export class ProfilePage {
 			}
 		});
 		
-		
 	}
 	
-	ionViewDidEnter(){
-		this.sub = Observable.interval(3000)
-			.subscribe((val) => { this.getLiveLitePost() });
-	}
   
 	ionViewDidLeave() {
 		this.sub.unsubscribe();
@@ -251,7 +248,6 @@ export class ProfilePage {
   
 	takeCameraSnap(type){
 		const options: CameraOptions = {
-		  quality: 500,
 		  destinationType: this.camera.DestinationType.DATA_URL,
 		  sourceType: this.camera.PictureSourceType.CAMERA,
 		  encodingType: this.camera.EncodingType.JPEG,
@@ -737,15 +733,16 @@ export class ProfilePage {
 	
 	getLiveLitePost(){
 		let items :any = {
-			type_id:this.profile.user_id,
+			type:'posts_profile',
+			type_id:this.profile_id,
 			user_id:localStorage.getItem('user_id'),
-			//last_post_live:localStorage.getItem('last_post_live')
+			last_post_live:localStorage.getItem('last_post_live')
 		}
 		console.log(items);
 		this.user.getLiveLitePost(items).then((data) => {	
 			let item : any = data;
 			if(item.length > 0){
-				localStorage.setItem('last_post_live','posts_profile-'+data[0].post_id);
+				localStorage.setItem('last_post_live',data[0].post_id);
 				for (var key in item) {
 				  this.postFeeds.unshift(item[key]);
 				}

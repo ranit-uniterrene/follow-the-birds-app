@@ -78,7 +78,7 @@ export class PostPage {
     .then(data => {
 		this.postFeeds = [];
 		let item = data[0];
-		localStorage.setItem('last_post_live','newsfeed-'+item[0].post_id);
+		localStorage.setItem('last_post_live',item[0].post_id);
 		for (var key in item) {
 		  this.postFeeds.push(item[key]);
 		}
@@ -88,11 +88,13 @@ export class PostPage {
   }
   
   ionViewDidEnter(){
+	  console.log("Enter");
 	this.sub = Observable.interval(3000)
 		.subscribe((val) => { this.getLiveLitePost() });
   }
   
   ionViewDidLeave() {
+    console.log("leave");
 	this.sub.unsubscribe();
   }
   
@@ -329,10 +331,15 @@ export class PostPage {
   }
   
   getLiveLitePost(){
-	this.user.getLiveLitePost({user_id: localStorage.getItem('user_id'),last_post_live: localStorage.getItem('last_post_live')}).then((data) => {	
+	  let items :any = {
+		type:'newsfeed',
+		user_id:localStorage.getItem('user_id'),
+		last_post_live:localStorage.getItem('last_post_live')
+	  }
+	this.user.getLiveLitePost(items).then((data) => {	
 		let item : any = data;
 		if(item.length > 0){
-			localStorage.setItem('last_post_live','newsfeed-'+data[0].post_id);
+			localStorage.setItem('last_post_live',data[0].post_id);
 			for (var key in item) {
 			  this.postFeeds.unshift(item[key]);
 			}

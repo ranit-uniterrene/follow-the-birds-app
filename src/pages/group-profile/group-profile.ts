@@ -28,6 +28,7 @@ export class GroupProfilePage {
   private myId : number = parseInt(localStorage.getItem('user_id'));	
   public groupProfile : any = [];
   public postElement = [];
+  postFeeds: any = [];
   public groupDetailszone : string = "timeline";
   sub : any = '';
   private imageURL = "https://dev.followthebirds.com/content/uploads/";	
@@ -73,28 +74,46 @@ export class GroupProfilePage {
 		this.groupProfile = navParams.get('groupProfile');
 		this.groups.getGroupProfile(parseInt(this.groupProfile.group_id),{'user_id':localStorage.getItem('user_id'),'filter':'all'}).then(data => {
 		  this.groupProfile = data;
-		  localStorage.setItem('last_post_live','posts_group-'+this.groupProfile.posts[0].post_id);
+		  this.getPost();			  
+		  localStorage.setItem('last_post_live',this.groupProfile.posts[0].post_id);
 		  this.postElement['handle'] = "group";
 		  this.postElement['id'] = this.groupProfile['group_id'];	
 		});
 		
-    this.coverPhotoOptions = formBuilder.group({
-      file: "assets/followthebirdImgs/coverimage.png",
-      type: "photos",
-      handle: "cover-group",
-      multiple: false,
-      id: '',
-      user_id : localStorage.getItem('user_id')
-    });
+		this.coverPhotoOptions = formBuilder.group({
+		  file: "assets/followthebirdImgs/coverimage.png",
+		  type: "photos",
+		  handle: "cover-group",
+		  multiple: false,
+		  id: '',
+		  user_id : localStorage.getItem('user_id')
+		});
   }
 
 	ionViewDidEnter(){
-		this.sub = Observable.interval(3000)
+		if(this.postFeeds.length <= '0'){
+			this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getLiveLitePost() });
+		}
 	}
   
 	ionViewDidLeave() {
 		this.sub.unsubscribe();
+	}
+	
+	getPost(){
+		this.post.getfeeds('posts_group',this.groupProfile['group_id'],localStorage.getItem('user_id'))
+			.then(data => {
+				let item = data[0];
+				localStorage.setItem('last_post_live',item[0].post_id);
+				for (var key in item) {
+				  this.postFeeds.push(item[key]);
+				}
+		});
+	}
+	
+	viewProfile(user_name,user_id) {
+		this.nav.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
 	}
   
   getCoverBackgroundStyle() {
@@ -407,10 +426,10 @@ export class GroupProfilePage {
 	}
 	
 	getLiveLitePost(){
-		this.user.getLiveLitePost({user_id: localStorage.getItem('user_id'),type_id:this.groupProfile.group_id,last_post_live: localStorage.getItem('last_post_live')}).then((data) => {	
+		this.user.getLiveLitePost({user_id: localStorage.getItem('user_id'),type:'posts_group',type_id:this.groupProfile.group_id,last_post_live: localStorage.getItem('last_post_live')}).then((data) => {	
 			let item : any = data;
 			if(item.length > 0){
-				localStorage.setItem('last_post_live','posts_group-'+data[0].post_id);
+				localStorage.setItem('last_post_live',data[0].post_id);
 				for (var key in item) {
 				  this.groupProfile.posts.unshift(item[key]);
 				}

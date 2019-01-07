@@ -94,8 +94,10 @@ export class EventProfilePage {
   }
 
 	ionViewDidEnter(){
-		this.sub = Observable.interval(3000)
+		if(this.postFeeds.length <= '0'){
+			this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getLiveLitePost() });
+		}
 	}
   
 	ionViewDidLeave() {
@@ -106,7 +108,7 @@ export class EventProfilePage {
 	this.post.getfeeds('posts_event',this.eventProfile['event_id'],localStorage.getItem('user_id'))
 		.then(data => {
 			let item = data[0];
-			localStorage.setItem('last_post_live','posts_event-'+item[0].post_id);
+			localStorage.setItem('last_post_live',item[0].post_id);
 			for (var key in item) {
 			  this.postFeeds.push(item[key]);
 			}
@@ -315,6 +317,10 @@ export class EventProfilePage {
 		
 	}
 	
+	viewProfile(user_name,user_id) {
+		this.nav.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
+	}
+	
 	getMembers(type){
 		this.navCtrl.push("EventMembersPage",{event_id:this.eventProfile.event_id,type:type});
 	}
@@ -447,10 +453,10 @@ export class EventProfilePage {
 	}
 	
 	getLiveLitePost(){
-		this.user.getLiveLitePost({user_id: localStorage.getItem('user_id'),type_id:this.eventProfileId,last_post_live: localStorage.getItem('last_post_live')}).then((data) => {	
+		this.user.getLiveLitePost({user_id: localStorage.getItem('user_id'),type:'posts_event',type_id:this.eventProfileId,last_post_live: localStorage.getItem('last_post_live')}).then((data) => {	
 			let item : any = data;
 			if(item.length > 0){
-				localStorage.setItem('last_post_live','posts_event-'+data[0].post_id);
+				localStorage.setItem('last_post_live',data[0].post_id);
 				for (var key in item) {
 				  this.postFeeds.unshift(item[key]);
 				}
