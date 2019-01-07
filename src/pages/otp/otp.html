@@ -1,0 +1,54 @@
+<ion-content scroll="false" class="login_page optPage">
+  
+    <div padding class="formContainer">
+      <div class="disTabcontent">
+      <div class="logo">
+        <img class="appLogo" src="../../assets/followthebirdImgs/logo.png" alt="">
+      </div>
+      <img class="icn_img" src="../../assets/followthebirdImgs/opt_icon.png" alt="">
+      <h4>Verification Code</h4>
+      <p> Please type the verification coad sent <br>to {{ this.userData.email }}</p>
+      <form>
+        <ion-list>
+  
+            <div class="listBox">    
+                <ion-item>                
+                  <ion-input type="text" [(ngModel)]="code1" maxlength="1" name="code_text" placeholder="."></ion-input>
+                </ion-item> 
+                <ion-item>                
+                  <ion-input type="text" [(ngModel)]="code2" maxlength="1" name="code_text" placeholder="."></ion-input>
+                </ion-item> 
+                <ion-item>                
+                  <ion-input type="text" [(ngModel)]="code3" maxlength="1" name="code_text" placeholder="."></ion-input>
+                </ion-item> 
+                <ion-item>                
+                  <ion-input type="text" [(ngModel)]="code4" maxlength="1" name="code_text" placeholder="."></ion-input>
+                </ion-item> 
+            </div> 
+           
+          <button *ngIf="checkAllVal()" (tap)="sendUserAuth()" class="login_btn" ion-button color="light" block outline>Verify OTP</button>
+          <button *ngIf="!checkAllVal()" (tap)="sendUserAuth()" disabled class="login_btn" ion-button color="light" block outline>Verify OTP</button>
+          
+          <button class="login_btn backbtn" ion-button color="light" block clear ion-button (click)="resendOTP(account.user_email)">
+               Resend OTP
+            </button> 
+        </ion-list>
+      </form>
+    </div>  
+    <div class="bottomFooter">
+      <ion-grid>			
+        <ion-row>
+          <ion-col col-6>
+            <button class="footer_btn left" (tap)="signup()" ion-button color="light" clear block>Create Account</button>
+          </ion-col>
+          <ion-col col-6>
+            <button class="footer_btn" (tap)="login()" ion-button color="light" clear block>Login</button>
+          </ion-col>
+        
+        </ion-row>
+      </ion-grid>
+    </div>
+    </div>	
+    
+  </ion-content>
+  

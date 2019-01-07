@@ -1,0 +1,90 @@
+<ion-header>
+    <ion-navbar color="primary">
+      <ion-buttons right>
+          <button ion-button icon-only (tap)="closeModal()">          
+              <ion-icon ios="ios-close" md="md-close"></ion-icon>
+          </button>
+      </ion-buttons>
+      <h4 style="color:#fff; margin:0; padding-left: 6px;" >Create post</h4>
+
+    </ion-navbar>
+  </ion-header>
+  <ion-content>
+    <form>
+      <ion-card class="publisher-card">
+          <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-item style="padding-left:0" text-wrap>
+                      <ion-avatar item-start>      
+                        <img src="{{userPic}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+                      </ion-avatar>
+                      <span style="text-transform:capitalize;"> {{userName}}</span>
+					  <span style="text-transform:capitalize;" *ngIf="publisherInfo.feeling_action != ''" > - <ion-icon [name]="icon"></ion-icon> {{publisherInfo.feeling_action}} </span>	
+					  <span style="text-transform:capitalize; font-weight: bold;" *ngIf="publisherInfo.feeling_value != ''"> {{publisherInfo.feeling_value}}</span>	
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Privacy</ion-label>
+                    <ion-select [(ngModel)]="publisherInfo.privacy" name="privacy">
+                      <ion-option selected value="public">Public</ion-option>
+                              <ion-option value="friends">Friends</ion-option>
+                              <ion-option value="only_me">Only Me</ion-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+          </ion-grid> 
+          <ion-list>
+            
+          </ion-list>
+          <ion-card-content>
+            <ion-textarea [(ngModel)]="publisherInfo.message" rows="1" placeholder="Whats on your mind" class="main_textarea_field" name="message"></ion-textarea>
+		  </ion-card-content>
+		  <input type="file" #postPhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" multiple/>
+		  <input type="file" #postVideo style="visibility: hidden; height: 0px" name="files[]" (change)="processWebVideo($event)"/>
+		  <input type="file" #postAudio style="visibility: hidden; height: 0px" name="files[]" (change)="processWebAudio($event)"/>
+		  <input type="file" #postFile style="visibility: hidden; height: 0px" name="files[]" (change)="processWebFile($event)"/>
+        <ion-row>
+            <ion-col *ngFor="let photo of publishPhotos" col-4 class="publisher-photos">		
+				<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo)" (click)="viewImage(photo)">
+				</div>
+			</ion-col>
+        </ion-row>
+		<ion-row>
+            <ion-col >
+			</ion-col>
+            <ion-col center text-center style="padding-right: 16px !important">
+              <button ion-button color="primary"  block icon-start (tap)="publishPost()" >
+                Post
+              </button>
+            </ion-col>
+        </ion-row>
+		
+      </ion-card>
+	  <ion-list>
+	      <ion-item>
+			<ion-icon ios="ios-arrow-up" md="md-arrow-up" center></ion-icon>
+		  </ion-item>
+		  <ion-item (tap)="getFeelings()">
+			<ion-icon name="happy" item-start></ion-icon>
+			  Feelings/Activity
+		  </ion-item>
+		  <ion-item (tap)="uploadPicture()">
+			<ion-icon name="camera" item-start></ion-icon>
+			  Add Photos
+		  </ion-item>
+		  <ion-item (tap)="uploadAudio()">
+			<ion-icon name="musical-notes" item-start></ion-icon>
+			  Add Audio
+		  </ion-item>
+		  <ion-item (tap)="uploadVideo()">
+			<ion-icon name="videocam" item-start></ion-icon>
+			  Add Video
+		  </ion-item>
+		  <ion-item (tap)="uploadFile()">
+			<ion-icon name="attach" item-start></ion-icon>
+			  Add File
+		  </ion-item>		  
+	  </ion-list>
+	</form>
+  </ion-content>

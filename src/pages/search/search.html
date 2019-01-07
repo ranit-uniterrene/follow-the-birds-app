@@ -1,22 +1,73 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>{{ 'SEARCH_TITLE' | translate }}</ion-title>
+  <ion-navbar color="primary">
+    <ion-buttons left>
+        <button ion-button icon-only (click)="goBack()"> <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon></button>
+    </ion-buttons>
+    <ion-searchbar [(ngModel)]="event" (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" ></ion-searchbar>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
   <ion-list>
-    <button ion-item (click)="openItem(item)" *ngFor="let item of currentItems">
-      <ion-avatar item-start>
-        <img [src]="item.profilePic" />
-      </ion-avatar>
-      <h2>{{item.name}}</h2>
-      <p>{{item.about}}</p>
-      <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
-    </button>
+	<ion-item-sliding *ngFor="let item of currentItems">
+		<ion-buttons ion-item *ngIf="item.type == 'user'">
+		  <ion-avatar item-start>
+			<img [src]="imageURL+item.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewProfile(item.user_name)">
+		  </ion-avatar>
+		  <h2 (click)="viewProfile(item.user_name,item.user_id)" >{{item.user_firstname}} {{item.user_lastname}}</h2>
+		  <p>{{item.user_gender}}</p>
+		  <!-- <button ion-button icon-start item-end outline *ngIf="item.connection == 'add'">
+			  <ion-icon name="person-add"></ion-icon>
+			  Add
+		  </button>
+		  <button ion-button icon-start item-end outline *ngIf="item.connection == 'remove'">
+			  <ion-icon name="person"></ion-icon>
+			  Remove
+		  </button>
+		  <button ion-button icon-start item-end outline *ngIf="item.connection == 'cancel'">
+			  <ion-icon name="person"></ion-icon>
+			  Cancel Request
+		  </button> -->	  
+		</ion-buttons>
+		<ion-buttons ion-item *ngIf="item.type == 'page'">
+		  <ion-avatar item-start>
+			<img [src]="imageURL+item.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewProfile(item.page_name)">
+		  </ion-avatar>
+		  <h2 (click)="viewProfile(item.user_name)">{{item.page_title}}</h2>
+		  <p>{{item.page_likes}} likes</p>
+			<!-- <button ion-button icon-start item-end outline *ngIf="item.i_like">
+			  <ion-icon name="thumbs-down"></ion-icon>
+			  Unlike
+			</button>
+			<button ion-button icon-start item-end outline *ngIf="!item.i_like">
+			  <ion-icon name="thumbs-up"></ion-icon>
+			  Like
+			</button> -->
+			
+		</ion-buttons>
+		<ion-buttons ion-item *ngIf="item.type == 'group'">
+		  <ion-avatar item-start>
+			<img [src]="imageURL+item.group_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewGroup(item.group_name)">
+		  </ion-avatar>
+		  <h2 (click)="viewGroup(item.group_name)">{{item.group_title}}</h2>
+		  <p>{{item.group_members}} Members</p>
+		  <!-- <button ion-button icon-start item-end outline>
+			  <ion-icon name="home"></ion-icon>
+			  Join
+		  </button> -->
+		</ion-buttons>
+		<ion-buttons ion-item *ngIf="item.type == 'event'">
+		  <ion-avatar item-start>
+			<img [src]="imageURL+item.event_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewEvent(item.user_name)">
+		  </ion-avatar>
+		  <h2 (click)="viewEvent(item.event_id)">{{item.event_title}}</h2>
+		  <p>{{item.event_interested}} Interested</p>
+		  <!-- <button ion-button icon-start item-end outline>
+			  <ion-icon name="home"></ion-icon>
+			  Interest
+		  </button> -->
+		</ion-buttons>	
+	</ion-item-sliding>
   </ion-list>
 </ion-content>

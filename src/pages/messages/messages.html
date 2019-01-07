@@ -1,0 +1,86 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-buttons left>
+		  <button ion-button icon-only (click)="goBack()"><ion-icon name="arrow-back"></ion-icon></button>
+		</ion-buttons>
+		<ion-searchbar (input)="getItems($event)" ></ion-searchbar>
+		<ion-buttons right>
+		  <button ion-button icon-only (click)="createConversation()"><ion-icon name="add-circle"></ion-icon></button>
+		</ion-buttons>
+	</ion-navbar>
+	<ion-segment [(ngModel)]="messagezone">
+	  <ion-segment-button value="messages">
+		MESSAGES 
+	  </ion-segment-button>
+	  <ion-segment-button value="active">
+		ACTIVE
+	  </ion-segment-button>
+	  <ion-segment-button value="group">
+		GROUP
+	  </ion-segment-button>	  
+  </ion-segment>
+</ion-header>
+
+
+<ion-content>
+	<div [ngSwitch]="messagezone">
+		<ion-list *ngSwitchCase="'messages'" no-lines>
+			<ion-item-divider color="light" *ngIf="messages <= 0" center>
+				No Messages
+			</ion-item-divider>
+			<ion-item *ngFor="let message of messages" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}" (click)="viewMessage(message)">
+				<ion-avatar item-start text-wrap (click)="viewProfile(message.user_name,message.user_id)">
+				  <img [src]="imageURL+message.picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+				</ion-avatar>
+				<h2  style="font-weight:inherit"> {{message.name}}</h2>
+				<p text-wrap >{{message.message}}</p>
+				<ion-note item-end *ngIf="isToday(message.time)">{{ message.time | date: 'h:mm a' }}</ion-note>
+				<ion-note item-end *ngIf="!isToday(message.time)">{{ message.time | date: 'dd MMM' }}</ion-note>
+			</ion-item>
+			<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+			   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+			</ion-infinite-scroll>
+		</ion-list>
+		<ion-list *ngSwitchCase="'active'"  no-lines>
+			<ion-item-divider color="light">
+				{{onlineUsers.length}} Active Friends
+			</ion-item-divider>
+			<ion-item *ngFor="let user of onlineUsers" >
+			  <ion-avatar item-start (click)="messageAction(user)">
+			   <img [src]="imageURL+user.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+			  </ion-avatar>
+			  <h2 (click)="messageAction(user)">{{user.user_firstname}} {{user.user_lastname}}</h2>
+			  <p> <span class="active_online"></span> online </p>
+			</ion-item>
+			<ion-item-divider color="light">
+				{{offlineUsers.length}} inactive Friends
+			</ion-item-divider>
+			<ion-item *ngFor="let user of offlineUsers" >
+			  <ion-avatar item-start (click)="messageAction(user)">
+			   <img [src]="imageURL+user.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+			  </ion-avatar>
+			  <h2 (click)="messageAction(user)">{{user.user_firstname}} {{user.user_lastname}}</h2>
+			  <p> <span class="active_offline"></span> offline </p>
+			  
+			</ion-item>
+		</ion-list>
+		<ion-list *ngSwitchCase="'group'" no-lines>
+			<ion-item-divider color="light" *ngIf="groups <= 0">
+				No Messages
+			</ion-item-divider>
+			<ion-item *ngFor="let message of groups" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}" (click)="viewMessageGroup(message,true)">
+				<ion-avatar item-start class="group_avater_wrap">
+				  <img class="group_avater" [src]="imageURL+message.picture_left" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+				  <img class="group_avater" [src]="imageURL+message.picture_right" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+				</ion-avatar>
+				<h2 style="font-weight:inherit"> {{message.name}}</h2>
+				<p text-wrap >{{message.message}}</p>
+				<ion-note item-end *ngIf="isToday(message.time)">{{ message.time | date: 'h:mm a' }}</ion-note>
+				<ion-note item-end *ngIf="!isToday(message.time)">{{ message.time | date: 'dd MMM' }}</ion-note>
+			</ion-item>
+			<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+			   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+			</ion-infinite-scroll>
+		</ion-list>
+	</div>
+</ion-content>

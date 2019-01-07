@@ -1,0 +1,26 @@
+page-vaults {
+	.editGrid{
+        padding: 0;
+        ion-col{
+            padding: 0;
+        }
+        ion-col:last-child{
+            padding: 0;
+            border-right: none;
+        }
+        button{            
+            min-height: 6rem;
+            height: 100%;
+            color: #3a3a3a;
+            text-transform: none;
+            margin: 0;
+        }
+        .button-inner{
+            flex-direction: column;
+            ion-icon{
+                font-size: 30px;
+                color: #3a3a3a;
+            }
+        }
+    }
+}

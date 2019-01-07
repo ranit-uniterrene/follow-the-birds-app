@@ -41,4 +41,11 @@ export class CardsPage {
     ];
 
   }
+
+  updateStatus(type: string){
+    alert(type);
+  }
+
+
+
 }

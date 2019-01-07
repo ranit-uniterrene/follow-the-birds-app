@@ -35,6 +35,7 @@ export class ItemCreatePage {
   }
 
   getPicture() {
+	  alert("getPicture");
     if (Camera['installed']()) {
       this.camera.getPicture({
         destinationType: this.camera.DestinationType.DATA_URL,
@@ -51,11 +52,14 @@ export class ItemCreatePage {
   }
 
   processWebImage(event) {
+	   alert("processWebImage");
     let reader = new FileReader();
     reader.onload = (readerEvent) => {
 
       let imageData = (readerEvent.target as any).result;
+	  
       this.form.patchValue({ 'profilePic': imageData });
+	  alert(imageData);
     };
 
     reader.readAsDataURL(event.target.files[0]);

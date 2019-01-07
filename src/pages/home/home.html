@@ -1,0 +1,40 @@
+
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-searchbar (input)="getItems($event)"></ion-searchbar>
+	<ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons left>
+        <button ion-button icon-only (tap)="getPicture()">          
+          <ion-icon name="camera"></ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-searchbar (input)="getItems($event)" ></ion-searchbar>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="getMessages()" >
+        <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
+        <ion-badge color="danger" *ngIf="user_live_messages_counter > '0'" class="badge-assertive messages_badge" >{{user_live_messages_counter}}</ion-badge>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding> 
+  <ion-tabs selectedIndex="0">
+    <ion-tab [root]="introduction"  tabIcon="images" badge="badgeCount" badge-style="badge-assertive" ></ion-tab>
+    <ion-tab [root]="FriendRequestsPage"  tabIcon="contacts" [tabBadge] = "user_live_requests_counter > '0' ? user_live_requests_counter : null" tabBadgeStyle="danger" (click)="resetAlert('requests')"></ion-tab>
+    <ion-tab [root]="profilePage"  tabIcon="contact" [rootParams]="profilePageParams"></ion-tab>
+    <ion-tab [root]="NotificationsPage"  tabIcon="notifications" [tabBadge] = "user_live_notifications_counter > '0' ? user_live_notifications_counter : null" tabBadgeStyle="danger" (click)="resetAlert('notifications')"></ion-tab>
+    <ion-tab [root]="settingsPage"  tabIcon="menu"></ion-tab>
+</ion-tabs>
+
+
+</ion-content>

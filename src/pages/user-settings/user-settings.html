@@ -1,0 +1,72 @@
+<ion-content >
+	<ion-list>
+	  <ion-item (tap)="viewProfile()">
+		<ion-avatar item-start>
+		  <img [src]="imageURL+profile.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+		</ion-avatar>
+		<h2>{{profile.user_firstname}} {{profile.user_lastname}}</h2>
+		<p> view profile </p>
+	  </ion-item>
+	</ion-list>
+	
+  <ion-list no-lines> 
+    <ion-item (tap)="listFriends()">
+      Friends
+      <ion-icon name='people' style="color:#0b3bb5" item-start></ion-icon>
+    </ion-item>
+    <ion-item (tap)="listGroups()">
+      Groups
+      <ion-icon name='contacts' style="color:#b0176a"  item-start></ion-icon>
+    </ion-item>
+    <ion-item (tap)="listEvents()">
+      Events
+      <ion-icon name='calendar' style="color:#b5af0b"  item-start></ion-icon>
+    </ion-item>
+    <ion-item>
+      Pages
+      <ion-icon name='flag' style="color:#ed581e"  item-start></ion-icon>
+    </ion-item>
+	<ion-item (tap)="goVaults()">
+      Vault
+      <ion-icon name='briefcase' style="color:#dada18"  item-start></ion-icon>
+    </ion-item>
+	<ion-item-divider color="light">
+		<ion-icon name='help-circle' item-start></ion-icon>
+		Help and Support
+		<ion-icon name='arrow-dropup' item-end></ion-icon>
+	</ion-item-divider>
+    <ion-item>
+      <ion-icon name='book' style="color:#0b3bb5"  item-start></ion-icon>
+	  Term And Policy
+    </ion-item>
+	<ion-item-divider color="light">
+		<ion-icon name='settings' style="color:#26544a" item-start></ion-icon>
+		Settings and Privacy
+		<ion-icon name='arrow-dropup' item-end></ion-icon>
+	</ion-item-divider>
+	<ion-item (tap)="accoutSettings()">
+      <ion-icon name='person' style="color:#1a7c94" item-start></ion-icon>
+	  Account Settings
+    </ion-item>
+	<ion-item  (tap)="privacySettings()">
+      <ion-icon name='lock' style="color:#902d8d"  item-start></ion-icon>
+	  Privacy Settings
+    </ion-item>
+	<!--<ion-item (tap)="securitySettings()">
+      <ion-icon name='settings' style="color:#0b3bb5"  item-start></ion-icon>
+	  Security Settings
+    </ion-item> -->
+	<ion-item (tap)="blockSettings()">
+	  <ion-icon name="remove-circle" style="color:#de1818"  item-start></ion-icon>
+	  Block Settings
+    </ion-item>
+	
+	<ion-item (tap)="logout()">
+      <ion-icon name='log-out' item-start></ion-icon>
+	  Logout
+    </ion-item>
+	
+	
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,95 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-buttons left>
+		  <button ion-button icon-only (click)="goBack()"><ion-icon name="arrow-back"></ion-icon></button>
+		</ion-buttons>
+		<ion-searchbar
+		 
+		  [(ngModel)]="myInput"
+		  (input)="getItems($event)"
+		  placeholder="Type a name or group"
+		  [showCancelButton]="shouldShowCancel"
+		  (ionInput)="onInput($event)"
+		  (ionCancel)="onCancel($event)">
+		</ion-searchbar>
+	</ion-navbar>
+	<!--<span *ngFor="let recipient of recipients" class="recipient_tag">
+		{{recipient.user_firstname}} {{recipient.user_lastname}}
+	</span> -->
+</ion-header>
+
+<ion-content>
+	<!-- <ion-tags-input
+		[placeholder]="'add friends'"
+		[separatorStr]="','"
+		[once]="true"
+		[color]="'primary'"
+		[(ngModel)]="recipients"
+		(ionFocus)="onFocus($event)"
+		(ionBlur)="onBlur($event)"
+		(onChange)="onChange($event)">
+	</ion-tags-input> -->
+	<div *ngFor="let recipient of recipients" class="recipient_tag"> 
+		<div class="recipient_avater">
+		  <img [src]="imageURL+recipient.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+		</div>
+		<span class="recipient_name">
+		{{recipient.user_firstname}} {{recipient.user_lastname}}
+		</span>
+		<span class="recipient_remove " (click)="removeRecipient(recipient)">
+			X
+		</span>
+	</div>
+ <ion-list no-lines *ngIf="!isChat">
+    <ion-item *ngFor="let item of currentItems" >
+     <ion-avatar item-start (click)="addRecipient(item)">
+      <img [src]="imageURL+item.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+      </ion-avatar>
+      <h2 (click)="addRecipient(item)" >{{item.user_firstname}} {{item.user_lastname}}</h2>
+    </ion-item>
+  </ion-list>
+	<ion-list *ngIf="isChat" style="margin-top:7px">
+	  <div *ngFor="let message of messages" class="conversation left {{myId}}" [ngClass]="{'right': message.user_id == myId, 'left': message.user_id != myId}">
+		<ion-note class="msg_time" *ngIf="isToday(message.time)">{{ message.time | date: 'h:mm a' }}</ion-note>
+		<ion-note class="msg_time" *ngIf="!isToday(message.time)">{{ message.time | date: 'dd MMM' }}</ion-note> 
+		<div class="conversation_user">
+		  <img [src]="imageURL+message.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+		</div>
+		<div class="conversation_body">
+			{{message.message}}
+			<div *ngIf="message.image != ''"> <img [src]="imageURL+message.image"></div>			
+		</div>
+		
+	  </div>
+	</ion-list>
+	<ion-row class="media_list" *ngIf="publishPhotos.length > '0'">
+		<ion-col *ngFor="let photo of publishPhotos" col-4 class="publisher-photos">		
+			<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo)" (click)="viewImage(photo)">
+			</div>
+		</ion-col>
+	</ion-row>
+	<input type="file" #postPhoto style="visibility: hidden; height: 0px;position:absolute" name="files[]" (change)="processWebImage($event)" multiple/>
+</ion-content>
+<ion-footer no-padding *ngIf="isChat">
+  <ion-toolbar>
+	<ion-buttons left >
+	  <!--<button ion-button icon-only color="primary">
+		<ion-icon name="add-circle"></ion-icon>
+	  </button> -->
+	  <button ion-button icon-only color="primary" (tap)="takeCameraSnap()">
+		<ion-icon name="camera"></ion-icon>
+	  </button>
+	  <button ion-button icon-only color="primary" (tap)="uploadFromGallery()"> 
+		<ion-icon ios="ios-image" md="md-image"></ion-icon>
+	  </button>	  
+	</ion-buttons>
+	<ion-item no-lines>
+	  <ion-input type="text" class="chat_message" placeholder="Send message" [(ngModel)]="chatInfo.message"></ion-input>
+	</ion-item>
+	<ion-buttons right (tap)="sendMessage()" >
+	  <button ion-button icon-only color="primary">
+		<ion-icon name="send"></ion-icon>
+	  </button>
+	</ion-buttons>
+  </ion-toolbar>
+</ion-footer>

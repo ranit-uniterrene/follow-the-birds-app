@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="goBack()"> <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon></button>
+    </ion-buttons>
+    <ion-title>Edit Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+<ion-list>
+  <ion-item>
+    <ion-label floating>First name</ion-label>
+    <ion-input type="text" [(ngModel)]="profile.user_firstname" name="user_firstname"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Last Name</ion-label>
+    <ion-input type="text" [(ngModel)]="profile.user_lastname" name="user_lastname"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>I am</ion-label>
+    <ion-input type="text" [(ngModel)]="profile.user_gender" name="user_gender" ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Birthdate</ion-label>
+    <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="profile.user_birthdate" name="user_birthdate"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Relationship Status</ion-label>
+    <ion-select [(ngModel)]="profile.user_relationship" name="user_relationship" >
+      <ion-option value="single">Single</ion-option>
+      <ion-option value="relationship">In a Relationship</ion-option>
+      <ion-option value="married">Married</ion-option>
+      <ion-option value="complicated">It's complicated</ion-option>
+      <ion-option value="separated">Separated</ion-option>	
+      <ion-option value="divorced">Divorced</ion-option>
+      <ion-option value="widowed">Widowed</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>About Me</ion-label>
+    <textarea placeholder="About Me" [(ngModel)]="profile.user_biography" name="user_biography">
+     {{profile.user_biography}}
+    </textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Website</ion-label>
+    <ion-input type="text" [(ngModel)]="profile.user_website" name="user_website" ></ion-input>
+  </ion-item>
+
+</ion-list>
+</ion-content>
+<ion-footer>
+  <button ion-button padding full>Save Changes</button>
+</ion-footer>

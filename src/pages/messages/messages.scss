@@ -1,0 +1,64 @@
+page-messages {
+	ion-searchbar{
+        input{
+            background:rgba(255,255,255,.2) !important;
+            color:#fff !important;
+            box-shadow: none !important;
+            ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #fff;
+                opacity: 1; /* Firefox */
+            }
+            
+            :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color:#fff;
+            }
+            
+            ::-ms-input-placeholder { /* Microsoft Edge */
+                color: #fff;
+            }
+        }
+        .searchbar-search-icon, .searchbar-clear-icon{
+            filter:brightness(200)
+        }
+    }
+	span.active_online {
+		width: 8px;
+		height: 8px;
+		background: green;
+		border-radius: 50%;
+		margin-right: 5px;
+		display: inline-block;
+	}
+	span.active_offline {
+		width: 8px;
+		height: 8px;
+		background: #424242;
+		border-radius: 50%;
+		margin-right: 5px;
+		display: inline-block;
+	}
+	
+	.seen {
+		font-weight: bold;
+	}
+	
+	.group_avater_wrap {
+		position: relative;
+		max-width: 40px;
+		overflow: hidden;
+		border-radius: 50%;
+	}
+	
+	.group_avater:first-child {
+		position: absolute;
+		left: -20px;
+		border-radius: 0px;
+	}
+	
+	.group_avater:last-child {
+		position: absolute;
+		right: -20px;
+		top: 0;
+		border-radius: 0px;
+	}
+}

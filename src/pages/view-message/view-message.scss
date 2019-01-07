@@ -1,0 +1,115 @@
+page-view-message {
+	.conversation {
+		overflow: hidden;
+		width: 100%;
+	}
+	.conversation.right .conversation_user {
+		float: right;
+	}
+	.chat-head {
+		margin-top: 12px;
+	}
+	.conversation_user {
+		border-radius: 50%;
+		width: 35px;
+		height: 35px;
+		display: block;
+		overflow: hidden;
+		margin: 7px 10px;
+		float: left;
+	}
+	.left .conversation_body {
+		background: #f4f4f4;
+		color: #000;
+		float: left;
+	}
+	.right .conversation_body {
+		background: #729ecc;
+		color: #fff;
+		float: right;
+	}
+	.conversation_body {		
+		display: block;
+		padding: 5px 15px;
+		float: left;
+		width: auto;
+		margin: 10px 5px;
+		border-radius: 15px;
+		max-width: 68%;
+		position: relative;
+	}
+	
+	.right .conversation_body:after {
+		content: '';
+		display: block;
+		position: absolute;
+		right: -13px;
+		top: 6px;
+		width: 0;
+		height: 0;
+		border: 8px solid transparent;
+		border-color: transparent transparent transparent #729ecc;
+		-webkit-box-shadow: 0 0 black;
+		box-shadow: 0 0 black;
+		z-index: 9;
+	}
+	
+	.left .conversation_body:after {
+		content: '';
+		display: block;
+		position: absolute;
+		left: -13px;
+		top: 6px;
+		width: 0;
+		height: 0;
+		border: 8px solid transparent;
+		border-color: transparent #f4f4f4 transparent transparent;
+		-webkit-box-shadow: 0 0 black;
+		box-shadow: 0 0 black;
+		z-index: 9;
+	}
+	
+	.msg_time {
+		width: 100%;
+		display: block;
+		overflow: hidden;
+		text-align: center;
+		font-size: 10px;
+	}
+	.ImgWrapBig{
+        height: 110px;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important; 
+    }
+	.media_list {
+		position: absolute;
+		width: 100%;
+		border: 1px solid #e0e0e0;
+		border-radius: 15px;
+		border-bottom: 0;
+	}
+	.publisher-photos {
+		border-right: 1px solid #e8e8e8;
+	}
+	
+	.group_avater_wrap {
+		position: relative;
+		max-width: 40px;
+		overflow: hidden;
+		border-radius: 50%;
+	}
+	
+	.group_avater:first-child {
+		position: absolute;
+		left: -18px;
+		border-radius: 0px;
+	}
+	
+	.group_avater:last-child {
+		position: absolute;
+		right: -18px;
+		top: 0;
+		border-radius: 0px;
+	}
+}

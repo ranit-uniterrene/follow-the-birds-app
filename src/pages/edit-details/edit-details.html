@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="goBack()"> <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon></button>
+    </ion-buttons>
+    <ion-title>Edit Details</ion-title>
+  </ion-navbar>
+  <ion-segment [(ngModel)]="edit_info">
+	  <ion-segment-button value="basic">
+		Basic
+	  </ion-segment-button>
+	  <ion-segment-button value="work">
+		Work
+	  </ion-segment-button>
+	  <ion-segment-button value="location">
+		Location
+	  </ion-segment-button>
+	  <ion-segment-button value="education">
+		Education
+	  </ion-segment-button>	  
+  </ion-segment>
+</ion-header>
+
+
+<ion-content>
+<div [ngSwitch]="edit_info">
+	<ion-list *ngSwitchCase="'basic'">
+	  <ion-item>
+		<ion-label floating>First name</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_firstname" name="user_firstname"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Last Name</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_lastname" name="user_lastname"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>I am</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_gender" name="user_gender" ></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Birthdate</ion-label>
+		<ion-datetime displayFormat="MM/DD/YYYY"  [(ngModel)]="profile.user_birthdate" name="user_birthdate"></ion-datetime>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Relationship Status</ion-label>
+		<ion-select [(ngModel)]="profile.user_relationship" name="user_relationship" >
+		  <ion-option value="single">Single</ion-option>
+		  <ion-option value="relationship">In a Relationship</ion-option>
+		  <ion-option value="married">Married</ion-option>
+		  <ion-option value="complicated">It's complicated</ion-option>
+		  <ion-option value="separated">Separated</ion-option>	
+		  <ion-option value="divorced">Divorced</ion-option>
+		  <ion-option value="widowed">Widowed</ion-option>
+		</ion-select>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>About Me</ion-label>
+		<ion-input placeholder="About Me" [(ngModel)]="profile.user_biography" name="user_biography">
+		</ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Website</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_website" name="user_website" ></ion-input>
+	  </ion-item>
+	</ion-list>
+	<ion-list *ngSwitchCase="'work'">
+	  <ion-item>
+		<ion-label floating>Work Title</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_work_title" name="user_work_title"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Work Place</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_work_place" name="user_work_place"></ion-input>
+	  </ion-item>
+	</ion-list>
+	<ion-list *ngSwitchCase="'location'">
+	  <ion-item>
+		<ion-label floating>Current City</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_current_city" name="user_current_city"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Home Town</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_hometown" name="user_hometown"></ion-input>
+	  </ion-item>
+	</ion-list>
+	<ion-list *ngSwitchCase="'education'">
+	  <ion-item>
+		<ion-label floating>School</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_edu_school" name="user_edu_school"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Major</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_edu_major" name="user_edu_major"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Class</ion-label>
+		<ion-input type="text" [(ngModel)]="profile.user_edu_class" name="user_edu_class"></ion-input>
+	  </ion-item>
+	</ion-list>
+</div>	
+</ion-content>
+<ion-footer>
+  <button ion-button padding full (click)="saveChanges();">Save Changes</button>
+</ion-footer>

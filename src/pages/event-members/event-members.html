@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title> Guest List</ion-title>
+  </ion-navbar>
+	<ion-segment [(ngModel)]="eventMembers">
+      <ion-segment-button value="event_going">
+        Going
+      </ion-segment-button>
+      <ion-segment-button value="event_interested">
+        Interested
+      </ion-segment-button>
+      <ion-segment-button value="event_invited">
+        Invited
+      </ion-segment-button>
+    </ion-segment>
+</ion-header>
+
+<ion-content>
+<div [ngSwitch]="eventMembers">
+	<ion-list *ngSwitchCase="'event_going'" no-lines>
+		<ion-item *ngFor="let member of going" >
+			<ion-avatar item-start>
+			  <img [src]="imageURL+member.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+			</ion-avatar>
+			<h2>{{member.user_firstname}} {{member.user_lastname}}</h2>
+		</ion-item>
+	</ion-list>
+	<ion-list *ngSwitchCase="'event_interested'" no-lines>
+		<ion-item *ngFor="let member of interested" >
+			<ion-avatar item-start>
+			  <img [src]="imageURL+member.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+			</ion-avatar>
+			<h2>{{member.user_firstname}} {{member.user_lastname}}</h2>
+		</ion-item>
+	</ion-list>
+	<ion-list *ngSwitchCase="'event_invited'" no-lines>
+		<ion-item *ngFor="let member of invited" >
+			<ion-avatar item-start>
+			  <img [src]="imageURL+member.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+			</ion-avatar>
+			<h2>{{member.user_firstname}} {{member.user_lastname}}</h2>
+		</ion-item>
+	</ion-list>	
+</div>	
+</ion-content>

@@ -1,13 +1,38 @@
-<ion-content scroll="false">
-  <div class="splash-bg"></div>
-  <div class="splash-info">
-    <div class="splash-logo"></div>
-    <div class="splash-intro">
-      {{ 'WELCOME_INTRO' | translate }}
-    </div>
-  </div>
-  <div padding>
-    <button ion-button block (click)="signup()">{{ 'SIGNUP' | translate }}</button>
-    <button ion-button block (click)="login()" class="login">{{ 'LOGIN' | translate }}</button>
-  </div>
+<ion-content scroll="false" class="login_page">
+  
+  <div padding class="formContainer">
+    <form (submit)="doLogin()">
+			<ion-list>
+
+				<ion-item>
+					<ion-label fixed><ion-icon ios="ios-contact-outline" md="md-contact"></ion-icon></ion-label>
+					<ion-input type="text" [(ngModel)]="account.user_name" name="user_name" placeholder="Email or Username"></ion-input>
+				</ion-item>		  
+
+				<ion-item>
+					<ion-label fixed><ion-icon ios="ios-unlock-outline" md="md-unlock"></ion-icon></ion-label>
+					<ion-input type="password" [(ngModel)]="account.user_password" name="user_password" placeholder="Password"></ion-input>
+				</ion-item>
+
+				
+				<button class="login_btn" ion-button color="light" block outline>{{ 'LOGIN_BUTTON' | translate }}</button>
+				
+
+			</ion-list>
+		</form>
+		
+		<ion-grid>			
+			<ion-row>
+				<ion-col col-6>
+					<button class="footer_btn left" (tap)="signup()" ion-button color="light" clear block>Create Account</button>
+				</ion-col>
+				<ion-col col-6>
+					<button class="footer_btn" (tap)="forgetPasswordpage()" ion-button color="light" clear block>Forgot Password</button>
+				</ion-col>
+			
+			</ion-row>
+		</ion-grid>
+    
+	</div>	
+	
 </ion-content>

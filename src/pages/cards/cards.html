@@ -1,13 +1,17 @@
-<ion-header>
+<!-- <ion-header>
 
   <ion-navbar>
     <ion-title>{{ 'CARDS_TITLE' | translate }}</ion-title>
   </ion-navbar>
 
-</ion-header>
+</ion-header> -->
 
 
 <ion-content>
+
+  <!-- whats on your mind area -->
+
+  <whats-on-mind></whats-on-mind>
 
   <ion-card *ngFor="let item of cardItems">
 
@@ -18,7 +22,6 @@
       <h2>{{item.user.name}}</h2>
       <p>{{item.date}}</p>
     </ion-item>
-
     <img [src]="item.image">
 
     <ion-card-content>
@@ -36,7 +39,7 @@
         <button ion-button color="primary" clear small icon-start>
             <ion-icon name='text'></ion-icon>
             4 Comments
-          </button>
+        </button>
       </ion-col>
       <ion-col center text-center>
         <ion-note>

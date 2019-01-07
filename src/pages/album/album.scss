@@ -1,0 +1,22 @@
+page-album {
+    ion-header {
+        left: 0;
+        top: 0;
+        position: absolute;
+        z-index: 10;
+        display: block;
+        width: 100%;
+        background-image: url(https://dev.followthebirds.com/content/uploads/photos/2018/11/sngine_e22ca18e015bcdaddf7d6ab6debaefce.jpg);
+        height: 30%;
+        background-position: center center;
+    }
+    .ImgWrapSmall{
+        height: 100px;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important;
+    }
+    ion-col.album_photo.col {
+        padding: 1px;
+    }
+}

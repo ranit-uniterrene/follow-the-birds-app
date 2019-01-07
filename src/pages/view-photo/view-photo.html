@@ -1,0 +1,29 @@
+
+<ion-content class="dark_page" [style.backgroundImage]="getBackgroundStyle(photo.source)">
+<ion-buttons >
+  <button left ion-button icon-only color="light" clear (click)="goBack()"><ion-icon name="arrow-back"></ion-icon></button>
+  <button style="float: right;" ion-button icon-only color="light" clear (click)="photoActivity()"><ion-icon name="more"></ion-icon></button>
+  <button style="float: right;" ion-button icon-only color="light" clear  (click)="openSearch()"><ion-icon ios="ios-search" md="md-search"></ion-icon></button>
+  
+  
+</ion-buttons>
+
+</ion-content>
+<ion-footer>
+	<ion-row class="comment_share">
+	  <ion-col text-center>
+		<button ion-button color="light" clear small icon-start (click)="viewComments('',photo.photo_id,'photo')">
+			<ion-icon ios="ios-text" md="md-text"></ion-icon>
+			{{photo.comments}} Comments
+		</button>
+	  </ion-col>
+	  <ion-col>
+	  </ion-col>
+	  <ion-col text-center>
+		<button ion-button color="light" clear small icon-end right (click)="sharePostCtrl(photo.photo_id)" >
+			Share
+			<ion-icon ios="ios-share-alt" md="md-share-alt"></ion-icon>           
+		</button>
+	  </ion-col>			  
+	</ion-row>
+</ion-footer>

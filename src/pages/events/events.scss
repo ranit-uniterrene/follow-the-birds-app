@@ -1,0 +1,98 @@
+page-events {
+	ion-searchbar{
+        input{
+            background:rgba(255,255,255,.2) !important;
+            color:#fff !important;
+            box-shadow: none !important;
+            ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #fff;
+                opacity: 1; /* Firefox */
+            }
+            
+            :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color:#fff;
+            }
+            
+            ::-ms-input-placeholder { /* Microsoft Edge */
+                color: #fff;
+            }
+        }
+        .searchbar-search-icon, .searchbar-clear-icon{
+            filter:brightness(200)
+        }
+    }
+	.category_btn {
+		border-radius: 50px;
+		font-size: 13px;
+		margin: 6px;
+		text-transform: capitalize;
+	}
+	.category_icon{
+		width: 13px;
+		margin-right: 7px;
+	}
+	.card-background-page {
+
+	  ion-card {
+		position: relative;
+		text-align: center;
+	  }
+
+	  .card-title {
+		position: absolute;
+		bottom: 40px;
+		font-size: 2.0em;
+		width: 100%;
+		font-weight: bold;
+		color: #fff;
+		padding-left: 20px;
+		text-align: left;
+	  }
+		
+	  .card-date {
+		font-size: 1.0em;
+		position: absolute;
+		bottom: 80px;
+		width: 100%;
+		color: #f90631;
+		text-align: left;
+		padding-left: 20px;
+	  }
+		
+	  .card-interested {
+		font-size: 2.0em;
+		position: absolute;
+		bottom: 20px;
+		right: 0;
+		color: #fff;
+	  }
+	  
+	  .card-subtitle {
+		font-size: 1.0em;
+		position: absolute;
+		bottom: 20px;
+		width: 100%;
+		color: #fff;
+		text-align: left;
+		padding-left: 20px;
+	  }
+
+	}
+	
+	.overlay {
+	  position: absolute;
+	  top: 0;
+	  bottom: 0;
+	  left: 0;
+	  right: 0;
+	  height: 100%;
+	  width: 100%;
+	  opacity: 0;
+	  transition: .5s ease;
+	  background-color: #750bb5bd;
+	}
+	
+	.carasol_image .overlay {
+	  opacity: 0.80;
+	}
+}

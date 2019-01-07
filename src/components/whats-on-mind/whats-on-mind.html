@@ -1,0 +1,10 @@
+
+<ion-list>
+  <ion-item (tap)="updateStatus()">
+    <ion-avatar item-start>     
+      <img src="{{userPic}}" onError="this.src='../assets/followthebirdImgs/no-profile-img.jpeg'">
+    </ion-avatar>
+    <button class="no_bgBtn" item-end  ion-button icon-only >  <ion-icon ios="ios-images" md="md-images"></ion-icon></button>
+    <ion-input (ionFocus)="updateStatus()" disabled type="text" value="" placeholder="Whats on your mind?"></ion-input>     
+  </ion-item>       
+</ion-list>

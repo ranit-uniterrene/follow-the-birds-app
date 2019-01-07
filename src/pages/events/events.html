@@ -1,0 +1,231 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-searchbar (input)="getItems($event)" placeholder="Search Events"> </ion-searchbar>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="createPage()"><ion-icon name="add-circle"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-segment [(ngModel)]="eventzone">
+	  <ion-segment-button value="suggested">
+		Suggested
+	  </ion-segment-button>
+	  <ion-segment-button value="interested">
+		Interested
+	  </ion-segment-button>
+	  <ion-segment-button value="invited">
+		invited
+	  </ion-segment-button>
+	  <ion-segment-button value="my_event">
+		My Events
+	  </ion-segment-button>	  
+  </ion-segment>
+</ion-header>
+<ion-content>
+	<div [ngSwitch]="eventzone">
+	  <ion-list *ngSwitchCase="'suggested'">
+		<ion-row no-padding style="border-bottom: 0.4px solid #000000a3;" manage-bottom>
+		  <ion-col text-center>
+			<button ion-button clear small color="dark">
+			  Find Events
+			</button>
+		  </ion-col>
+		</ion-row>	
+		<ion-slides class="card-background-page" >
+		  <ion-slide *ngFor="let event of eventLists.suggested" >
+			<ion-card class="carasol_image" (click)="viewEvent(event)">
+				<img [src]="imageURL+event.event_cover"/>
+				<div class="overlay">
+				</div>
+				<div *ngIf="event.i_joined.is_interested == '0'">
+					<button class="card-interested" ion-button clear small color="dark" icon-end (click)="eventInterestAction('event-interest',event.event_id)" >
+					  <ion-icon name='star-outline'></ion-icon>
+					</button>
+				</div>
+				<div *ngIf="event.i_joined.is_interested == '1'">
+					<button class="card-interested" ion-button clear small color="dark" icon-end (click)="eventUninterestAction('event-uninterest',event.event_id)">
+					  <ion-icon name='star'></ion-icon>
+					</button>
+				</div>
+				
+				<p class="card-date" color="danger">{{event.event_start_date | date: 'MMM dd h:mm a' }}</p>
+				<div class="card-title">{{event.event_title}}</div>
+				<div class="card-subtitle">{{event.event_interested}} people interested</div>
+			</ion-card>
+		  </ion-slide>		
+		</ion-slides>
+		<ion-card >
+		  <ion-card-header text-center>
+			Find events by category
+		  </ion-card-header>
+		  <ion-card-content>
+			<button ion-button color="dark" outline small class="category_btn" *ngFor="let categories of eventCategories | slice:0:6; let i=index" >
+				 <ion-icon name="custom-games"></ion-icon>{{categories.category_name}}
+			</button>
+		  </ion-card-content>
+			<ion-row no-padding>
+			  <ion-col text-center>
+				<button ion-button clear small color="dark">
+				  Find Categories
+				</button>
+			  </ion-col>
+			</ion-row>
+		</ion-card>
+		<ion-card *ngFor="let event of eventLists.suggested" >
+			<img [src]="imageURL+event.event_cover" onError="this.src='assets/followthebirdImgs/blank_event.jpg'" (click)="viewEvent(event)" />
+			<ion-card-content>
+			  <span style="color:red;" >{{event.event_start_date | date: 'MMM dd h:mm a' }}</span>
+			  <ion-card-title (click)="viewEvent(event)">
+				{{event.event_title}}
+			  </ion-card-title>
+			  <p>
+				{{event.event_interested}} people interested
+			  </p>
+			</ion-card-content>
+
+			<ion-row no-padding style="border-top: 0.4px solid #000000a3;">
+			  <ion-col text-right *ngIf="event.i_joined.is_interested == '0'">
+				<button ion-button clear small color="dark" icon-start  (click)="eventInterestAction('event-interest',event.event_id)" >
+				  <ion-icon name='star-outline' style="font-size: 25px;"></ion-icon>
+				  Interested
+				</button>
+			  </ion-col> 
+			  <ion-col text-right *ngIf="event.i_joined.is_interested == '1'">		
+				<button ion-button clear small color="dark" icon-start (click)="eventUninterestAction('event-uninterest',event.event_id)">
+				  <ion-icon name='star' style="font-size: 25px;"></ion-icon>
+				  Interested
+				</button>		
+			  </ion-col>
+			  <ion-col text-left>
+				<button ion-button clear small color="dark" icon-start>
+				  <ion-icon name='share-alt'></ion-icon>
+				  Share
+				</button>
+			  </ion-col>
+			</ion-row>
+		</ion-card>
+	  </ion-list>
+	  <ion-list *ngSwitchCase="'interested'">
+	    <ion-item-divider color="light" *ngIf="eventLists['interested'].length <= 0">
+			No events to show
+		</ion-item-divider>
+		<ion-card *ngFor="let event of eventLists.interested" >
+		<img [src]="imageURL+event.event_cover" onError="this.src='assets/followthebirdImgs/blank_event.jpg'" (click)="viewEvent(event)" />
+
+		<ion-card-content>
+		  <p color="danger" >{{event.event_start_date | date: 'MMM dd h:mm a' }}</p>
+		  <ion-card-title (click)="viewEvent(event)">
+			{{event.event_title}}
+		  </ion-card-title>
+		  <p>
+			{{event.event_interested}} people interested
+		  </p>
+		</ion-card-content>
+
+		<ion-row no-padding style="border-top: 0.4px solid #000000a3;">
+		  <ion-col text-right *ngIf="event.i_joined.is_interested == '0'">
+			<button ion-button clear small color="dark" icon-start  (click)="eventInterestAction('event-interest',event.event_id)" >
+			  <ion-icon name='star-outline' style="font-size: 25px;"></ion-icon>
+			  Interested
+			</button>
+		  </ion-col> 
+		  <ion-col text-right *ngIf="event.i_joined.is_interested == '1'">		
+			<button ion-button clear small color="dark" icon-start (click)="eventUninterestAction('event-uninterest',event.event_id)">
+			  <ion-icon name='star' style="font-size: 25px;"></ion-icon>
+			  Interested
+			</button>		
+		  </ion-col>
+		  <ion-col text-left>
+			<button ion-button clear small color="dark" icon-start>
+			  <ion-icon name='share-alt'></ion-icon>
+			  Share
+			</button>
+		  </ion-col>
+		</ion-row>
+
+	    </ion-card>
+	  </ion-list>	
+	  <ion-list *ngSwitchCase="'invited'">
+	    <ion-item-divider color="light" *ngIf="eventLists['invited'].length <= 0">
+			No events to show
+		</ion-item-divider>  
+		<ion-card *ngFor="let event of eventLists.invited" >
+		<img [src]="imageURL+event.event_cover" onError="this.src='assets/followthebirdImgs/blank_event.jpg'" (click)="viewEvent(event)" />
+
+		<ion-card-content>
+		  <p color="danger" >{{event.event_start_date | date: 'MMM dd h:mm a' }}</p>
+		  <ion-card-title (click)="viewEvent(event)">
+			{{event.event_title}}
+		  </ion-card-title>
+		  <p>
+			{{event.event_interested}} people interested
+		  </p>
+		</ion-card-content>
+		<ion-row no-padding style="border-top: 0.4px solid #000000a3;">
+		  <ion-col text-right *ngIf="event.i_joined.is_interested == '0'">
+			<button ion-button clear small color="dark" icon-start  (click)="eventInterestAction('event-interest',event.event_id)" >
+			  <ion-icon name='star-outline' style="font-size: 25px;"></ion-icon>
+			  Interested
+			</button>
+		  </ion-col> 
+		  <ion-col text-right *ngIf="event.i_joined.is_interested == '1'">		
+			<button ion-button clear small color="dark" icon-start (click)="eventUninterestAction('event-uninterest',event.event_id)">
+			  <ion-icon name='star' style="font-size: 25px;"></ion-icon>
+			  Interested
+			</button>		
+		  </ion-col>
+		  <ion-col text-left>
+			<button ion-button clear small color="dark" icon-start>
+			  <ion-icon name='share-alt'></ion-icon>
+			  Share
+			</button>
+		  </ion-col>
+		</ion-row>
+
+	    </ion-card>
+	  
+	  </ion-list>	
+	  <ion-list *ngSwitchCase="'my_event'">
+		<ion-item-divider color="light" *ngIf="eventLists['manage'].length <= 0">
+			No events to show
+		</ion-item-divider>
+		<ion-card *ngFor="let event of eventLists.manage" >
+		<img [src]="imageURL+event.event_cover" onError="this.src='assets/followthebirdImgs/blank_event.jpg'" (click)="viewEvent(event)"/>
+
+		<ion-card-content>
+		  <p color="danger" >{{event.event_start_date | date: 'MMM dd h:mm a' }}</p>
+		  <ion-card-title (click)="viewEvent(event)">
+			{{event.event_title}}
+		  </ion-card-title>
+		  <p>
+			{{event.event_interested}} people interested
+		  </p>
+		</ion-card-content>
+
+		<ion-row no-padding style="border-top: 0.4px solid #000000a3;">
+		  <ion-col text-right *ngIf="event.i_joined.is_interested == '0'">
+			<button ion-button clear small color="dark" icon-start  (click)="eventInterestAction('event-interest',event.event_id)" >
+			  <ion-icon name='star-outline' style="font-size: 25px;"></ion-icon>
+			  Interested
+			</button>
+		  </ion-col> 
+		  <ion-col text-right *ngIf="event.i_joined.is_interested == '1'">		
+			<button ion-button clear small color="dark" icon-start (click)="eventUninterestAction('event-uninterest',event.event_id)">
+			  <ion-icon name='star' style="font-size: 25px;"></ion-icon>
+			  Interested
+			</button>		
+		  </ion-col>
+		  <ion-col text-left>
+			<button ion-button clear small color="dark" icon-start>
+			  <ion-icon name='share-alt'></ion-icon>
+			  Share
+			</button>
+		  </ion-col>
+		</ion-row>
+
+	    </ion-card>
+	  
+	 </ion-list>	
+	  
+	</div>  
+	
+</ion-content>

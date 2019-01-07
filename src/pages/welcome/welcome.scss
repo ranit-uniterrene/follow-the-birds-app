@@ -44,3 +44,93 @@ page-welcome {
     }
   }
 }
+.login_page.singUp{
+  background:url(../../assets/followthebirdImgs/loginBg.jpg) left center;
+}
+.login_page{
+
+  background:url(../../assets/followthebirdImgs/loginBg_withLogo.jpg) left center;
+  background-size: cover;
+
+  .formContainer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding-bottom: 0 !important;
+
+    .login_btn{
+      height: 48px;
+      border-radius: 35px;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .footer_btn{
+      padding-right: 0;
+      span{
+        justify-content: flex-end;
+        font-size:13px
+      }
+    }  
+    .footer_btn.left{
+      padding-left: 0;
+      span{
+        justify-content: flex-start
+      }
+    }   
+
+    ion-item{
+      background: rgba(255, 255, 255, 0.15);
+      height: 48px;
+      border-radius: 35px;
+      margin-bottom: 12px;
+      border: none !important;
+      padding-left: 20px;
+      box-shadow: none !important;
+
+      .item-inner{
+        border:none !important;
+      }
+
+      ion-label{
+        width:40px;
+        min-width: 40px;
+        max-width: 150px;
+        flex: 0 0 40px;
+        margin-right: 0;
+
+        ion-icon {
+          display: inline-block;
+          font-size: 30px;
+          color: rgba(255,255,255,.25);
+        }
+      }
+      ion-input{
+        color: #fff;
+        font-size: 15px;
+        input{
+          margin-left: 0;
+          outline: none
+        }
+      }
+      ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #c8c7c7;
+        font-size: 14px;
+      }
+      ::-moz-placeholder { /* Firefox 19+ */
+        color: #c8c7c7;
+        font-size: 14px;
+      }
+      :-ms-input-placeholder { /* IE 10+ */
+        color: #c8c7c7;
+        font-size: 14px;
+      }
+      :-moz-placeholder { /* Firefox 18- */
+        color: #c8c7c7;
+        font-size: 14px;
+      }
+    }
+    
+  }
+
+}

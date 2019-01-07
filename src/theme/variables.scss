@@ -25,7 +25,7 @@ $background-color:  #fff;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
+  primary:    #750bb5,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -77,3 +77,46 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+.ion-ios-happy:before,.ion-md-happy:before {
+    color:#f7bd0d;
+}
+
+.ion-ios-headset:before,.ion-md-headset:before {
+    color:#169ce1;
+}
+.ion-ios-game-controller-b:before,.ion-md-game-controller-b:before {
+    color:#7116e1;
+}
+.ion-ios-pizza:before,.ion-md-pizza:before {
+    color:#f48c1d;
+}
+.ion-ios-pint:before,.ion-md-pint:before {
+    color:#1aa9a4;
+}
+.ion-ios-plane:before,.ion-md-plane:before {
+    color:#418dff;
+}
+.ion-ios-book:before,.ion-md-book:before {
+    color:#294de6;
+}
+.ion-ios-lock:before,.ion-md-lock:before {
+    color:#902d8d;
+}
+.ion-ios-remove-circle:before,.ion-md-remove-circle:before {
+    color:#de1818;
+}
+.ion-ios-person:before,.ion-md-person:before {
+    color:#1a7c94;
+}
+
+.ion-ios-calendar:before,.ion-md-calendar:before {
+    color:#22990b;
+}
+.ion-ios-beer:before,.ion-md-beer:before {
+    color:#f59525;
+}
+.ion-ios-search:before,.ion-md-search:before {
+    color:#f30d18;
+}
+

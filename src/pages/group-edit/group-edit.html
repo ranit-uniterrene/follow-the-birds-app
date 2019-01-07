@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{editGroup.group_title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	<ion-list>
+	  <ion-item>
+		<ion-label floating>Group Name </ion-label>
+		<ion-input type="text" [(ngModel)]="editGroup.group_title" [value]="editGroup.group_title" name="group_title"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Unique Username</ion-label>
+		<ion-input type="text" [(ngModel)]="editGroup.group_name" [value]="editGroup.group_name" name="group_name"></ion-input>
+	  </ion-item>
+	  <ion-item>
+		  <ion-label>Privacy</ion-label>
+		  <ion-select [(ngModel)]="editGroup.group_privacy" name="group_privacy">
+			<ion-option value="public">Public Group</ion-option>
+			<ion-option value="closed">Closed Group</ion-option>
+			<ion-option value="secret">Secret Group</ion-option>
+		  </ion-select>	  
+	  </ion-item>
+	  <ion-item>
+		<ion-label floating>Describe your group</ion-label>
+		<ion-input type="text" [(ngModel)]="editGroup.group_description" [value]="editGroup.group_description" name="group_description" ></ion-input>
+	  </ion-item>
+	</ion-list>  
+</ion-content>
+<ion-footer>
+  <button ion-button padding full (click)="editGroupAction();">Edit Group</button>
+</ion-footer>

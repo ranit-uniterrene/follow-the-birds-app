@@ -3,17 +3,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
-
+import { Observable, Subject, ReplaySubject} from 'rxjs';
 import { FirstRunPage } from '../pages';
 import { Settings } from '../providers';
-
+import { AlertController } from 'ionic-angular';
 @Component({
   template: `<ion-menu [content]="content">
     <ion-header>
       <ion-toolbar>
         <ion-title>Pages</ion-title>
       </ion-toolbar>
-    </ion-header>
+    </ion-header>    
 
     <ion-content>
       <ion-list>
@@ -28,9 +28,8 @@ import { Settings } from '../providers';
 })
 export class MyApp {
   rootPage = FirstRunPage;
-
+  public alertShown:boolean = false;
   @ViewChild(Nav) nav: Nav;
-
   pages: any[] = [
     { title: 'Tutorial', component: 'TutorialPage' },
     { title: 'Welcome', component: 'WelcomePage' },
@@ -40,18 +39,34 @@ export class MyApp {
     { title: 'Login', component: 'LoginPage' },
     { title: 'Signup', component: 'SignupPage' },
     { title: 'Master Detail', component: 'ListMasterPage' },
+    { title: 'Friends', component: 'FriendsPage' },
+    { title: 'Photos', component: 'PhotosPage' },
+    { title: 'Events', component: 'EventsPage' },
+    { title: 'Groups', component: 'GroupsPage' },
     { title: 'Menu', component: 'MenuPage' },
     { title: 'Settings', component: 'SettingsPage' },
-    { title: 'Search', component: 'SearchPage' }
+    { title: 'Search', component: 'SearchPage' },
+    { title: 'Forget Password', component: 'ForgetPasswordPage' },
+    { title: 'OTP page', component: 'OtpPage' },
+    { title: 'Reset Password page', component: 'ResetPasswordPage' },
+    { title: 'Profile page', component: 'ProfilePage' }
+    
   ]
 
-  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(private translate: TranslateService, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.backgroundColorByHexString('#750bb5');
+      //this.statusBar.styleBlackOpaque();
       this.splashScreen.hide();
-    });
+	 /*  platform.registerBackButtonAction(() => {
+        if (this.alertShown==false) {
+          this.presentConfirm();  
+        }
+	 }, 0) */
+   });
     this.initTranslate();
   }
 
@@ -80,10 +95,41 @@ export class MyApp {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
   }
+  
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Exit',
+      message: 'Do you want Exit?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+            this.alertShown=false;
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            console.log('Yes clicked');
+            navigator['app'].exitApp();         
+          }
+        }
+      ]
+    });
+     alert.present().then(()=>{
+      this.alertShown=true;
+    });
+  }
 
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  getProfileData(){
+    
   }
 }

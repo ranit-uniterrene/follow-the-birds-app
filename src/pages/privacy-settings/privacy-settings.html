@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Privacy Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	<ion-list>
+		<ion-item>
+		  <ion-label>Chat</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_chat_enabled">
+			<ion-option value="1">Online</ion-option>
+			<ion-option value="0">Offline</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can post on your wall</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_wall">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your birthdate</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_birthdate">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your relationship</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_relationship">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your basic info</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_basic">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your work info</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_work">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your location info</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_location">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your education info</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_education">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your other info</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_other">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your friends</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_friends">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your photos</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_photos">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your liked pages</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_pages">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your joined groups</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_groups">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>
+		<ion-item>
+		  <ion-label>Who can see your joined events</ion-label>
+		  <ion-select [(ngModel)]="privacySettings.user_privacy_events">
+			<ion-option value="public">Everyone</ion-option>
+			<ion-option value="friends">Friends</ion-option>
+			<ion-option value="me">Only Me</ion-option>
+		  </ion-select>
+		</ion-item>		
+	</ion-list>
+</ion-content>
+<ion-footer>
+  <button ion-button padding full (click)="saveChanges();">Save Changes</button>
+</ion-footer>

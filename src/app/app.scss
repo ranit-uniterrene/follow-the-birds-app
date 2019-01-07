@@ -14,3 +14,54 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+ion-icon {
+  &[class*="custom-"] {
+      mask-size: contain;
+      mask-position: 50% 50%;
+      mask-repeat: no-repeat;
+      background: transparent;
+      --ion-color-base: transparent !important;
+     
+  }
+
+  &[class*="custom-food"] {
+	mask-image: url(../assets/icon/food.svg.svg);;
+	.tab-button[aria-selected=true] & {
+	  mask-image: url(../assets/icon/food.svg.svg);;
+	}
+  }
+  
+  &[class*="custom-games"] {
+	mask-image: url(../assets/icon/console.svg);
+	.tab-button[aria-selected=true] & {
+	  mask-image: url(../assets/icon/console.svg);
+	}
+  }
+  
+
+}
+.pg_wrapper {
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+
+.pg_2x {
+    width: 50%;
+    float: left;
+    border-right: 2px solid #fff;
+    height: 180px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.pg_4x {
+    height: 50%;
+    float: left;
+    width: 49%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 1px;
+}

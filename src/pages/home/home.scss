@@ -1,0 +1,45 @@
+page-home { 
+    .tabbar {
+        background: #fff !important;
+        border-bottom: 1px solid #ddd;
+    } 
+    ion-list{
+        margin-bottom: 0 !important;
+    }
+    .tabbar:after {
+        display: none;
+    }
+    ion-navbar{
+        padding: 6px 12px !important;
+    } 
+    .tab-button-icon{
+        transform: none !important;
+    }
+    ion-searchbar{
+        input{
+            background:rgba(255,255,255,.2) !important;
+            color:#fff !important;
+            box-shadow: none !important;
+            ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #fff;
+                opacity: 1; /* Firefox */
+            }
+            
+            :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color:#fff;
+            }
+            
+            ::-ms-input-placeholder { /* Microsoft Edge */
+                color: #fff;
+            }
+        }
+        .searchbar-search-icon, .searchbar-clear-icon{
+            filter:brightness(200)
+        }
+    }
+    .messages_badge{
+      top: -7px;
+      position: absolute;
+      right: -12px;
+    }
+}

@@ -1,0 +1,36 @@
+page-comments {
+	.comment-box {
+		border-radius: 20px;
+		background: #f8f8f8;
+		padding: 7px 13px;
+		width: auto;
+		margin:0px;
+		p {
+			font-size: 17px;
+			font-weight: bold;
+		}
+	}
+	.reply-box {
+	    padding-top: 5px;
+		padding-left: 24px;
+	}
+	ion-list {
+		overflow: hidden;
+		margin: 10px 5px 0 4px !important;
+	}
+	.comment_replies {
+		float: right;
+		width: 90%;
+	}
+	.commant-wrap {
+		margin-bottom: 2px;
+		margin-top: 7px;
+	}
+	.reply-box {
+		padding-bottom: 5px;
+		padding-left: 24px;
+	}
+}
+.reply_option ion-label {
+    margin: 0px 51px;
+}

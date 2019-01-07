@@ -1,0 +1,26 @@
+page-view-post {
+	.comment_share {
+		border-top: 1px solid #ddd;
+		margin-top: 15px;
+		position: relative;
+		padding-bottom: 3px;
+	}
+	.comment_share:after {
+		background-color: grey;
+		content: '';
+		display: block;
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		right: 10px;
+		bottom: 10px;
+		z-index: -1;
+	}
+	.photo_list {
+		border-bottom: 8px solid #99999975;
+		margin-bottom: 1px;
+	}
+	.photo_list:last-child {
+		border: none;
+	}
+}

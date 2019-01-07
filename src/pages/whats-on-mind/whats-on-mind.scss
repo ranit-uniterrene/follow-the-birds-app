@@ -1,0 +1,39 @@
+page-whats-on-mind {
+    .main_textarea_field {
+		height: 180px;
+		font-size: 25px;
+		font-family: cursive;
+		padding-left: 20px;
+	}
+    .scroll-content{
+        background: #f0f0f1 !important;
+        textarea.text-input {
+            display: block;
+            height: 100px;
+            padding: 5px;
+            margin: 0;
+        }
+    }
+    .button-md.activity_icons {
+        color: #801fbb;
+        background-color: transparent;
+        box-shadow: none;
+    }
+	.publisher-card {
+		padding-bottom: 0px;
+		margin: 0;
+		width: 100%;
+	}
+	.card-content-md {
+		padding: 0;
+	}
+	.ImgWrapBig{
+        height: 110px;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important; 
+    }
+	ion-col.publisher-photos.col {
+		padding: 1px;
+	}
+}

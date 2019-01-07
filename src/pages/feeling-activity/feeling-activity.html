@@ -1,0 +1,51 @@
+<!--
+  Generated template for the FeelingActivityPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Feelings Activities</ion-title>
+	<ion-buttons left>
+	  <button ion-button icon-only (tap)="dismiss()">          
+		  <ion-icon name='arrow-back' ></ion-icon>
+	  </button>
+	</ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-list no-border *ngIf="feelingBox">
+		<ion-item *ngFor="let feeling of feelings; let i=index" (click)="setFeeling(feeling,i)">
+		 <ion-icon [name]="feeling.icon" item-start></ion-icon>
+		 {{feeling.text}}...			  
+		</ion-item>
+	</ion-list>
+	<ion-list no-border *ngIf="feelingTypeBox">
+	    <ion-item-divider color="light" (click)="goBack()">
+			<ion-icon name='arrow-back' item-start></ion-icon>
+			{{feeling_action}}
+		</ion-item-divider>
+		<ion-item *ngFor="let type of feeling_types" (click)="setFeelingType(type.action)">
+		 <ion-icon [name]="type.icon"  item-start></ion-icon>
+		 {{type.text}}			  
+		</ion-item>
+	</ion-list>
+	<ion-list no-border *ngIf="feelingInputBox">
+	  <ion-item-divider color="light" (click)="goBack()">
+		<ion-icon name='arrow-back' item-start></ion-icon>
+		{{feeling_action}}
+	  </ion-item-divider>
+	  <ion-item >
+		<ion-label floating>Share your Status</ion-label>
+		<ion-input type="text" [(ngModel)]="feeling_value" name="feeling_value"></ion-input>
+		<button ion-button item-end item-end (click)="setCustomFeelingType()">
+			Add 
+		</button>
+	  </ion-item>
+	</ion-list>
+</ion-content>

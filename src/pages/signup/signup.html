@@ -1,44 +1,125 @@
-<ion-header>
+<!-- <ion-header class="singupHeader">
 
   <ion-navbar>
-    <ion-title>{{ 'SIGNUP_TITLE' | translate }}</ion-title>
+    <ion-title>{{ 'SIGNUP_TITLE' | translate }}</ion-title> 
   </ion-navbar>
 
-</ion-header>
+</ion-header>-->
 
 
-<ion-content>
-  <form (submit)="doSignup()">
+<ion-content class="login_page singUp">   
+
+  <div padding class="formContainer">
+    <div id="tabIndicators">
+      <ul>
+        <li id="tab1" class="active"><span></span></li>
+        <li id="tab2"><span></span></li>
+      </ul>
+    </div>
+    
+    <h4>Create Account</h4>
+    <!-- <form (submit)="doSignup()"> -->
+    <form>
     <ion-list>
 
-      <ion-item>
-        <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="account.name" name="name"></ion-input>
-      </ion-item>
+      <div class="stepsHold">
+        <div id="step1" class="active">
 
-      <ion-item>
-        <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
-      </ion-item>
+          <ion-item>
+              <ion-label fixed><ion-icon ios="ios-person-outline" md="md-contact"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="account.user_firstname" placeholder="First Name" name="user_firstname"></ion-input>
+          </ion-item>
 
-      <!--
-      Want to add a Username? Here you go:
+          <ion-item>
+              <ion-label fixed><ion-icon ios="ios-person-outline" md="md-contact"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="account.user_lastname" placeholder="Last Name"  name="user_lastname"></ion-input>
+          </ion-item>
 
-      <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
-      </ion-item>
-      -->
+          <ion-item>
+              <ion-label fixed><ion-icon ios="ios-contact-outline" md="md-contact"></ion-icon></ion-label>
+            <ion-input  type="text" [(ngModel)]="account.user_name" placeholder="Username"  name="user_name"></ion-input>
+          </ion-item>
 
-      <ion-item>
-        <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
-      </ion-item>
+          <ion-item>
+              <ion-label fixed><ion-icon ios="ios-mail-outline" md="md-mail"></ion-icon></ion-label>
+            <ion-input type="email" [(ngModel)]="account.user_email" placeholder="Email"  name="user_email"></ion-input>
+          </ion-item>      
 
-      <div padding>
-        <button ion-button color="primary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
+          <ion-item>
+            <ion-label fixed><ion-icon ios="ios-unlock-outline" md="md-unlock"></ion-icon></ion-label>
+            <ion-input type="password" [(ngModel)]="account.user_password" placeholder="Password"  name="user_password"></ion-input>
+          </ion-item>
+
+          <button class="login_btn" *ngIf="checkValidations()"  ion-button color="light" block outline ion-button (click)="gotoStep(2)">CONTINUE</button>
+          <button class="login_btn" *ngIf="!checkValidations()" disabled ion-button color="light" block outline ion-button (click)="gotoStep(2)">CONTINUE</button>
+
+        </div>
+        <div id="step2">
+
+            <ion-item>
+                <ion-label fixed><ion-icon ios="ios-transgender" md="md-transgender"></ion-icon></ion-label>
+              <!-- <ion-input type="text" [(ngModel)]="account.user_firstname" placeholder="First Name" name="user_firstname"></ion-input> -->
+				<ion-select [(ngModel)]="account.user_gender" [ngModelOptions]="{standalone:true}" class="fullSelect">
+                  <ion-option value="" selected="true">Select Sex</ion-option>
+                  <ion-option value="male">Male</ion-option>
+                  <ion-option value="female">Female</ion-option>
+                  <ion-option value="other">Other</ion-option>                  
+                </ion-select>
+            </ion-item>
+			<ion-item>
+			  <ion-label>Date of Birth</ion-label>
+			  <ion-datetime  style="color:white" displayFormat="MM/DD/YYYY" [(ngModel)]="account.user_DOB_date" name="user_DOB_date" [ngModelOptions]="{standalone:true}"></ion-datetime>
+			</ion-item>
+             <!--<div class="listBox"> 
+			  <ion-item>
+				<ion-datetime displayFormat="DD" placeholder="Date" [(ngModel)]="account.user_DOB_date" [ngModelOptions]="{standalone:true}" class="fullSelect"></ion-datetime>
+			  </ion-item>
+			  
+			  <ion-item>
+				<ion-datetime displayFormat="MM" placeholder="Month" [(ngModel)]="account.user_DOB_month" [ngModelOptions]="{standalone:true}" class="fullSelect"></ion-datetime>
+			  </ion-item>
+			  
+              <ion-item>
+				<ion-datetime displayFormat="YYYY" placeholder="Year" [(ngModel)]="account.user_DOB_year" [ngModelOptions]="{standalone:true}" class="fullSelect"></ion-datetime>
+			  </ion-item>
+              <ion-item>
+                  <ion-select [(ngModel)]="account.user_DOB_date" [ngModelOptions]="{standalone:true}" class="fullSelect">
+                      <ion-option value="" selected="true">Day</ion-option>
+                      <ion-option value="monday">Monday</ion-option>
+                      <ion-option value="tuesday">Tuesday</ion-option>                                        
+                  </ion-select>
+              </ion-item>
+              <ion-item>
+                  <ion-select [(ngModel)]="account.user_DOB_month" [ngModelOptions]="{standalone:true}" class="fullSelect">
+                      <ion-option value="" selected="true">Month</ion-option>
+                      <ion-option value="january">January</ion-option>
+                      <ion-option value="february">February</ion-option>
+                      <ion-option value="march">March</ion-option>                  
+                  </ion-select>
+              </ion-item>
+              <ion-item>
+                  <ion-select [(ngModel)]="account.user_DOB_year" [ngModelOptions]="{standalone:true}" class="fullSelect">
+                      <ion-option value="" selected="true">Year</ion-option>
+                      <ion-option value="2018">2018</ion-option>
+                      <ion-option value="2017">2017</ion-option>
+                      <ion-option value="2016">2016</ion-option>                  
+                  </ion-select>
+              </ion-item>
+            </div>     -->   
+             
+
+            <button class="login_btn" *ngIf="checkValidationsStep2()" ion-button color="light" block outline ion-button (click)="doSignup()">SIGN UP</button>
+            <button class="login_btn" *ngIf="!checkValidationsStep2()" disabled ion-button color="light" block outline ion-button (click)="doSignup()">SIGN UP</button>
+            <button class="login_btn backbtn" ion-button color="light" block clear ion-button (click)="gotoStep(1)">
+              <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon> Previous
+            </button>
+        </div>
       </div>
-
     </ion-list>
   </form>
+
+  <div class="foot">
+    <h6>Already have an account ? <button (tap)="loginPage()" color="primary" clear>LOGIN</button></h6>
+  </div>
+  </div>
 </ion-content>

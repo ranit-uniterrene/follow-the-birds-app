@@ -1,0 +1,200 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{groupProfile.group_title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+ 	<div class="profileAndCover" [style.backgroundImage]="getCoverBackgroundStyle()" >
+	<input type="file" #coverPhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'cover')" />
+    <button ion-button class="editcoverBtn" (click)="uploadCoverPicture()" *ngIf="groupProfile.group_admin == myId">
+        <ion-icon color="white" name="camera" role="img" class="icon icon-ios ion-ios-camera" aria-label="camera"></ion-icon>
+        Edit
+    </button>
+  </div>
+  <ion-grid class="">
+    <ion-row>
+      <ion-col col-12 style="text-align:center;">
+          <ion-title>{{groupProfile.group_title}} <span style="font-size: 12px;" class="group-settings" (click)="settingAction()" *ngIf="groupProfile.group_admin == myId"><ion-icon name="cog"></ion-icon></span> </ion-title>
+		  <p style="padding-left:5px;margin-top: 4px;margin-bottom: 0;">{{groupProfile.group_privacy}} group . {{groupProfile.group_members}} Members </p>
+	  </ion-col>
+    </ion-row>
+  </ion-grid>
+  <button ion-button color="primary" full *ngIf="groupProfile.i_joined == false" (tap)="joinGroup()"> Join Group</button>
+  <button ion-button color="primary" full *ngIf="groupProfile.i_joined == 'approved'" (tap)="leaveGroup()">Leave Group</button>
+  <button ion-button color="primary" full *ngIf="groupProfile.i_joined == 'pending'"> Cancel Join Request</button>
+  <ion-segment [(ngModel)]="groupDetailszone" class="editTabGrid lowHeight" >
+	  <ion-segment-button value="timeline">
+			<button ion-button clear block full>               
+				Timeline
+			</button>
+	  </ion-segment-button>
+	  <ion-segment-button value="photos">
+			<button ion-button clear block full>                  
+				Photos
+			</button>
+	  </ion-segment-button>
+	  <ion-segment-button value="albums" (click)="getAlbums();">
+			<button ion-button clear block full>                  
+				Album
+			</button>
+	  </ion-segment-button>
+	  <ion-segment-button value="members">
+			<button ion-button clear block full (click)="getMembers();">                  
+				Members
+			</button>
+	  </ion-segment-button>
+	</ion-segment>
+	<whats-on-mind [handle]="postElement" *ngIf="groupProfile.i_joined == 'approved'"></whats-on-mind>  
+  <div [ngSwitch]="groupDetailszone">
+		<ion-list *ngSwitchCase="'timeline'">
+				<ion-card *ngFor="let feeds of groupProfile.posts" full>
+						<ion-item text-wrap>
+							<ion-avatar item-start (click)="viewProfile(feeds.user_name)">
+							<img [src]="imageURL+feeds.post_author_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" />
+							</ion-avatar>
+							<span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds.user_name,feeds.user_id)"> {{feeds.post_author_name}}</span> 
+							<span *ngIf="feeds.feeling_action != ''" >is {{feeds.feeling_action}} {{feeds.feeling_value}} - </span>
+							{{post_type[feeds.post_type]}} 
+							<span *ngIf="feeds.wall_id > '0'" > to {{wall_fullname}}'s Timeline</span>
+							<span *ngIf="feeds.in_event == '1'"><ion-icon name="play" style="font-size: 11px;color: #750bb5;padding-right: 3px;"></ion-icon> <ion-icon name='calendar' style="color:#b5af0b;padding: 0;margin: 0;padding-right: 3px;" item-start></ion-icon>  {{feeds.event_title}}</span>
+							<ion-note class="msg_time" style="display:block" >{{feeds.time | date: 'dd MMM' }} at {{ feeds.time | date: 'h:mm a' }}</ion-note> 
+						</ion-item>
+						<ion-card-content>
+							<p style="padding-bottom: 3px;padding-left: 10px;">{{feeds.text}}</p>
+						</ion-card-content>   
+						<div class="pg_wrapper" *ngIf="feeds.photos_num <= 2">
+							<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos">
+								<img [src]="mediapath+photo.source" (click)="viewImage(photo.source)">
+							</div>	
+						</div>	
+						<div class="pg_wrapper" *ngIf="feeds.photos_num > 2">
+							<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" ></div>
+							<div class="pg_2x" >
+								<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos | slice:1:feeds.photos_num; " [style.backgroundImage]="getBackgroundStyle(photo.source)" (click)="viewImage('')">
+								</div>
+							</div>
+						</div>
+						<div *ngIf="feeds.post_type == 'video'">
+							<video *ngFor="let vid of feeds.video" style="width:100%" controls preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+								<source [src]="imageURL+vid.source" type="video/mp4"/>
+							</video>
+						</div>
+						<div *ngIf="feeds.post_type == 'audio'" style="text-align: center;">
+							<audio controls *ngFor="let aud of feeds.audio">
+								<source [src]="imageURL+aud.source" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</div>	
+						<div *ngIf="feeds.post_type == 'file'">
+							<ion-item *ngFor="let attch of feeds.file" >
+								<ion-thumbnail item-start>
+								<img src="assets/followthebirdImgs/text-file-icon.png">
+								</ion-thumbnail>
+								<h2>Attachment.zip</h2>
+								<button ion-button padding (click)="downloadAttachment(attch.source)">
+								Download
+								</button>
+							</ion-item>
+						</div>
+						<div *ngIf="feeds.post_type == 'shared'">
+							<ion-card>
+								<ion-item text-wrap>
+									<ion-avatar item-start (click)="viewProfile(feeds.origin.user_name)">
+									<img [src]="imageURL+feeds.origin.post_author_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" />
+									</ion-avatar>
+									<span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds.origin.user_name,feeds.origin.user_id)"> {{feeds.post_author_name}}</span> 
+									<span *ngIf="feeds.origin.feeling_action != ''" >is {{feeds.origin.feeling_action}} {{feeds.origin.feeling_value}}</span>
+									{{post_type[feeds.origin.post_type]}}
+									<span *ngIf="feeds.in_event == '1'"><ion-icon name="play" style="font-size: 11px;color: #750bb5;padding-right: 3px;"></ion-icon> <ion-icon name='calendar' style="color:#b5af0b;padding: 0;margin: 0;padding-right: 3px;" item-start></ion-icon>  {{feeds.origin.event_title}}</span>
+									<p>{{feeds.origin.time}}</p>
+								</ion-item>
+								<ion-card-content>
+									<p style="padding-bottom: 3px;padding-left: 20px;">{{feeds.origin.text}}</p>
+									<img *ngFor="let photo of feeds.origin.photos" [src]="imageURL+photo.source" (click)="viewImage(photo.source)">
+									<div *ngIf="feeds.origin.post_type == 'video'">
+										<video *ngFor="let originvid of feeds.origin.video" style="width:100%" controls preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+											<source [src]="imageURL+originvid.source" type="video/mp4"/>
+										</video>
+									</div>
+									<div *ngIf="feeds.origin.post_type == 'audio'">
+										<audio controls *ngFor="let aud of feeds.origin.audio">
+											<source [src]="imageURL+aud.source" type="audio/mpeg">
+											Your browser does not support the audio element.
+										</audio>
+									</div>	
+									<div *ngIf="feeds.origin.post_type == 'file'">
+										<ion-item *ngFor="let attch of feeds.origin.file" >
+											<ion-thumbnail item-start>
+											<img src="assets/followthebirdImgs/text-file-icon.png">
+											</ion-thumbnail>
+											<h2>Attachment.zip</h2>
+											<button ion-button padding (click)="downloadAttachment(attch.source)">
+											Download
+											</button>
+										</ion-item>
+									</div>		
+								</ion-card-content>
+							</ion-card>
+						</div>
+						<ion-row>
+							<ion-col>
+							<button ion-button color="primary" clear small icon-start (click)="viewComments(feeds.post_comments,feeds.post_id)">
+								<ion-icon ios="ios-text" md="md-text"></ion-icon>
+								{{feeds.comments}} Comments
+							</button>
+							</ion-col>
+							<ion-col>
+							</ion-col>
+							<ion-col>
+							<!--<button ion-button color="primary" clear small icon-end right (click)="sharePostCtrl(feeds.post_id)" *ngIf="feeds.group_privacy == 'public'">
+								Share
+								<ion-icon ios="ios-share-alt" md="md-share-alt"></ion-icon>           
+							</button>-->
+							</ion-col>
+							
+						</ion-row>
+						</ion-card>
+					
+					
+		</ion-list >
+		<ion-list *ngSwitchCase="'photos'">
+			<ion-grid class="photosGrid">
+        <ion-row>
+            <ion-col *ngFor="let photo of groupProfile.photos" col-4>		
+              <div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo.source)" >                
+              </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+		</ion-list >
+		<ion-list *ngSwitchCase="'albums'">
+				<ion-grid class="photosGrid">
+						<ion-row>
+							<ion-col *ngFor="let album of groupProfile.albums" col-4 >		
+								<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(album.cover)" (click)="getAlbum(album.album_id)" >                
+								</div>
+								<div class="album-details" (click)="getAlbum(album.album_id)" > 
+									<span style="padding-top:0px;"> {{album.title}} </span>
+								<div>
+									{{album.photos_count}} Photos
+									<div class="">
+										
+									</div>
+								</div> 
+								</div>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+		</ion-list >
+		<ion-list *ngSwitchCase="'members'">
+				<ion-item *ngFor="let member of groupProfile.members" >
+						<ion-avatar item-start>
+							<img [src]="imageURL+member.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+						</ion-avatar>
+						<h2>{{member.user_firstname}} {{member.user_lastname}}</h2>
+					</ion-item>
+		</ion-list >		  
+  </div>
+  
+</ion-content>

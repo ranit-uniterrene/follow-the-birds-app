@@ -1,0 +1,18 @@
+page-notifications {
+	.scroll-content {
+		padding: 0 !important;
+	}	
+	ion-item.item.item-block.item-md.unseen {
+		background: #ccc3;
+	}
+	ion-item.item.item-block.item-md.seen {
+		background: #fff;
+	}
+	
+	.msg_time {
+		width: 100%;
+		display: block;
+		overflow: hidden;
+		font-size: 11px;
+	}
+}

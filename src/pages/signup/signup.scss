@@ -1,3 +1,137 @@
 page-signup {
+    .toolbar-background{
+        background: transparent
+    }
+    .fullSelect{
+        width: 100%;
+        max-width: 100%;
+        color: #c8c7c7;
+        font-size: 14px;
+        padding-right: 16px;
+    }
+    .listBox{
+        display: flex;
+        ion-item{
+            padding-left: 0 !important;
 
+        }
+        ion-item:nth-of-type(2){
+            margin:0 10px !important;
+
+        }
+    }
+    .stepsHold{
+        position: relative;
+        height: 355px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        .backbtn{
+            font-size: 13px;
+            text-transform: none !important;
+            ion-icon{
+                margin-right: 10px;
+            }
+        }
+        #step1{
+            position: absolute;
+            width: 100%;
+            transition: all 1s ease;
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            top: 50%;
+            left: -100%;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        #step1.active{
+            left: 0;
+        }
+        #step2{
+            position: absolute;
+            width: 100%;
+            transition: all 1s ease;
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        #step2.active{
+            left: 0;
+        }
+    }
+    h4{
+        color: #fff;
+        font-size: 16px;
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+    }
+    #tabIndicators{
+        max-width: 80px;
+        margin: auto;
+        ul:after{
+            display: block;
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translateY(-50%) translateX(-50%);
+        }
+        ul{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin:0;
+            margin-bottom: 55px;
+            padding:0;
+            position: relative;
+            li{
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border:1px solid #fff;
+                border-radius: 50%;
+                transition: all 1s ease;
+                -webkit-transition: all 1s ease;
+                -moz-transition: all 1s ease;
+                box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+                transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                span{
+                    width: 10px;
+                    height: 10px;
+                    background:#fff;
+                    display: block;
+                    border-radius: 50%;
+                    margin: 4px auto;
+                }
+            }
+            li.active{
+                box-shadow: 0px 0px 7px 5px rgba(255, 255, 255, 0.45);
+                
+            }
+        }
+    }
+    .foot{
+        text-align: center;
+        h6{
+            color:#fff;
+            font-size: 13px;
+            font-weight: normal;
+            button{
+                text-decoration: none;
+                background:transparent;
+                color: #fd5aff;
+            }
+        }
+    }
 }
+
