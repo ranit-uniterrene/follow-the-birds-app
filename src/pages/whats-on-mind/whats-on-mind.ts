@@ -84,7 +84,6 @@ export class WhatsOnMindPage {
       }
       
 	  this.postPhotoOptions = formBuilder.group({
-		file: [],
 		type: "photos",
 		handle: "publisher",
 		multiple: true,
@@ -347,14 +346,7 @@ export class WhatsOnMindPage {
 	}
 	
 	processWebImage(event) {
-		let reader = new FileReader();
-		reader.onload = (readerEvent) => {
-		 let imageData = (readerEvent.target as any).result;
-		 this.postPhotoOptions.patchValue({ 'file': imageData });
-         this.postPhotoOptions.patchValue({ 'multiple': false });
-		 this.uploadPhoto(this.postPhotoOptions);	  
-		};
-		reader.readAsDataURL(event.target.files[0]);
+		this.uploadPhoto(event.target.files);	  
 	}
 	
 	processWebVideo(event) {
@@ -377,9 +369,16 @@ export class WhatsOnMindPage {
 			content: 'Uploading...'
 		});
 		loading.present();
-		 this.user.photoUploader(params).subscribe((resp) => {
-			loading.dismiss();	
-			this.publishPhotos.push(resp);
+		  	console.log(this.postPhotoOptions);
+		 this.user.photoMultiUploader(params,this.postPhotoOptions.value).subscribe((resp) => {
+			loading.dismiss();			
+			if(this.publishPhotos.length > 0){
+				for (var key in resp) {
+				  this.publishPhotos.push(resp[key]);
+				}
+			} else {
+				this.publishPhotos = resp;
+			}
 			this.publisherInfo.photos = JSON.stringify(this.publishPhotos);
 		}, (err) => {
 			loading.dismiss();		

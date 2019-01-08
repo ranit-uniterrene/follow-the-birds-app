@@ -37,15 +37,17 @@ ion-icon {
 	  mask-image: url(../assets/icon/console.svg);
 	}
   }
-  
-
 }
 .pg_wrapper {
     display: block;
     overflow: hidden;
     clear: both;
 }
-
+.pg_1x {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
 .pg_2x {
     width: 50%;
     float: left;

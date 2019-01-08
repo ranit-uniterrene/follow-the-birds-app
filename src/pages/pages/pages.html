@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-searchbar (input)="getItems($event)" placeholder="Search Events"> </ion-searchbar>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="createPage()"><ion-icon name="add-circle"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-segment [(ngModel)]="pageszone">
+	  <ion-segment-button value="suggested">
+		Suggested
+	  </ion-segment-button>
+	  <ion-segment-button value="liked">
+		You Liked
+	  </ion-segment-button>	  
+  </ion-segment>
+</ion-header>
+
+
+<ion-content padding>
+	<div [ngSwitch]="pageszone">
+		<ion-list *ngSwitchCase="'suggested'">
+			<ion-item *ngFor="let page of pageLists.suggested">
+				<ion-thumbnail item-start>
+				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewPage(page)" /> 
+				</ion-thumbnail>
+				<h2>{{page.page_title}}</h2>
+				<p>Members • {{page.page_likes}} Likes</p>
+				<button ion-button outline item-end (click)="pageLikeAction('page-like',page.page_id)">Like</button>
+		   </ion-item>
+		</ion-list>
+		<ion-list *ngSwitchCase="'liked'">
+			<ion-item *ngFor="let page of pageLists.liked">
+				<ion-thumbnail item-start>
+				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewPage(page)" /> 
+				</ion-thumbnail>
+				<h2>{{page.page_title}}</h2>
+				<p>Members • {{page.page_likes}} Likes</p>
+				<button ion-button outline item-end (click)="pageUnlikeAction('page-unlike',page.page_id)">Unlike</button>
+		   </ion-item>
+		</ion-list>
+		
+	</div>
+</ion-content>

@@ -31,7 +31,6 @@ export class EventsPage {
       this.loadEvent('invited');
       this.loadEvent('manage');
       this.loadEventsCategories();
-	  console.log(this.eventLists);
   }
 
   loadEvent(type){

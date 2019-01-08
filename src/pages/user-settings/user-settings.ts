@@ -50,6 +50,10 @@ export class UserSettingsPage {
 	this.nav.push('EventsPage',{'user_id':this.profile.user_id});
   }
   
+  listPages(){
+	this.nav.push('PagesPage',{'user_id':this.profile.user_id});
+  }
+  
   accoutSettings(){
 	this.nav.push('AccountSettingsPage');
   }

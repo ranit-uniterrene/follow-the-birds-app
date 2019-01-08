@@ -22,16 +22,15 @@
     <ion-card-content>
 		<p style="padding-bottom: 3px;padding-left: 10px;">{{feeds.text}}</p>
 	</ion-card-content>  
-	<div (click)= "viewPost(feeds)">
+	<div (click)="viewPost(feeds)">
 		<div class="pg_wrapper" *ngIf="feeds.photos_num <= 2">
-			<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos">
-				<img [src]="mediapath+photo.source">
-			</div>	
+			<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" >
+			</div>
 		</div>	
 		<div class="pg_wrapper" *ngIf="feeds.photos_num > 2">
 			<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" ></div>
 			<div class="pg_2x" >
-				<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos | slice:1:feeds.photos_num; " [style.backgroundImage]="getBackgroundStyle(photo.source)" (click)="viewImage('')">
+				<div class="pg_4x" *ngFor="let photo of feeds.photos | slice:1:feeds.photos_num; " [style.backgroundImage]="getBackgroundStyle(photo.source)" (click)="viewImage('')">
 				</div>
 			</div>
 		</div>		

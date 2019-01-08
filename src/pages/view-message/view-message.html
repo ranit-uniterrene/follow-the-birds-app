@@ -33,7 +33,8 @@
 	</ion-list>
 	<ion-row class="media_list" *ngIf="publishPhotos.length > '0'">
 		<ion-col *ngFor="let photo of publishPhotos" col-4 class="publisher-photos">		
-			<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo)" (click)="viewImage(photo)">
+			<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo)">
+				<span class="remove_photo" (click)="removePhoto()"> X </span>
 			</div>
 		</ion-col>
 	</ion-row>

@@ -26,6 +26,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { AlbumProvider } from '../providers/album/album';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { PageProvider } from '../providers/page/page';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -101,7 +102,8 @@ export function provideSettings(storage: Storage) {
 	SQLitePorter,
     SQLite,
     AlbumProvider,
-    PhotoViewer	
+    PhotoViewer,
+    PageProvider	
   ]
 })
 export class AppModule { }

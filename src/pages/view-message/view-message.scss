@@ -81,13 +81,27 @@ page-view-message {
         background-size: cover !important;
         background-repeat: no-repeat !important;
         background-position: center center !important; 
-    }
+		.remove_photo {
+			position: ABSOLUTE;
+			right: 0;
+			text-align: center;
+			background: #fff;
+			border-radius: 50%;
+			width: 24px;
+			height: 24px;
+			padding-top: 3px;
+			border: 1px solid #999;
+		}
+    } 	 	
 	.media_list {
 		position: absolute;
 		width: 100%;
 		border: 1px solid #e0e0e0;
 		border-radius: 15px;
 		border-bottom: 0;
+		bottom: 0;
+		background: #fff;
+		z-index: 9;
 	}
 	.publisher-photos {
 		border-right: 1px solid #e8e8e8;

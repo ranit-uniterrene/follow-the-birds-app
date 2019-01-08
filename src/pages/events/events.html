@@ -33,7 +33,7 @@
 		<ion-slides class="card-background-page" >
 		  <ion-slide *ngFor="let event of eventLists.suggested" >
 			<ion-card class="carasol_image" (click)="viewEvent(event)">
-				<img [src]="imageURL+event.event_cover"/>
+				<img [src]="imageURL+event.event_cover" onError="this.src='assets/followthebirdImgs/blank_event.jpg'"/>
 				<div class="overlay">
 				</div>
 				<div *ngIf="event.i_joined.is_interested == '0'">

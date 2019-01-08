@@ -138,10 +138,8 @@ export class ProfilePage {
 			  this.friendLists.push(item[key]);
 			}
 		});
-		
 	}
 	
-  
 	ionViewDidLeave() {
 		this.sub.unsubscribe();
 	}
@@ -154,7 +152,11 @@ export class ProfilePage {
 	}
 	
 	viewPost(post) {
-		this.nav.push('ViewPostPage', {post: post});
+		if(post.photos_num == '1'){
+			this.nav.push('ViewPhotoPage', {photo: post.photos[0]});
+		} else {	
+			this.nav.push('ViewPostPage', {post: post});
+		}
 	}
 	  
 	viewImage(photo){
@@ -177,7 +179,6 @@ export class ProfilePage {
 		this.nav.setRoot('EditDetailsPage', {'profile': profile});
 	}
 	
-
 	uploadProfilePicture() {
 		const actionSheet = this.actionSheetCtrl.create({
 		  title: 'Upload Profile Picture',
@@ -738,7 +739,6 @@ export class ProfilePage {
 			user_id:localStorage.getItem('user_id'),
 			last_post_live:localStorage.getItem('last_post_live')
 		}
-		console.log(items);
 		this.user.getLiveLitePost(items).then((data) => {	
 			let item : any = data;
 			if(item.length > 0){

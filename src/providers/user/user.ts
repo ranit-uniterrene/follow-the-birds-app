@@ -89,9 +89,7 @@ export class User {
     return seq;
   }
   
-  getLiveLitePost(params?: any){
-	console.log("hi");	
-	console.log(params);	
+  getLiveLitePost(params?: any){	
 	let user :any;
 	let seq = this.api.get('live-posts', params).share();
 	// don't have the data yet
@@ -444,6 +442,34 @@ export class User {
 
       return seq;
   }
+  
+  photoMultiUploader(data,params){
+	var options = {
+	};
+	
+	let body = new FormData();
+	for (var i = 0; i<=data.length; i++) {
+	  body.append('file[]',data[i]);
+	}
+	
+	//body.append('file[]', data);
+	console.log(data);
+	
+	for (var key in params) {
+	  body.append(key,params[key]);
+	}
+	console.log(body);
+	
+	let seq = this.api.post('photo_multi_upload', body, options).share();
+
+    seq.subscribe((res: any) => {
+        
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+ }
   
   /**
    * Send a POST request to our signup endpoint with the data

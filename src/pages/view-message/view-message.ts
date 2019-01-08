@@ -163,6 +163,11 @@ export class ViewMessagePage {
 	}
   }
   
+  removePhoto(){
+	  this.publishPhotos = [];
+	  this.chatInfo['photo'] = '';
+  }
+  
   uploadFromGallery(){
 	this.postPhoto.nativeElement.click();
   }

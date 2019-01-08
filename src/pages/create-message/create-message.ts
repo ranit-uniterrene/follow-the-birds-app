@@ -28,6 +28,7 @@ export class CreateMessagePage {
 	message: '',
 	user_id:localStorage.getItem('user_id')
   };
+  myId = localStorage.getItem('user_id');
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
   public publishPhotos : any = [];
   public recipIds : any = [];

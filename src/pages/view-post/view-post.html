@@ -91,7 +91,18 @@
 				</ion-item>
 				<ion-card-content>
 					<p style="padding-bottom: 3px;padding-left: 20px;">{{feeds.origin.text}}</p>
-					<img *ngFor="let photo of feeds.origin.photos" [src]="imageURL+photo.source" (click)="viewImage(photo)">
+					<div class="pg_wrapper" *ngIf="feeds.origin.photos_num <= 2">
+						<div class="pg_{{feeds.origin.photos_num}}x" *ngFor="let photo of feeds.origin.photos">
+							<img [src]="imageURL+photo.source">
+						</div>	
+					</div>	
+					<div class="pg_wrapper" *ngIf="feeds.origin.photos_num > 2">
+						<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.origin.photos[0].source)" ></div>
+						<div class="pg_2x" >
+							<div class="pg_{{feeds.origin.photos_num}}x" *ngFor="let photo of feeds.origin.photos | slice:1:feeds.origin.photos_num; " [style.backgroundImage]="getBackgroundStyle(photo.source)" (click)="viewImage('')">
+							</div>
+						</div>
+					</div>
 					<div *ngIf="feeds.origin.post_type == 'video'">
 						<video *ngFor="let originvid of feeds.origin.video" style="width:100%" controls preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
 							<source [src]="imageURL+originvid.source" type="video/mp4"/>
