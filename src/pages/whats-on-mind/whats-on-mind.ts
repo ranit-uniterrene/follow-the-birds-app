@@ -84,6 +84,7 @@ export class WhatsOnMindPage {
       }
       
 	  this.postPhotoOptions = formBuilder.group({
+		file: [],
 		type: "photos",
 		handle: "publisher",
 		multiple: true,
@@ -121,7 +122,14 @@ export class WhatsOnMindPage {
 	  
 	  
 	  if(navParams.get('files') && navParams.get('vault_type') == 'image'){
-		this.publishPhotos = navParams.get('files');
+		let resp = navParams.get('files');
+		if(this.publishPhotos.length > 0){
+			for (var key in resp) {
+			  this.publishPhotos.push(resp[key]);
+			}
+		} else {
+			this.publishPhotos = resp;
+		}
 		this.publisherInfo.photos = JSON.stringify(navParams.get('files'));
 	  } if(navParams.get('files') && navParams.get('vault_type') == 'mp4'){
 		var obj = {source: navParams.get('files')[0]};
@@ -310,28 +318,42 @@ export class WhatsOnMindPage {
   
   
 	takeCameraSnap(){
+		// const options: CameraOptions = {
+		  // quality: 100,
+		  // destinationType: this.camera.DestinationType.DATA_URL,
+		  // sourceType: this.camera.PictureSourceType.CAMERA,
+		  // encodingType: this.camera.EncodingType.JPEG,
+		  // mediaType: this.camera.MediaType.PICTURE,
+		  // allowEdit:true,
+		  // targetWidth: 500,
+		  // targetHeight: 500,
+		  // saveToPhotoAlbum: true,
+		  // correctOrientation: true //Corrects Android orientation quirks
+		// };
+		
 		const options: CameraOptions = {
 		  quality: 100,
 		  destinationType: this.camera.DestinationType.DATA_URL,
-		  sourceType: this.camera.PictureSourceType.CAMERA,
 		  encodingType: this.camera.EncodingType.JPEG,
 		  mediaType: this.camera.MediaType.PICTURE,
 		  allowEdit:true,
-		  targetWidth: 500,
-		  targetHeight: 500,
 		  saveToPhotoAlbum: true,
-		  correctOrientation: true //Corrects Android orientation quirks
-		};	
-		
+		  correctOrientation: true
+		}
+
 		this.camera.getPicture(options).then((imageData) => {
 		  // imageData is either a base64 encoded string or a file URI
 		   this.postPhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
 		   this.postPhotoOptions.patchValue({ 'multiple': false });
-		   this.uploadPhoto(this.postPhotoOptions);
+		   this.uploadSinglePhoto(this.postPhotoOptions);
 		 }, (err) => {
 			alert('Unable to take photo');
 		 });
 	}
+	
+	processWebImage(event) {
+		this.uploadPhoto(event.target.files);	  
+	} 
 	
 	uploadFromGallery(type){
 		if(type == 'photo'){
@@ -344,11 +366,7 @@ export class WhatsOnMindPage {
 			this.postFile.nativeElement.click();
 		}
 	}
-	
-	processWebImage(event) {
-		this.uploadPhoto(event.target.files);	  
-	}
-	
+
 	processWebVideo(event) {
 		this.postVideoOptions.patchValue({ 'multiple': false });
 		this.uploadMedia(event.target.files[0],'video');
@@ -362,6 +380,26 @@ export class WhatsOnMindPage {
 	processWebFile(event) {
 		this.postFileOptions.patchValue({ 'multiple': false });
 		this.uploadMedia(event.target.files[0],'file');
+	}
+	
+	uploadSinglePhoto(params){
+		let loading = this.loadingCtrl.create({
+			content: 'Uploading...'
+		});
+		loading.present();
+		 this.user.photoUploader(params).subscribe((resp) => {
+			loading.dismiss();	
+			this.publishPhotos.push(resp);
+			this.publisherInfo.photos = JSON.stringify(this.publishPhotos);
+		}, (err) => {
+			loading.dismiss();		
+		  let toast = this.toastCtrl.create({
+			message: "image uploading failed",
+			duration: 3000,
+			position: 'top'
+		  });
+		  toast.present();
+		});
 	}
 	
 	uploadPhoto(params){
