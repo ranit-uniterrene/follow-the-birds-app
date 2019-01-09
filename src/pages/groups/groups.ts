@@ -36,7 +36,6 @@ export class GroupsPage {
   }
   
   viewGroup(group){
-    console.log("hi");
 	 this.navCtrl.push("GroupProfilePage",{groupProfile:group});
   }
   

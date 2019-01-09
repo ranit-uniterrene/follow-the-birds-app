@@ -56,28 +56,28 @@
   <ion-grid class="basicInfoGrid" padding-left>
       <ion-row>
         <ion-col col-12>
-            <ion-list text-wrap>
-				<ion-item *ngIf="eventProfile.event_privacy">
-                    <ion-icon ios="ios-globe" md="md-globe"></ion-icon>
-                    <strong>{{eventProfile.event_privacy}}</strong> Event      
-                </ion-item>
-                <ion-item *ngIf="eventProfile.event_going">
-                      <ion-icon name="checkmark-circle-outline"></ion-icon>
-                    <strong>{{eventProfile.event_going}}</strong> going to this event               
-                </ion-item>               
-                <ion-item *ngIf="eventProfile.event_going">
-                      <ion-icon name="calendar"></ion-icon>
-                    <strong>{{eventProfile.event_start_date | date: 'MMMM dd' }}</strong> - <strong>{{eventProfile.event_end_date | date: 'MMMM dd' }}</strong>
-                </ion-item>
-                <ion-item>
-                    <ion-icon name="person"></ion-icon>
-                    Hosted By <strong> John Doe</strong>
-                </ion-item>
-                <ion-item *ngIf="eventProfile.event_location">
-                     <ion-icon name="ios-pin-outline"></ion-icon>
-                    <strong>{{eventProfile.event_location}} </strong>
-                </ion-item>
-              </ion-list>
+					<ion-list text-wrap>
+						<ion-item *ngIf="eventProfile.event_privacy">
+								<ion-icon ios="ios-globe" md="md-globe"></ion-icon>
+								<strong>{{eventProfile.event_privacy}}</strong> Event      
+						</ion-item>
+						<ion-item *ngIf="eventProfile.event_going">
+									<ion-icon name="checkmark-circle-outline"></ion-icon>
+								<strong>{{eventProfile.event_going}}</strong> going to this event               
+						</ion-item>               
+						<ion-item *ngIf="eventProfile.event_going">
+									<ion-icon name="calendar"></ion-icon>
+								<strong>{{eventProfile.event_start_date | date: 'MMMM dd' }}</strong> - <strong>{{eventProfile.event_end_date | date: 'MMMM dd' }}</strong>
+						</ion-item>
+						<ion-item>
+								<ion-icon name="person"></ion-icon>
+								Hosted By <strong> {{user_firstname}} {{user_lastname}}</strong>
+						</ion-item>
+						<ion-item *ngIf="eventProfile.event_location">
+									<ion-icon name="ios-pin-outline"></ion-icon>
+								<strong>{{eventProfile.event_location}} </strong>
+						</ion-item>
+					</ion-list>
         </ion-col>
       </ion-row>
   </ion-grid>
@@ -178,7 +178,7 @@
 			</ion-card-content>   
 			<div class="pg_wrapper" *ngIf="feeds.photos_num <= 2">
 				<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos">
-					<img [src]="mediapath+photo.source" (click)="viewImage(photo.source)">
+					<img [src]="imageURL+photo.source" (click)="viewImage(photo.source)">
 				</div>	
 			</div>	
 			<div class="pg_wrapper" *ngIf="feeds.photos_num > 2">

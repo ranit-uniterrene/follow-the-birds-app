@@ -130,31 +130,58 @@ export class GeneralInfoSlidePage {
 	}
   
 	takeCameraSnap(type){
-		const options: CameraOptions = {
-		  destinationType: this.camera.DestinationType.DATA_URL,
-		  sourceType: this.camera.PictureSourceType.CAMERA,
-		  encodingType: this.camera.EncodingType.JPEG,
-		  mediaType: this.camera.MediaType.PICTURE,
-		  allowEdit:true,
-		  targetWidth: 500,
-		  targetHeight: 500,
-		  saveToPhotoAlbum: true,
-		  correctOrientation: true //Corrects Android orientation quirks
-		};	
+		if(type == 'profile'){
+			const options: CameraOptions = {
+				destinationType: this.camera.DestinationType.DATA_URL,
+				sourceType: this.camera.PictureSourceType.CAMERA,
+				encodingType: this.camera.EncodingType.JPEG,
+				mediaType: this.camera.MediaType.PICTURE,
+				allowEdit:true,
+				targetWidth: 500,
+				targetHeight: 500,
+				saveToPhotoAlbum: true,
+				correctOrientation: true //Corrects Android orientation quirks
+			};	
+			this.camera.getPicture(options).then((imageData) => {
+				// imageData is either a base64 encoded string or a file URI
+				if(type == 'profile'){			  
+				this.profilePhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
+				this.uploadProfilePhoto(this.profilePhotoOptions);
+				} else {
+				this.coverPhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
+				this.uploadCoverPhoto(this.coverPhotoOptions); 
+				}
+			 }, (err) => {
+				alert('Unable to take photo');
+			 });
+		} else {
+			const options: CameraOptions = {
+				destinationType: this.camera.DestinationType.DATA_URL,
+				sourceType: this.camera.PictureSourceType.CAMERA,
+				encodingType: this.camera.EncodingType.JPEG,
+				mediaType: this.camera.MediaType.PICTURE,
+				allowEdit:true,
+				targetWidth: 700,
+				targetHeight: 400,
+				saveToPhotoAlbum: true,
+				correctOrientation: true //Corrects Android orientation quirks
+			};	
+			this.camera.getPicture(options).then((imageData) => {
+				// imageData is either a base64 encoded string or a file URI
+				if(type == 'profile'){			  
+				this.profilePhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
+				this.uploadProfilePhoto(this.profilePhotoOptions);
+				} else {
+				this.coverPhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
+				this.uploadCoverPhoto(this.coverPhotoOptions); 
+				}
+			 }, (err) => {
+				alert('Unable to take photo');
+			 });
+		}
 		
-		this.camera.getPicture(options).then((imageData) => {
-		  // imageData is either a base64 encoded string or a file URI
-		  if(type == 'profile'){			  
-			this.profilePhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
-			this.uploadProfilePhoto(this.profilePhotoOptions);
-		  } else {
-			this.coverPhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
-			this.isCoverUploaded = true;
-			this.uploadCoverPhoto(this.coverPhotoOptions); 
-		  }
-		 }, (err) => {
-			alert('Unable to take photo');
-		 });
+		
+		
 	}
 	
 	uploadFromGallery(type){

@@ -50,13 +50,19 @@ export class PagesPage {
   createPage(){
 	this.navCtrl.push("PageCreatePage");
   }
+
+  viewPage(page){
+    this.navCtrl.push("PageProfilePage",{pageProfile:page});
+   }
   
-  pageLikeAction(type,id){
-		this.connectAction(type,id);
+  pageLikeAction(event,type,id){
+    this.connectAction(type,id);
+    event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
   }
   
-  pageUnlikeAction(type,id){
-		this.connectAction(type,id);
+  pageUnlikeAction(event,type,id){
+    this.connectAction(type,id);
+    event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
   }
   
   connectAction(type,id,uid?: any){

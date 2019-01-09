@@ -35,11 +35,7 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "com-sarriaroman-photoviewer": "^1.1.18",
     "cordova-android": "7.0.0",
-<<<<<<< HEAD
-    "cordova-plugin-camera": "4.0.3",
-=======
     "cordova-plugin-camera": "^4.0.3",
->>>>>>> 55f9d9fa8b8c427dc359086f983f5b70adea9713
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-file-transfer": "^1.7.1",

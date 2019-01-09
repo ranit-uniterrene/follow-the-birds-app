@@ -11,11 +11,12 @@
 	  </ion-segment-button>
 	  <ion-segment-button value="liked">
 		You Liked
-	  </ion-segment-button>	  
+		</ion-segment-button>	  
+		<ion-segment-button value="manage">
+			Manage
+			</ion-segment-button>	  
   </ion-segment>
 </ion-header>
-
-
 <ion-content padding>
 	<div [ngSwitch]="pageszone">
 		<ion-list *ngSwitchCase="'suggested'">
@@ -30,14 +31,23 @@
 		</ion-list>
 		<ion-list *ngSwitchCase="'liked'">
 			<ion-item *ngFor="let page of pageLists.liked">
-				<ion-thumbnail item-start>
-				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewPage(page)" /> 
+				<ion-thumbnail item-start (click)="viewPage(page)">
+				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'"  /> 
 				</ion-thumbnail>
-				<h2>{{page.page_title}}</h2>
+				<h2 (click)="viewPage(page)">{{page.page_title}}</h2>
 				<p>Members • {{page.page_likes}} Likes</p>
-				<button ion-button outline item-end (click)="pageUnlikeAction('page-unlike',page.page_id)">Unlike</button>
+				<button ion-button outline item-end (click)="pageUnlikeAction($event,'page-unlike',page.page_id)">Unlike</button>
 		   </ion-item>
 		</ion-list>
-		
+		<ion-list *ngSwitchCase="'manage'">
+			<ion-item *ngFor="let page of pageLists.manage">
+				<ion-thumbnail item-start (click)="viewPage(page)">
+				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'"  /> 
+				</ion-thumbnail>
+				<h2 (click)="viewPage(page)">{{page.page_title}}</h2>
+				<p>Members • {{page.page_likes}} Likes</p>
+				<button ion-button outline item-end (click)="pageUnlikeAction($event,'page-unlike',page.page_id)">Unlike</button>
+		   </ion-item>
+		</ion-list>
 	</div>
 </ion-content>
