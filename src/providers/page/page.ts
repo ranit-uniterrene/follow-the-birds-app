@@ -59,6 +59,20 @@ export class PageProvider {
     });
 
     return seq;
-  }
+	}
+	
+	getPageProfile(id:number,params: any){
+		let event :any;
+		let seq = this.api.get('page-profile/'+id, params).share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				event = res;
+				resolve(event);
+			}, err => {
+				console.error('ERROR', err);
+			});
+		});
+	}
 
 }
