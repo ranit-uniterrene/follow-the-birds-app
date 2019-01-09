@@ -41,6 +41,9 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
+        <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
+            <string>You can take photos</string>
+        </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
@@ -87,5 +90,6 @@
     <plugin name="cordova-sqlite-storage" spec="^2.6.0" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="com-sarriaroman-photoviewer" spec="^1.1.18" />
+    <plugin name="cordova-plugin-camera" spec="4.0.3" />
     <engine name="android" spec="7.0.0" />
 </widget>
