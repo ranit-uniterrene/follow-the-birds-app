@@ -28,7 +28,7 @@
 			<ion-item-divider color="light" *ngIf="messages <= 0" center>
 				No Messages
 			</ion-item-divider>
-			<ion-item *ngFor="let message of messages" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}" (click)="viewMessage(message)">
+			<ion-item *ngFor="let message of messages" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}" (click)="viewMessage(message)" (press)="deleteConversationAction(message)" >
 				<ion-avatar item-start text-wrap (click)="viewProfile(message.user_name,message.user_id)">
 				  <img [src]="imageURL+message.picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 				</ion-avatar>
@@ -68,7 +68,7 @@
 			<ion-item-divider color="light" *ngIf="groups <= 0">
 				No Messages
 			</ion-item-divider>
-			<ion-item *ngFor="let message of groups" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}" (click)="viewMessageGroup(message,true)">
+			<ion-item *ngFor="let message of groups" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}" (click)="viewMessageGroup(message,true)" (press)="deleteConversationAction(message)">
 				<ion-avatar item-start class="group_avater_wrap">
 				  <img class="group_avater" [src]="imageURL+message.picture_left" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 				  <img class="group_avater" [src]="imageURL+message.picture_right" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">

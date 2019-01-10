@@ -15,9 +15,20 @@
   </div>
   <ion-grid class="">
     <ion-row>
-      <ion-col col-12 style="text-align:center;">
-          <ion-title>{{pageProfile.page_title}} <span style="font-size: 12px;" class="group-settings" (click)="settingAction()" *ngIf="pageProfile.page_admin == myId"><ion-icon name="cog"></ion-icon></span> </ion-title>
-		  <p style="padding-left:5px;margin-top: 4px;margin-bottom: 0;"> Page . {{pageProfile.page_likes}} Likes </p>
+      <ion-col col-3 style="position:relative">
+        <ion-item style="padding-left:0px;">
+          <ion-thumbnail item-start style="border-radius: 50%;overflow: hidden;">
+            <img [src]="imageURL+pageProfile.page_picture" onError="this.src='assets/followthebirdImgs/blank_page.jpg'">
+          </ion-thumbnail>                  
+          <input type="file" #profilePhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'profile')" /> 
+        </ion-item>
+        <button ion-button clear icon-only class="profilePicAction" (tap)="uploadProfilePicture()" *ngIf="pageProfile.page_admin == myId">
+          <ion-icon name="camera"></ion-icon>
+        </button>         
+      </ion-col>
+      <ion-col col-9 style="text-align:left;">
+          <h2>{{pageProfile.page_title}} <span style="font-size: 12px;" class="group-settings" (click)="settingAction()" *ngIf="pageProfile.page_admin == myId"><ion-icon name="cog"></ion-icon></span></h2>
+		      <p style="padding-left:0px;margin-top: 4px;margin-bottom: 0;"> Page . {{pageProfile.page_likes}} Likes </p>
 	  </ion-col>
     </ion-row>
   </ion-grid>

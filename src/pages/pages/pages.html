@@ -21,28 +21,28 @@
 	<div [ngSwitch]="pageszone">
 		<ion-list *ngSwitchCase="'suggested'">
 			<ion-item *ngFor="let page of pageLists.suggested">
-				<ion-thumbnail item-start>
-				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewPage(page)" /> 
+				<ion-thumbnail item-start (click)="viewPage(page)">
+				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/blank_page.jpg'" /> 
 				</ion-thumbnail>
-				<h2>{{page.page_title}}</h2>
+				<h2 (click)="viewPage(page)">{{page.page_title}}</h2>
 				<p>Members • {{page.page_likes}} Likes</p>
-				<button ion-button outline item-end (click)="pageLikeAction('page-like',page.page_id)">Like</button>
+				<button ion-button outline item-end (click)="pageLikeAction($event,page)">Like</button>
 		   </ion-item>
 		</ion-list>
 		<ion-list *ngSwitchCase="'liked'">
 			<ion-item *ngFor="let page of pageLists.liked">
 				<ion-thumbnail item-start (click)="viewPage(page)">
-				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'"  /> 
+				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/blank_page.jpg'"  /> 
 				</ion-thumbnail>
 				<h2 (click)="viewPage(page)">{{page.page_title}}</h2>
 				<p>Members • {{page.page_likes}} Likes</p>
-				<button ion-button outline item-end (click)="pageUnlikeAction($event,'page-unlike',page.page_id)">Unlike</button>
+				<button ion-button outline item-end (click)="pageUnlikeAction($event,page)">Unlike</button>
 		   </ion-item>
 		</ion-list>
 		<ion-list *ngSwitchCase="'manage'">
 			<ion-item *ngFor="let page of pageLists.manage">
 				<ion-thumbnail item-start (click)="viewPage(page)">
-				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'"  /> 
+				  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/blank_page.jpg'"  /> 
 				</ion-thumbnail>
 				<h2 (click)="viewPage(page)">{{page.page_title}}</h2>
 				<p>Members • {{page.page_likes}} Likes</p>

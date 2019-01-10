@@ -16,18 +16,39 @@
 // automatically applied to the <body> element in the app.
 ion-icon {
   &[class*="custom-"] {
-      mask-size: contain;
-      mask-position: 50% 50%;
-      mask-repeat: no-repeat;
-      background: transparent;
-      --ion-color-base: transparent !important;
-     
+    mask-size: contain;
+    mask-position: 50% 50%;
+    mask-repeat: no-repeat;
+    background: currentColor;
+    width: 50px;
+    height: 50px;
   }
 
+    &[class*="custom-strong"] {
+        mask-image: url(../assets/icon/strong.svg);
+        .tab-button[aria-selected=true] & {
+            mask-image: url(../assets/icon/strong.svg);;
+        }
+        width: 30px;
+        height: 30px;
+        color: #d99e82;
+    }
+
+    &[class*="custom-angry"] {
+        mask-image: url(../assets/icon/angry.svg);
+        .tab-button[aria-selected=true] & {
+            mask-image: url(../assets/icon/angry.svg);;
+        }
+        width: 30px;
+        height: 30px;
+        color: #d99e82;
+    }
+    
+
   &[class*="custom-food"] {
-	mask-image: url(../assets/icon/food.svg.svg);;
+	mask-image: url(../assets/icon/food.svg);;
 	.tab-button[aria-selected=true] & {
-	  mask-image: url(../assets/icon/food.svg.svg);;
+	  mask-image: url(../assets/icon/food.svg);;
 	}
   }
   
@@ -37,6 +58,7 @@ ion-icon {
 	  mask-image: url(../assets/icon/console.svg);
 	}
   }
+  
 }
 .pg_wrapper {
     display: block;

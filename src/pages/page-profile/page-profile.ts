@@ -24,8 +24,10 @@ import { Observable, Subject, ReplaySubject} from 'rxjs';
   templateUrl: 'page-profile.html',
 })
 export class PageProfilePage {
-  @ViewChild('coverPhoto') coverPhoto;
-  coverPhotoOptions: FormGroup;
+	@ViewChild('coverPhoto') coverPhoto;
+	@ViewChild('profilePhoto') profilePhoto;
+	coverPhotoOptions: FormGroup;
+	profilePhotoOptions: FormGroup;
   private myId : number = parseInt(localStorage.getItem('user_id'));	
   public pageProfile : any = [];
   public postElement = [];
@@ -85,6 +87,14 @@ export class PageProfilePage {
         id: '',
         user_id : localStorage.getItem('user_id')
 			});
+			this.profilePhotoOptions = formBuilder.group({
+        file: "assets/followthebirdImgs/coverimage.png",
+        type: "photos",
+        handle: "picture-page",
+        multiple: false,
+        id: '',
+        user_id : localStorage.getItem('user_id')
+			});
 			this.sub = Observable.interval(10000)
 			.subscribe((val) => { this.getLiveLitePost() });
   }
@@ -119,6 +129,40 @@ export class PageProfilePage {
 		}
   }
 
+	uploadProfilePicture() {
+		const actionSheet = this.actionSheetCtrl.create({
+		  title: 'Upload Profile Picture',
+		  buttons: [
+			{
+			  icon: !this.platform.is('ios') ? 'ios-camera' : null,	
+			  text: 'Take a Picture',
+			  handler: () => {
+				this.takeCameraSnap('profile')
+			  }
+			},{
+			  icon: !this.platform.is('ios') ? 'ios-images' : null,		
+			  text: 'Upload from gallery',
+			  handler: () => {
+				this.uploadFromGallery('profile')
+			  }
+			},{
+			  icon: !this.platform.is('ios') ? 'trash' : null,
+			  text: 'Remove cover photo',
+			  handler: () => {
+				  this.removePhoto({"my_id":localStorage.getItem('user_id'),"handle":"cover-page","id":this.pageProfile.page_id})
+			  }
+			},{
+			  icon: !this.platform.is('ios') ? 'close' : null,
+			  text: 'Cancel',
+			  role: 'cancel',
+			  handler: () => {
+			  }
+			}
+		  ]
+		});
+		actionSheet.present();
+	}
+
   uploadCoverPicture() {
 		const actionSheet = this.actionSheetCtrl.create({
 		  title: 'Upload Cover Picture',
@@ -127,13 +171,13 @@ export class PageProfilePage {
 			  icon: !this.platform.is('ios') ? 'ios-camera' : null,	
 			  text: 'Take a Picture',
 			  handler: () => {
-				this.takeCameraSnap()
+				this.takeCameraSnap('cover')
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'ios-images' : null,		
 			  text: 'Upload from gallery',
 			  handler: () => {
-				this.uploadFromGallery()
+				this.uploadFromGallery('cover')
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'trash' : null,
@@ -153,7 +197,7 @@ export class PageProfilePage {
 		actionSheet.present();
 	}
   
-	takeCameraSnap(){
+	takeCameraSnap(type){
 		const options: CameraOptions = {
 		  quality: 100,
 		  destinationType: this.camera.DestinationType.DATA_URL,
@@ -174,8 +218,12 @@ export class PageProfilePage {
 		 });
   }
   
-  uploadFromGallery(){
-		this.coverPhoto.nativeElement.click(); 
+  uploadFromGallery(type){
+		if(type == 'profile'){
+			this.profilePhoto.nativeElement.click();
+		} else {
+			this.coverPhoto.nativeElement.click();
+		}		 
 	}
 
 	viewPost(post) {
@@ -198,8 +246,14 @@ export class PageProfilePage {
 		let reader = new FileReader();
 		reader.onload = (readerEvent) => {
 		let imageData = (readerEvent.target as any).result;
-		 this.coverPhotoOptions.patchValue({ 'file': imageData }); 				
-		 this.uploadCoverPhoto(this.coverPhotoOptions); 
+		 if(type == 'profile'){
+			this.profilePhotoOptions.patchValue({ 'file': imageData }); 				
+			this.uploadProfilePhoto(this.profilePhotoOptions); 
+		 } else {
+			this.coverPhotoOptions.patchValue({ 'file': imageData }); 				
+			this.uploadCoverPhoto(this.coverPhotoOptions); 
+		 }
+		 
 		};
 		reader.readAsDataURL(event.target.files[0]);
 	}
@@ -229,6 +283,33 @@ export class PageProfilePage {
 		  toast.present();
 		});
 	}
+
+	uploadProfilePhoto(params){
+		this.profilePhotoOptions.patchValue({ 'id': this.pageProfile.page_id }); 
+		let loading = this.loadingCtrl.create({
+			content: 'Uploading...'
+		});
+		loading.present();
+		this.user.photoUploader(params).subscribe((resp) => {	
+			loading.dismiss();
+			this.pageProfile.page_picture = resp;
+			let toast = this.toastCtrl.create({
+				message: "Profile photo updated!",
+				duration: 3000,
+				position: 'top'
+			});
+			toast.present();
+		}, (err) => {
+			loading.dismiss();
+		  let toast = this.toastCtrl.create({
+			message: "image uploading failed",
+			duration: 3000,
+			position: 'top'
+		  });
+		  toast.present();
+		});
+	}
+	
 
 	postActivity(event,post): void
   {
@@ -297,7 +378,7 @@ export class PageProfilePage {
 		});
 	  }
 	
-	settingAction(){
+	settingAction(page){
 		const actionSheet = this.actionSheetCtrl.create({
 		  title: 'Settings',
 		  buttons: [
@@ -367,7 +448,7 @@ export class PageProfilePage {
 	}
 
 	editPage(){
-
+		this.navCtrl.push("PageEditPage",{'page':this.pageProfile});
 	}
 
 	removePhoto(params) {

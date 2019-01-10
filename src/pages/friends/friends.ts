@@ -62,6 +62,7 @@ export class FriendsPage {
 		event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
 		this.connectAction("friend-remove",user_id);
 	}
+	
 	cancelRequestAction(event,user_id) {
 		this.connectAction("friend-cancel",user_id);
 		event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();

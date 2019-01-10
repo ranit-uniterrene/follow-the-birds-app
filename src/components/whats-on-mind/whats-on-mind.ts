@@ -29,7 +29,7 @@ export class WhatsOnMindComponent {
   }
   
   updateStatus(){
-    this.nav.setRoot('WhatsOnMindPage',this.handle);
+    this.nav.push('WhatsOnMindPage',this.handle);
   }
   
   

@@ -35,11 +35,11 @@ export class UserSettingsPage {
   }
   
   viewProfile(){
-	this.nav.setRoot('ProfilePage', {user_name: this.profile.user_name,user_id:this.profile.user_id});  
+	  this.nav.setRoot('ProfilePage', {user_name: this.profile.user_name,user_id:this.profile.user_id});  
   }
   
   listFriends(){
-	this.nav.setRoot('FriendsPage',{'user_id':this.profile.user_id});
+	  this.nav.setRoot('FriendsPage',{'user_id':this.profile.user_id});
   }
   
   listGroups(){
@@ -47,31 +47,31 @@ export class UserSettingsPage {
   }
   
   listEvents(){
-	this.nav.push('EventsPage',{'user_id':this.profile.user_id});
+	  this.nav.push('EventsPage',{'user_id':this.profile.user_id});
   }
   
   listPages(){
-	this.nav.push('PagesPage',{'user_id':this.profile.user_id});
+  	this.nav.push('PagesPage',{'user_id':this.profile.user_id});
   }
   
   accoutSettings(){
-	this.nav.push('AccountSettingsPage');
+	  this.nav.push('AccountSettingsPage');
   }
   
   privacySettings(){
-	this.nav.push('PrivacySettingsPage');
+	  this.nav.push('PrivacySettingsPage');
   }
   
   securitySettings(){
-	this.nav.push('SecuritySettingsPage');
+	  this.nav.push('SecuritySettingsPage');
   }
   
   blockSettings(){
-	this.nav.push('BlockSettingsPage');
+	  this.nav.push('BlockSettingsPage');
   }
   
   goVaults(){
-	this.nav.push('VaultsPage');
+	  this.nav.push('VaultsPage');
   }
   
   logouta(){

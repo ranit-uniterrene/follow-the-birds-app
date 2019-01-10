@@ -4,13 +4,10 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-content no-padding>
+<ion-content>
 <div>
-	<ion-list no-padding>
-	  <ion-item-divider color="light" *ngIf="pendindFriendLists.length <= 0">
-			No Friend Requests
-	  </ion-item-divider> 
-      <ion-item *ngFor="let friend of pendindFriendLists">	
+	<ion-list no-padding *ngIf="pendindFriendLists.length > 0">
+      <ion-item *ngFor="let friend of pendindFriendLists" >	
         <ion-thumbnail item-start>
           <img [src]="imageURL+friend.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewProfile(friend.user_name)">
         </ion-thumbnail>
@@ -21,7 +18,27 @@
 			<button ion-button outline padding margin-left (click)="deleteRequest($event,friend.user_id)">Delete</button>
 			</div>
 		</div>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="usermayknow.length > 0">
+    <ion-item-divider color="light" text-center>
+        <strong>People you may know</strong>
+    </ion-item-divider> 
+  	<ion-item *ngFor="let friend of usermayknow">
+				<ion-thumbnail item-start (click)="viewProfile(friend.user_name,friend.user_id)">
+					<img [src]="imageURL+friend.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">				
+				</ion-thumbnail>			
+				<div>
+					<h2 (click)="viewProfile(friend.user_name,friend.user_id)"> {{friend.user_firstname}} {{friend.user_lastname}}</h2>
+					<p>	{{friend.mutual_friends_count}} Mutual Friends <p>		
+					<button ion-button padding (click)="addAction($event,friend)">
+						Add Friend
+					</button>
+					<button ion-button color="primary" outline padding (click)="removeAction($event,friend.user_id)">
+						Remove
+					</button>	
+				</div>	
       </ion-item>
-    </ion-list>
+    </ion-list>  
 </div>		
 </ion-content>

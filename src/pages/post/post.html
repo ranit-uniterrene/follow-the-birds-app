@@ -4,7 +4,22 @@
     </ion-refresher>
 
 	<whats-on-mind [handle]="postElement"></whats-on-mind>
-	
+	<!-- <ion-slides [slidesPerView]="2" margin-top> 
+		<ion-slide  *ngFor="let friend of usermayknow">
+				<ion-card>
+					<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(friend.user_picture)" ></div>
+					<strong>{{friend.user_firstname}} {{friend.user_lastname}}</strong>
+					<div>{{friend.mutual_friends_count}} Mutual friends</div>
+					<button ion-button outline (click)="addAction($event,friend)">
+							Add
+					</button>
+					<button ion-button color="primary" outline (click)="removeAction($event,friend.user_id)">
+						Remove
+					</button>
+				</ion-card>
+		</ion-slide>					
+	</ion-slides>
+	-->
   <ion-card *ngFor="let feeds of postFeeds" >
 	<ion-item text-wrap>
 	  <ion-avatar item-start (click)="viewProfile(feeds.user_name)">

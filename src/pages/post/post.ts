@@ -34,21 +34,23 @@ export class PostPage {
     audio: 'added an audio',
     file: 'added a file',
     photos: 'added a photo',
-	profile_picture: 'updated his profile picture',
-	profile_cover: 'updated his cover photo',
-	page_picture: 'updated page picture',
-	page_cover: 'updated cover photo',
-	group_picture: 'updated group picture',
-	group_cover: 'updated group cover',
-	event_cover: 'updated event cover'
+		profile_picture: 'updated his profile picture',
+		profile_cover: 'updated his cover photo',
+		page_picture: 'updated page picture',
+		page_cover: 'updated cover photo',
+		group_picture: 'updated group picture',
+		group_cover: 'updated group cover',
+		event_cover: 'updated event cover'
   };
-   sub : any = '';
+	 sub : any = '';
+	 slidesPerView : number = 1;
    public postElement = [];
    public sharedInfo = [];
    private pageCount = 2;
    private arrayPosition = 0;
    private isAndroid = false;
-   private mediapath = "https://dev.followthebirds.com/content/uploads/";
+	 private mediapath = "https://dev.followthebirds.com/content/uploads/";
+	 usermayknow : any = [];
    constructor(
     public navCtrl: NavController, 
     public user: User,
@@ -57,43 +59,38 @@ export class PostPage {
     public toastCtrl: ToastController,
     public navParams: NavParams,  
     private camera: Camera,
-	public actionSheetCtrl: ActionSheetController,
+		public actionSheetCtrl: ActionSheetController,
     public menu: MenuController,
-	private photoViewer: PhotoViewer,
+		private photoViewer: PhotoViewer,
     public nav: Nav,
-	public modalCtrl: ModalController,
-	private transfer: FileTransfer,
-	private file: File,
-	private platform: Platform,
-	private alertCtrl: AlertController	
+		public modalCtrl: ModalController,
+		private transfer: FileTransfer,
+		private file: File,
+		private platform: Platform,
+		private alertCtrl: AlertController	
   ) {
-	  
+	  this.sub = Observable.interval(3000)
+			.subscribe((val) => { this.getLiveLitePost() });
   }
   
   ionViewDidLoad() {
-	this.isAndroid = this.platform.is("android");
-	this.postElement['handle'] = "me";
-	this.postElement['id'] = '';  
+		this.isAndroid = this.platform.is("android");
+		this.postElement['handle'] = "me";
+		this.postElement['id'] = '';  
     this.post.getfeeds('newsfeed',localStorage.getItem('user_id'),localStorage.getItem('user_id'),{})
     .then(data => {
-		this.postFeeds = [];
-		let item = data[0];
-		localStorage.setItem('last_post_live',item[0].post_id);
-		for (var key in item) {
-		  this.postFeeds.push(item[key]);
-		}
-    });
-	
-	
-  }
-  
-  ionViewDidEnter(){
-	this.sub = Observable.interval(3000)
-		.subscribe((val) => { this.getLiveLitePost() });
+			this.postFeeds = [];
+			let item = data[0];
+			localStorage.setItem('last_post_live',item[0].post_id);
+			for (var key in item) {
+				this.postFeeds.push(item[key]);
+			}
+		})
+		this.getPeopleYouMayKnow()
   }
   
   ionViewDidLeave() {
-	this.sub.unsubscribe();
+		this.sub.unsubscribe();
   }
   
   doInfinite(infiniteScroll) {
@@ -120,20 +117,25 @@ export class PostPage {
   }
  
   viewImage(url){
-	const option : PhotoViewerOptions = {
-		  share: true
-		};
-	this.photoViewer.show(this.mediapath+url,"Image Preview",option);
+		const option : PhotoViewerOptions = {
+				share: true
+			};
+		this.photoViewer.show(this.mediapath+url,"Image Preview",option);
   }
   
-  
+  getPeopleYouMayKnow(){
+		this.user.getPeopleYouMayKnow('may_know',parseInt(localStorage.getItem('user_id')))
+		.then(data => {
+			this.usermayknow = data[0];
+		});
+	}
   
   viewPost(post) {
-	if(post.photos_num == '1'){
-		this.nav.push('ViewPhotoPage', {photo: post.photos[0]});
-	} else {	
-		this.nav.push('ViewPostPage', {post: post});
-	}
+		if(post.photos_num == '1'){
+			this.nav.push('ViewPhotoPage', {photo: post.photos[0]});
+		} else {	
+			this.nav.push('ViewPostPage', {post: post});
+		}
   }
   
   viewProfile(user_name,user_id) {

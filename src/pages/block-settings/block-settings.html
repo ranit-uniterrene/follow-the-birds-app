@@ -14,5 +14,15 @@
 
 
 <ion-content>
-
+  <ion-list >
+       <ion-item *ngFor="let member of users" >
+        <ion-avatar item-start>
+          <img [src]="imageURL+member.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+        </ion-avatar>
+        <h2>{{member.user_firstname}} {{member.user_lastname}}</h2>
+        <button ion-button item-end clear padding-left padding-right (click)="unblockAction($event,member)">
+            Unblock
+        </button>
+      </ion-item>
+  </ion-list >
 </ion-content>

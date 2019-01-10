@@ -5,4 +5,14 @@ page-post {
 	.card-content {
 		padding: 0px !important;
 	}
+	
+	ion-slides {
+		height: 200px;
+	}
+	.ImgWrapBig{
+        height: 160px;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important; 
+    }
 }

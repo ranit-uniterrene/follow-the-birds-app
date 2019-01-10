@@ -90,25 +90,33 @@ export class User {
   }
   
   getLiveLitePost(params?: any){	
-	let user :any;
-	let seq = this.api.get('live-posts', params).share();
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			user = res;
-			resolve(user);
-		}, err => {
-			console.error('ERROR', err);
+		let user :any;
+		let seq = this.api.get('live-posts', params).share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				user = res;
+				resolve(user);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
   
+  getLiveLiteChat(params?: any){	
+		let message :any;
+		let seq = this.api.get('live-chat', params).share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				message = res;
+				resolve(message);
+			}, err => {
+				console.error('ERROR', err);
+			});
+		});
+  }
   
-  
-  /**
-   * Send a POST request to our signup endpoint with the data
-   * the user entered on the form.
-   */
   signup(accountInfo: any) {
     let seq = this.api.post('register', accountInfo).share();
 
@@ -145,36 +153,54 @@ export class User {
    */
   getphotos(user_id:number,params?: any) {
     let photos = [];
-	let seq = this.api.get('photos/'+user_id, params).share();
+		let seq = this.api.get('photos/'+user_id, params).share();
 
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			photos.push(res);
-			resolve(photos);
-		}, err => {
-			console.error('ERROR', err);
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				photos.push(res);
+				resolve(photos);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
-  }
+	}
+	/**
+   * Send a POST request to our signup endpoint with the data
+   * the user entered on the form.
+   */
+  getBlocked(params?: any) {
+    let users = [];
+		let seq = this.api.get('blocking', params).share();
+
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				users.push(res);
+				resolve(users);
+			}, err => {
+				console.error('ERROR', err);
+			});
+		});
+	}
   
    /**
    * Send a POST request to our signup endpoint with the data
    * the user entered on the form.
    */
   getalbums(user_id:number,params?: any) {
-	let albums = [];	
-	let seq = this.api.get('albums/'+user_id, params).share();
+		let albums = [];	
+		let seq = this.api.get('albums/'+user_id, params).share();
 
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			albums.push(res);
-			resolve(albums);
-		}, err => {
-			console.error('ERROR', err);
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				albums.push(res);
+				resolve(albums);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
   
   /**
@@ -182,17 +208,17 @@ export class User {
    * the user entered on the form.
    */
   getPhoto(user_id:number,params?: any) {	
-	let photo :any;
-	let seq = this.api.get('photo/'+user_id, params).share();
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			photo = res;
-			resolve(photo);
-		}, err => {
-			console.error('ERROR', err);
+		let photo :any;
+		let seq = this.api.get('photo/'+user_id, params).share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				photo = res;
+				resolve(photo);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
   
   /**
@@ -200,17 +226,17 @@ export class User {
    * the user entered on the form.
    */
   getfriends(id:number) {
-	let frindlist = [];	
-	let seq = this.api.get('friends/'+id, '').share();
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			frindlist.push(res);
-			resolve(frindlist);
-		}, err => {
-			console.error('ERROR', err);
+		let frindlist = [];	
+		let seq = this.api.get('friends/'+id, '').share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				frindlist.push(res);
+				resolve(frindlist);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
   
    /**
@@ -218,17 +244,17 @@ export class User {
    * the user entered on the form.
    */
   getOnlineUsers(params?: any) {
-	let onlineUsers = [];	
-	let seq = this.api.get('get_online_users', params).share();
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			onlineUsers.push(res);
-			resolve(onlineUsers);
-		}, err => {
-			console.error('ERROR', err);
+		let onlineUsers = [];	
+		let seq = this.api.get('get_online_users', params).share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				onlineUsers.push(res);
+				resolve(onlineUsers);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
   
   /**
@@ -236,17 +262,17 @@ export class User {
    * the user entered on the form.
    */
   getOfflineUsers(params?: any) {
-	let onlineUsers = [];	
-	let seq = this.api.get('get_offline_users', params).share();
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			onlineUsers.push(res);
-			resolve(onlineUsers);
-		}, err => {
-			console.error('ERROR', err);
+		let onlineUsers = [];	
+		let seq = this.api.get('get_offline_users', params).share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				onlineUsers.push(res);
+				resolve(onlineUsers);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
   
   
@@ -280,19 +306,32 @@ export class User {
   }
   
   getPendingRequest(type:string,id:number) {
-	let frindlist = [];	
-	let seq = this.api.get('people/'+type+'/'+id, '').share();
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			frindlist.push(res);
-			resolve(frindlist);
-		}, err => {
-			console.error('ERROR', err);
+		let frindlist = [];	
+		let seq = this.api.get('people/'+type+'/'+id, '').share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				frindlist.push(res);
+				resolve(frindlist);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
-  
+	
+	getPeopleYouMayKnow(type:string,id:number) {
+		let user = [];	
+		let seq = this.api.get('people/'+type+'/'+id, '').share();
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				user.push(res);
+				resolve(user);
+			}, err => {
+				console.error('ERROR', err);
+			});
+		});
+  }
   
   getSentRequest(type:string,id:number) {
 	let frindlist = [];	
@@ -681,6 +720,16 @@ export class User {
     return seq; 
   }
   
+  deleteConversation(params: any){
+		let seq = this.api.post('delete_conversation', params).share();
+	
+		seq.subscribe((res: any) => {
+			// If the API returned a successful response, mark the user as logged in
+		}, err => {
+			console.error('ERROR', err);
+		});
 
+		return seq; 
+	}
   
 }

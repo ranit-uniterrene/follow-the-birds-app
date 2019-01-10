@@ -23,13 +23,13 @@ export class GroupEditPage {
 	  group_name:'',
 	  group_privacy:'',
 	  group_description:'',
-	  my_id :''
+	  my_id:''
   }
+
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public groups: Groups) {
 	   this.editGroup = navParams.get('group');
   }
 
-  
   editGroupAction(){
 		this.editGroup.my_id = localStorage.getItem('user_id');
 		this.groups.edit_group(this.editGroup).subscribe((resp) => {

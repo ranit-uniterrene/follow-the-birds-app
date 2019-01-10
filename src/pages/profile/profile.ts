@@ -109,6 +109,7 @@ export class ProfilePage {
 			  this.postFeeds.push(item[key]);
 			}
 		});
+
 		this.sub = Observable.interval(10000)
 			.subscribe((val) => { this.getLiveLitePost() });
 	}
@@ -659,12 +660,12 @@ export class ProfilePage {
 	sharePost(type,id){
 		this.post.sharePost({'do':type,id:id,my_id:localStorage.getItem('user_id')}).subscribe((resp) => {
 		  let toast = this.toastCtrl.create({
-			message: "Post has been shared successfully",
-			duration: 3000,
-			position: 'top',
-			dismissOnPageChange: true
+				message: "Post has been shared successfully",
+				duration: 3000,
+				position: 'top',
+				dismissOnPageChange: true
 		  });
-        toast.present();	
+      toast.present();	
 		}, (err) => {
         let toast = this.toastCtrl.create({
           message: "Unable to post. Retry",
@@ -713,6 +714,11 @@ export class ProfilePage {
 	listFriends(){
 		this.nav.setRoot('FriendsPage',{'user_id':this.profile.user_id});
 	}
+
+	blockAction(){
+		this.connectAction('block');
+		this.nav.setRoot('HomePage');
+  }
 	
 	connectAction(type){
 		let params :any = {
@@ -796,8 +802,5 @@ export class ProfilePage {
 		  infiniteScroll.complete();
 		}, 500);
 	}
-	
-	blockAction(){
-		
-	}
+
 }

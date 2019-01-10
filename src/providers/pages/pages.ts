@@ -19,18 +19,18 @@ export class Pages {
    */
 
   getpageCategories(params?: any) {
-	let categories = [];	
-	let seq = this.api.get('events_categories', params).share();
+		let categories = [];	
+		let seq = this.api.get('events_categories', params).share();
 
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			categories.push(res);
-			resolve(categories);
-		}, err => {
-			console.error('ERROR', err);
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				categories.push(res);
+				resolve(categories);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
   }
   
   /**
@@ -38,19 +38,19 @@ export class Pages {
    * the user entered on the form.
    */
   getgroups(params?: any) {
-	let grouplist = [];	
-	let seq = this.api.get('pages', params).share();
+		let grouplist = [];	
+		let seq = this.api.get('pages', params).share();
 
-	// don't have the data yet
-	return new Promise(resolve => {
-		seq.subscribe((res: any) => {
-			grouplist.push(res);
-			resolve(grouplist);
-		}, err => {
-			console.error('ERROR', err);
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				grouplist.push(res);
+				resolve(grouplist);
+			}, err => {
+				console.error('ERROR', err);
+			});
 		});
-	});
-  }
-  
+	}
+	
   
 }

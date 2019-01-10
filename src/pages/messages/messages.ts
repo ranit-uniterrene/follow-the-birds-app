@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { User } from '../../providers';
 /**
  * Generated class for the MessagesPage page.
@@ -21,7 +21,7 @@ export class MessagesPage {
   public messages : any = [];
   public groups : any = [];
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
-  constructor(public navCtrl: NavController, public user: User, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public user: User, public navParams: NavParams,private alertCtrl: AlertController,public toastCtrl: ToastController) {
 	  this.getOnlineUsers();
 		this.getOfflineUsers();
 		this.getProfileData(localStorage.getItem('user_id'));
@@ -65,10 +65,10 @@ export class MessagesPage {
   }
   
   getOfflineUsers(){
-	 this.user.getOfflineUsers({user_id: parseInt(localStorage.getItem('user_id'))})
-	.then(data => {
-		this.offlineUsers = data[0];
-	}); 
+		this.user.getOfflineUsers({user_id: parseInt(localStorage.getItem('user_id'))})
+		.then(data => {
+			this.offlineUsers = data[0];
+		}); 
   }
   
   
@@ -83,7 +83,7 @@ export class MessagesPage {
   
   
   createConversation(){
-	this.navCtrl.setRoot('CreateMessagePage');
+		this.navCtrl.setRoot('CreateMessagePage');
   }
   
   isToday(data){
@@ -119,10 +119,54 @@ export class MessagesPage {
 		};
 		this.navCtrl.push('ViewMessagePage', {conversation: recipient});
 	}
+	deleteConversationAction(conversation){
+		const confirm = this.alertCtrl.create({
+			title: 'Delete conversation?',
+			message: 'Once you delete you can not undo this step.',
+			buttons: [
+			{
+				text: 'Cancel',
+				handler: () => {
+				
+				}
+			}
+			,{
+				text: 'Delete',
+				handler: () => {
+				this.deleteConversation(conversation);
+				}
+			}
+			]
+		});
+		confirm.present(); 
+	}
+	deleteConversation(conversation){
+		let items :any = {
+			user_id:localStorage.getItem('user_id'),
+			conversation_id:conversation.conversation_id,
+			last_message_id:localStorage.getItem('last_message_id')
+		}
+		this.user.deleteConversation(items).subscribe((resp) => {	
+			let toast = this.toastCtrl.create({
+				message: "Conversation has been deleted",
+				duration: 3000,
+				position: 'top',
+				dismissOnPageChange: true
+		  });
+      toast.present();		
+			this.navCtrl.setRoot('MessagesPage');
+		}, (err) => {
+			let toast = this.toastCtrl.create({
+				message: "Failed to deleted conversation",
+				duration: 3000,
+				position: 'top',
+				dismissOnPageChange: true
+		  });
+      toast.present();	
+		});
+	}
 	
   goBack(){
-	this.navCtrl.setRoot('HomePage');
+		this.navCtrl.setRoot('HomePage');
   }
-  
-
 }

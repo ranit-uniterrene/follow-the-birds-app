@@ -29,22 +29,22 @@
 <ion-content>
 	<div [ngSwitch]="friendzone">
 	  <ion-list *ngSwitchCase="'suggested'">
-		<ion-item *ngFor="let friend of getSuggestedUsers">
-			<ion-thumbnail item-start (click)="viewProfile(friend.user_name,friend.user_id)">
-				<img src="https://dev.followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
-				
-			</ion-thumbnail>			
-			<div>
-				<h2 (click)="viewProfile(friend.user_name,friend.user_id)"> {{friend.user_firstname}} {{friend.user_lastname}}</h2>
-				<p>	{{friend.mutual_friends_count}} Mutual Friends <p>		
-				<button ion-button padding (click)="addAction($event,friend)">
-					Add Friend
-				</button>
-				<button ion-button color="primary" outline padding (click)="removeAction($event,friend.user_id)">
-					Remove
-				</button>	
-			</div>	
-		</ion-item>
+			<ion-item *ngFor="let friend of getSuggestedUsers">
+				<ion-thumbnail item-start (click)="viewProfile(friend.user_name,friend.user_id)">
+					<img src="https://dev.followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+					
+				</ion-thumbnail>			
+				<div>
+					<h2 (click)="viewProfile(friend.user_name,friend.user_id)"> {{friend.user_firstname}} {{friend.user_lastname}}</h2>
+					<p>	{{friend.mutual_friends_count}} Mutual Friends <p>		
+					<button ion-button padding (click)="addAction($event,friend)">
+						Add Friend
+					</button>
+					<button ion-button color="primary" outline padding (click)="removeAction($event,friend.user_id)">
+						Remove
+					</button>	
+				</div>	
+			</ion-item>
 	   </ion-list>
 	   <ion-list *ngSwitchCase="'sent'">
 	    <ion-item-divider color="light" *ngIf="pendindFriendLists <= 0">
@@ -56,23 +56,23 @@
 				
 			</ion-thumbnail>
 			<h2 (click)="viewProfile(friend.user_name,friend.user_id)">{{friend.user_firstname}} {{friend.user_lastname}}</h2>
-			<p>	{{friend.mutual_friends_count}} Mutual Friends <p>		
-		    <button ion-button padding (click)="cancelRequestAction($event,friend.user_id)">
+			<p>	{{friend.mutual_friends_count}} Mutual Friends </p>		
+		    <button ion-button padding item-end  (click)="cancelRequestAction($event,friend.user_id)">
 				Cancel Request
 		    </button>			
 		</ion-item>
 	   </ion-list>
 	   <ion-list *ngSwitchCase="'friends'">
 	    <ion-item-divider color="light">
-			Active : {{onlineUsers.length}}
-		</ion-item-divider>
+				Active : {{onlineUsers.length}}
+			</ion-item-divider>
 		
 		<ion-item *ngFor="let friend of friendLists">
 			<ion-thumbnail item-start (click)="viewProfile(friend.user_name,friend.user_id)">
 			  <img src="https://dev.followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 			</ion-thumbnail>
 			<h2 (click)="viewProfile(friend.user_name,friend.user_id)">{{friend.user_firstname}} {{friend.user_lastname}}</h2>
-			<p>	{{friend.mutual_friends_count}} Mutual Friends <p>	
+			<p>	{{friend.mutual_friends_count}} Mutual Friends </p>	
 			<button ion-button item-end icon-start padding (click)="messageAction(friend)">
 			  <ion-icon name="chatbubbles"></ion-icon>
 			  Message

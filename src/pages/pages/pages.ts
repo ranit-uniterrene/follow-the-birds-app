@@ -48,35 +48,39 @@ export class PagesPage {
   }
   
   createPage(){
-	this.navCtrl.push("PageCreatePage");
+	  this.navCtrl.push("PageCreatePage");
   }
 
   viewPage(page){
     this.navCtrl.push("PageProfilePage",{pageProfile:page});
    }
   
-  pageLikeAction(event,type,id){
-    this.connectAction(type,id);
-    event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+  pageLikeAction(event,page){
+    console.log(page);
+    this.connectAction('page-like',page.page_id);
+    event.target.parentNode.parentNode.parentNode.remove()
+    this.pageLists['liked'].unshift(page);
   }
   
-  pageUnlikeAction(event,type,id){
-    this.connectAction(type,id);
-    event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+  pageUnlikeAction(event,page){
+    console.log(page);
+    this.connectAction('page-unlike',page.page_id);
+    event.target.parentNode.parentNode.parentNode.remove()
+    this.pageLists['suggested'].unshift(page);
   }
   
   connectAction(type,id,uid?: any){
-	let params :any = {
-		'do': type,
-		'id': id,
-		'uid': uid,
-		'my_id' : localStorage.getItem('user_id')
-	};
-	this.user.connection(params).subscribe((resp) => {						
-		
-	}, (err) => {
-	
-	});
-}
+    let params :any = {
+      'do': type,
+      'id': id,
+      'uid': uid,
+      'my_id' : localStorage.getItem('user_id')
+    };
+    this.user.connection(params).subscribe((resp) => {						
+      
+    }, (err) => {
+    
+    });
+  }
 
 }

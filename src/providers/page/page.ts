@@ -16,7 +16,7 @@ export class PageProvider {
   
   getpageCategories(params?: any) {
 	let categories = [];	
-	let seq = this.api.get('events_categories', params).share();
+	let seq = this.api.get('page_categories', params).share();
 
 	// don't have the data yet
 	return new Promise(resolve => {
@@ -73,6 +73,16 @@ export class PageProvider {
 				console.error('ERROR', err);
 			});
 		});
+	}
+
+	edit_page(pageInfo: any){
+		let seq = this.api.post('edit_page', pageInfo).share();
+		seq.subscribe((res: any) => {
+			// If the API returned a successful response, mark the user as logged in
+		}, err => {
+			console.error('ERROR', err);
+		});
+		return seq;
 	}
 
 }

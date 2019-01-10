@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ToastController
 import { User } from '../../providers';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Observable, Subject, ReplaySubject} from 'rxjs';
 /**
  * Generated class for the ViewMessagePage page.
  *
@@ -25,59 +26,66 @@ export class ViewMessagePage {
   public publishPhotos : any = [];
   myId = localStorage.getItem('user_id');
   public chatBox : any = {
-	image: "",
-	message: "dummy",
-	message_id: "34",
-	time: "",
-	user_firstname: localStorage.getItem('user_firstname'),
-	user_gender: localStorage.getItem("male"),
-	user_id: localStorage.getItem('user_id'),
-	user_lastname: localStorage.getItem('user_lastname'),
-	user_name: localStorage.getItem('user_name'),
-	user_picture: localStorage.getItem('user_picture')
+		image: "",
+		message: "",
+		message_id: "34",
+		time: "",
+		user_firstname: localStorage.getItem('user_firstname'),
+		user_gender: localStorage.getItem("male"),
+		user_id: localStorage.getItem('user_id'),
+		user_lastname: localStorage.getItem('user_lastname'),
+		user_name: localStorage.getItem('user_name'),
+		user_picture: localStorage.getItem('user_picture')
   };
-  
+  sub : any = '';
   private chatInfo : any = {
-	message: '',
-	user_id:localStorage.getItem('user_id')
+		message: '',
+		user_id:localStorage.getItem('user_id')
   };
   
   private recipients = [];
   
   constructor(public navCtrl: NavController, public user: User, formBuilder: FormBuilder, public modalCtrl: ModalController, private camera: Camera, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams) {
 	  this.postPhotoOptions = formBuilder.group({
-		file: [],
-		type: "photos",
-		handle: "chat",
-		multiple: true,
-		user_id : localStorage.getItem('user_id')
+			file: [],
+			type: "photos",
+			handle: "chat",
+			multiple: true,
+			user_id : localStorage.getItem('user_id')
 	  });
 	  this.conversation = navParams.get('conversation') || [];
 	  this.group = navParams.get('group') || false;
-	  console.log(this.group);
 	  if(this.conversation.conversation_id) {
-		this.chatInfo['conversation_id'] = this.conversation.conversation_id;
+			this.chatInfo['conversation_id'] = this.conversation.conversation_id;
 	  } else {
-		this.recipients.push(this.conversation.id);
-		this.chatInfo['recipients'] = this.recipients;
-	  }
+			this.recipients.push(this.conversation.id);
+			this.chatInfo['recipients'] = this.recipients;
+		}
+		this.sub = Observable.interval(4000)
+			.subscribe((val) => { this.getLiveLiteChat() });
 	}
 
 	ionViewDidLoad() {	 
 	  if(this.conversation.conversation_id) {		
-		this.user.viewMessage({user_id:localStorage.getItem('user_id'),conversation_id:this.conversation.conversation_id}).then(data => {
-			this.messages = data['messages'];	
-		});
+			this.user.viewMessage({user_id:localStorage.getItem('user_id'),conversation_id:this.conversation.conversation_id}).then(data => {
+				this.messages = data['messages'];	
+				localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
+			});
 	  } else {
-		this.user.getMessages({user_id:localStorage.getItem('user_id'),ids:this.conversation.id}).then(data => {
-		   if(data[0].messages){
-			   this.messages = data[0].messages;   
-		   }	   
-		   if(data[0].conversation_id){
-			this.chatInfo['conversation_id'] = data[0].conversation_id;
-		   }
-		});
+			this.user.getMessages({user_id:localStorage.getItem('user_id'),ids:this.conversation.id}).then(data => {
+				if(data[0].messages){
+					this.messages = data[0].messages;   
+					localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
+				}	   
+				if(data[0].conversation_id){
+				this.chatInfo['conversation_id'] = data[0].conversation_id;
+				}
+			});
 	  }
+	}
+
+	ionViewDidLeave() {
+		this.sub.unsubscribe();
 	}
 	
 	takeCameraSnap(){
@@ -106,7 +114,7 @@ export class ViewMessagePage {
 	
 	uploadFromVault(){
 		let profileModal = this.modalCtrl.create("VaultsPage", {'filter':"image",handle:'chat',conversation_id:this.conversation.conversation_id});
-		profileModal.present();
+			profileModal.present();
     }
   
   sendMessage(){
@@ -156,11 +164,11 @@ export class ViewMessagePage {
 	}
   
   getBackgroundStyle(url) {
-	if(!url){
-		return 'url(assets/followthebirdImgs/no-profile-img.jpeg)'
-	} else {
-		return 'url(' + this.imageURL+url + ')'
-	}
+		if(!url){
+			return 'url(assets/followthebirdImgs/no-profile-img.jpeg)'
+		} else {
+			return 'url(' + this.imageURL+url + ')'
+		}
   }
   
   removePhoto(){
@@ -169,41 +177,60 @@ export class ViewMessagePage {
   }
   
   uploadFromGallery(){
-	this.postPhoto.nativeElement.click();
+		this.postPhoto.nativeElement.click();
   }
   
   processWebImage(event) {
-	let reader = new FileReader();
-	reader.onload = (readerEvent) => {
-	 let imageData = (readerEvent.target as any).result;
-	 this.postPhotoOptions.patchValue({ 'file': imageData });
-	 this.postPhotoOptions.patchValue({ 'multiple': false });
-	 this.uploadPhoto(this.postPhotoOptions);	  
-	};
-	reader.readAsDataURL(event.target.files[0]);
+		let reader = new FileReader();
+		reader.onload = (readerEvent) => {
+		let imageData = (readerEvent.target as any).result;
+		this.postPhotoOptions.patchValue({ 'file': imageData });
+		this.postPhotoOptions.patchValue({ 'multiple': false });
+		this.uploadPhoto(this.postPhotoOptions);	  
+		};
+		reader.readAsDataURL(event.target.files[0]);
   }
   
   uploadPhoto(params){
-	let loading = this.loadingCtrl.create({
-		content: 'Uploading...'
-	});
-	loading.present();
-	 this.user.photoUploader(params).subscribe((resp) => {
-		loading.dismiss();	
-		this.publishPhotos.push(resp);
-		this.chatInfo['photo'] = JSON.stringify(this.publishPhotos[0]);
-	}, (err) => {
-		loading.dismiss();		
-	  let toast = this.toastCtrl.create({
-		message: "image uploading failed",
-		duration: 3000,
-		position: 'top'
-	  });
-	  toast.present();
-	});
+		let loading = this.loadingCtrl.create({
+			content: 'Uploading...'
+		});
+		loading.present();
+		this.user.photoUploader(params).subscribe((resp) => {
+			loading.dismiss();	
+			this.publishPhotos.push(resp);
+			this.chatInfo['photo'] = JSON.stringify(this.publishPhotos[0]);
+		}, (err) => {
+			loading.dismiss();		
+			let toast = this.toastCtrl.create({
+			message: "image uploading failed",
+			duration: 3000,
+			position: 'top'
+			});
+			toast.present();
+		});
 	}
   
   goBack(){
-	this.navCtrl.setRoot('MessagesPage');
-  }
+		this.navCtrl.setRoot('MessagesPage');
+	}
+	
+	getLiveLiteChat(){
+		let items :any = {
+			user_id:localStorage.getItem('user_id'),
+			conversation_id:this.conversation.conversation_id,
+			last_message_id:localStorage.getItem('last_message_id')
+		}
+		this.user.getLiveLiteChat(items).then((data) => {	
+			let item : any = data;
+			if(item.length > 0){
+				localStorage.setItem('last_message_id',data[0].message_id);
+				for (var key in item) {
+				  this.messages.push(item[key]);
+				}
+			}
+		}, (err) => {
+				
+		});
+	}
 }

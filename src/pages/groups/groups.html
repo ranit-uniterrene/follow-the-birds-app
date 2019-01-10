@@ -34,6 +34,7 @@
 				<img [src]="imageURL+group.group_cover" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewGroup(group)" /> 
 			</div>
 			<div style="text-align: center;" (click)="viewGroup(group)"> {{group.group_title}}</div>
+			<button ion-button item-end outline (tap)="joinGroupAction($event,'group-join',group.group_id)"> Join </button>
 		</ion-col>
 	  </ion-row>
 	</ion-grid>
@@ -44,7 +45,7 @@
 			</ion-thumbnail>
 			<h2 (click)="viewGroup(group)">{{group.group_title}}</h2>
 			<p>{{group.group_members}} Members</p>
-			<button ion-button icon-only item-end clear><ion-icon name='more'></ion-icon></button>
+			<button ion-button item-end outline (tap)="leavegroupAction($event,'group-leave',group.group_id)"> Leave </button>
 		</ion-item>
 	</ion-list>
 	<ion-list *ngSwitchCase="'manage'">
