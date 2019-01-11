@@ -48,13 +48,13 @@ export class HomePage {
 		public menu: MenuController,
 		public nav: Nav 
    ) {
-     // localStorage.setItem('user_intro', 'false');
-		this.sub = Observable.interval(3000)
-		.subscribe((val) => { this.getLiveLiteData() });
-		
-		this.menu.enable(false);   
-		this.getProfileData(localStorage.getItem('user_id'));
-		this.sliderOpen();
+			this.sub = Observable.interval(3000)
+			.subscribe((val) => { this.getLiveLiteData() });
+			
+			this.menu.enable(false);   
+			this.getProfileData(localStorage.getItem('user_id'));
+			this.sliderOpen();
+			
 	  }	  	  
 	
 	sliderOpen(){		 
@@ -123,19 +123,17 @@ export class HomePage {
   }
   
   getLiveLiteData(){
-	this.user.getLiveLiteData({id: localStorage.getItem('user_id')}).subscribe((resp) => {	
-		this.user_live_notifications_counter = resp['user_live_notifications_counter'];
-		this.user_live_requests_counter = resp['user_live_requests_counter'];
-		this.user_live_messages_counter = resp['user_live_messages_counter'];
-	}, (err) => {
-		let toast = this.toastCtrl.create({
-			message: "unable to refresh",
-			duration: 3000,
-			position: 'top'
-		});
-		toast.present();
-	});	
+		this.user.getLiveLiteData({id: localStorage.getItem('user_id')}).subscribe((resp) => {	
+			this.user_live_notifications_counter = resp['user_live_notifications_counter'];
+			this.user_live_requests_counter = resp['user_live_requests_counter'];
+			this.user_live_messages_counter = resp['user_live_messages_counter'];
+		}, (err) => {
+			
+		});	
   }
-  
+	
+	resetAlert(){
+
+	}
 
 }

@@ -1,8 +1,8 @@
 <ion-header *ngIf="headerActive">
   <ion-navbar color="primary">
-    <ion-buttons left>
+   <!--<ion-buttons left>
       <button ion-button icon-only (click)="goBack()"> <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon></button>
-    </ion-buttons>
+    </ion-buttons>--> 
     <ion-title>{{profile.user_firstname}} {{profile.user_lastname}}</ion-title>
 	<ion-buttons right>
       <button ion-button icon-only (click)="openSearch()"><ion-icon ios="ios-search" md="md-search"></ion-icon></button>
@@ -24,22 +24,20 @@
     
   <ion-grid class="profileHeadGrid">
     <ion-row>
-      <ion-col col-3 >
-	  
+      <ion-col col-3 >  
         <div class="profileWrap">
           <div class="profileImgArea">
             <img [src]="imageURL+profile.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" >            
           </div>
-			<input type="file" #profilePhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'profile')" />
-			<button ion-fab class="profile-img" (click)="uploadProfilePicture()" *ngIf="profile.user_id == myId">					
-				<ion-icon color="white" name="camera" role="img" class="icon icon-ios ion-ios-camera" aria-label="camera"></ion-icon>
-			</button>
+          <input type="file" #profilePhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'profile')" />
+          <button ion-fab class="profile-img" (click)="uploadProfilePicture()" *ngIf="profile.user_id == myId">					
+            <ion-icon color="white" name="camera" role="img" class="icon icon-ios ion-ios-camera" aria-label="camera"></ion-icon>
+          </button>
         </div>
       </ion-col>
       <ion-col col-9 class="profileText">
         <h5>{{profile.user_firstname}} {{profile.user_lastname}}</h5>
         <p *ngIf="profile.user_biography != ''">{{profile.user_biography}}</p>
-        <button ion-button clear *ngIf="profile.user_id == myId">Edit</button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -52,13 +50,13 @@
         </button>
       </ion-col>	  
       <ion-col col-4 >
-          <button ion-button clear block full>  
+          <button ion-button clear block full (tap)="activityAction()">  
             <ion-icon ios="ios-list-outline" md="ios-list-outline"></ion-icon>
             Activity Log
           </button>
 	  </ion-col>
 	  <ion-col col-4>
-		<button ion-button clear block full> 
+		<button ion-button clear block full (tap)="moreActivityAction()"> 
 			<ion-icon ios="ios-more-outline" md="ios-more-outline"></ion-icon>
 			More
 		</button>
@@ -160,7 +158,7 @@
   <ion-grid class="editGrid lowHeight">
       <ion-row>
         <ion-col col-4>
-          <button ion-button clear block full>               
+          <button ion-button clear block full (click)="viewAbout()">               
               About
           </button>
         </ion-col>

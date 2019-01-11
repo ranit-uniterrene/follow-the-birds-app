@@ -1,3 +1,54 @@
 page-edit-profile {
+    .profileAndCover{
+        width: 100%;
+        height:170px;
+        position: relative;
+        background-size: cover !important;
+        background-position: center center !important;
+        button{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 99999;
+            margin: 0;
+            font-size: 11px;
+            box-shadow: none;
+            height: 27px;
+            background: rgba(255,255,255,.5);
+            color: #000;
+            ion-icon{
+                margin-right: 10px;
+                font-size: 20px;
+            }
+        }
+        
+    }
+    .profileWrap{
+        position: relative;
+        width: 100%;
+        button{
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            bottom: 13%;
+            left: 56%;
+            ion-icon{
+                font-size: 16px;
+            }
+        }
+    }
 
+    
+    .profileImgArea{
+        border-radius: 50%;
+        overflow: hidden;
+        width: 140px;
+        height: 140px;
+        margin: auto;
+        
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
 }

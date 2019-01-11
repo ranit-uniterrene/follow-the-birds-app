@@ -22,7 +22,8 @@ page-whats-on-mind {
 	.publisher-card {
 		padding-bottom: 0px;
 		margin: 0;
-		width: 100%;
+        width: 100%;
+        position: relative;
 	}
 	.card-content-md {
 		padding: 0;
@@ -35,5 +36,14 @@ page-whats-on-mind {
     }
 	ion-col.publisher-photos.col {
 		padding: 1px;
-	}
+    }
+    .publisher-meta {
+        position: absolute;
+        border-top: 1px dashed #9E9E9E;
+        color: #cdcdcd;
+        padding: 5px 10px 5px 38px;
+        font-size: 18px;
+        width: 100%;
+        bottom: 14%;
+    }
 }

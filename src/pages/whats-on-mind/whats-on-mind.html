@@ -38,8 +38,11 @@
             
           </ion-list>
           <ion-card-content>
-            <ion-textarea [(ngModel)]="publisherInfo.message" rows="1" placeholder="Whats on your mind" class="main_textarea_field" name="message"></ion-textarea>
-		  </ion-card-content>
+      <ion-textarea [(ngModel)]="publisherInfo.message" rows="1" placeholder="Whats on your mind" class="main_textarea_field" name="message"></ion-textarea>
+      <div class="publisher-meta" *ngIf="mediaPublisher == 'video'"><ion-icon name="videocam"></ion-icon> {{mediaPublisher}} has been uploaded</div>
+      <div class="publisher-meta" *ngIf="mediaPublisher == 'audio'"><ion-icon name="musical-notes"></ion-icon> {{mediaPublisher}} has been uploaded</div>
+      <div class="publisher-meta" *ngIf="mediaPublisher == 'file'"><ion-icon name="attach"></ion-icon> {{mediaPublisher}} has been uploaded</div>
+      </ion-card-content>
 		  <input type="file" #postPhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" multiple/>
 		  <input type="file" #postVideo style="visibility: hidden; height: 0px" name="files[]" (change)="processWebVideo($event)"/>
 		  <input type="file" #postAudio style="visibility: hidden; height: 0px" name="files[]" (change)="processWebAudio($event)"/>
@@ -62,7 +65,7 @@
 		
       </ion-card>
 	  <ion-list>
-	      <ion-item>
+      <ion-item>
 			<ion-icon ios="ios-arrow-up" md="md-arrow-up" center></ion-icon>
 		  </ion-item>
 		  <ion-item (tap)="getFeelings()">

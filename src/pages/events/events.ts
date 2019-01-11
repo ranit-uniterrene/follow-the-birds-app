@@ -17,7 +17,7 @@ import { User } from '../../providers';
   templateUrl: 'events.html',
 })
 export class EventsPage {
-    eventzone: string = "suggested";
+  eventzone: string = "suggested";
 	eventLists: any = [];
 	eventCategories: any = [];
 	private imageURL = "https://dev.followthebirds.com/content/uploads/";
@@ -48,7 +48,7 @@ export class EventsPage {
   }
   
   viewEvent(eventProfile){
-	this.navCtrl.push("EventProfilePage",{eventProfile:eventProfile.event_id});
+	  this.navCtrl.push("EventProfilePage",{eventProfile:eventProfile.event_id});
   }
   
   createPage(){

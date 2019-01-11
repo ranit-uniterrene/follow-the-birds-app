@@ -20,7 +20,7 @@ export class PagesPage {
   pageCategories: any = [];
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public navParams: NavParams, public page: PageProvider, public user: User) {
-	  
+	  this.pageszone = navParams.get('pageszone') || 'suggested';
   }
 
   ionViewDidLoad() {
@@ -53,7 +53,7 @@ export class PagesPage {
 
   viewPage(page){
     this.navCtrl.push("PageProfilePage",{pageProfile:page});
-   }
+  }
   
   pageLikeAction(event,page){
     console.log(page);

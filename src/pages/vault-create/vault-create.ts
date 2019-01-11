@@ -44,7 +44,7 @@ export class VaultCreatePage {
 			dismissOnPageChange: true
 		  });
         toast.present();
-		this.viewCtrl.dismiss();	
+        this.navCtrl.push("VaultsPage");
 		}, (err) => {
         let toast = this.toastCtrl.create({
           message: "Unable to post. Retry",
@@ -57,7 +57,7 @@ export class VaultCreatePage {
   }
   
   goBack(){
-	this.navCtrl.pop();
+	  this.navCtrl.pop();
   }
  
 }

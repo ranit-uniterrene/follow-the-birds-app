@@ -1,0 +1,98 @@
+<!--
+  Generated template for the AboutPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>About </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content >
+    <ion-card class="cards-list-demo">
+        <ion-card-header>
+          Besic Info
+        </ion-card-header>   
+        <ion-list>
+            <ion-item *ngIf="profile.user_work_place">
+                <ion-icon ios="ios-briefcase-outline" md="ios-briefcase-outline"></ion-icon>
+                {{profile.user_work_title}} at <b>{{profile.user_work_place}}</b>                
+            </ion-item>
+            <ion-item *ngIf="profile.user_edu_major">
+                <ion-icon ios="ios-school-outline" md="ios-school-outline"></ion-icon>
+                Studied at <b>{{profile.user_edu_major}}</b>            
+            </ion-item>
+            <ion-item *ngIf="profile.user_edu_school">
+                <ion-icon ios="ios-school-outline" md="ios-school-outline"></ion-icon>
+                Went to <b>{{profile.user_edu_school}}</b>            
+            </ion-item>
+            <ion-item *ngIf="profile.user_hometown">
+                <ion-icon ios="ios-home-outline" md="ios-home-outline"></ion-icon>
+                Hometown <b>{{profile.user_hometown}}</b>
+            </ion-item>
+            <ion-item *ngIf="profile.user_current_city">
+                <ion-icon ios="ios-locate-outline" md="ios-locate-outline"></ion-icon>
+                Lives in  <b>{{profile.user_current_city}}</b>
+            </ion-item>
+            <ion-item *ngIf="profile.user_relationship">
+                <ion-icon ios="ios-heart-outline" md="ios-heart-outline"></ion-icon>
+                <b *ngIf="profile.user_relationship == 'relationship'" > In a Relationship</b>             
+                <b *ngIf="profile.user_relationship == 'complicated'" > It's complicated</b>             
+                <b *ngIf="profile.user_relationship == 'single'" > Single</b>             
+            </ion-item>
+            <ion-item *ngIf="profile.user_gender">
+                <ion-icon ios="ios-male-outline" md="ios-male-outline"></ion-icon>
+                <b>{{profile.user_gender}}</b>
+            </ion-item>
+            <ion-item *ngIf="profile.followers_count">
+                <ion-icon ios="logo-rss" md="logo-rss"></ion-icon>
+                Followed by <b>{{profile.followers_count}}</b> people
+            </ion-item>   
+        </ion-list>
+      </ion-card>
+      <ion-card class="cards-list-demo">
+          <ion-card-header>
+            Page Likes
+          </ion-card-header>   
+          <ion-list>
+              <ion-item *ngFor="let page of pageLists.liked" >
+                <ion-thumbnail item-start (click)="viewPage(page)">
+                  <img [src]="imageURL+page.page_picture" onError="this.src='assets/followthebirdImgs/blank_page.jpg'"  /> 
+                </ion-thumbnail>
+                <h2 (click)="viewPage(page)">{{page.page_title}}</h2>
+                <p>Members • {{page.page_likes}} Likes</p>
+              </ion-item>
+          </ion-list>
+        </ion-card>
+        <ion-card class="cards-list-demo" *ngIf="groupLists.joined">
+          <ion-card-header>
+            Group Join
+          </ion-card-header>   
+          <ion-list>
+              <ion-item *ngFor="let group of groupLists.joined" (click)="viewGroup(group)">
+                <ion-thumbnail item-start class="image-circle" >
+                  <img [src]="imageURL+group.group_picture" onError="this.src='assets/followthebirdImgs/blank_group.jpg'" /> 
+                </ion-thumbnail>
+                <h2>{{group.group_title}}</h2>
+                <p>{{group.group_members}} Members</p>
+            </ion-item>
+          </ion-list>  
+        </ion-card>
+        <ion-card class="cards-list-demo" >
+            <ion-card-header>
+              Event interested
+            </ion-card-header>   
+            <ion-list>
+                <ion-item *ngFor="let event of eventLists.interested" (click)="viewEvent(event)">
+                  <ion-thumbnail item-start class="image-circle" >
+                    <img [src]="imageURL+event.event_picture" onError="this.src='assets/followthebirdImgs/blank_event.jpg'" /> 
+                  </ion-thumbnail>
+                  <h2>{{event.event_title}}</h2>
+                  {{event.event_interested}} people interested                 
+              </ion-item>
+            </ion-list>  
+          </ion-card>
+</ion-content>

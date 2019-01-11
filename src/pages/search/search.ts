@@ -21,38 +21,50 @@ export class SearchPage {
   }
   
   ionViewDidEnter(){
-	this.getItems(this.event);
+		this.getItems(this.event);
   }
 
   /**
    * Perform a service for the proper items.
    */
   getItems(ev) {
-	let val = '';  
-	if(ev.target){
-		val = ev.target.value;
-	} else {
-		val = ev;
-	}
-    
-    if (!val || !val.trim()) {
-      this.currentItems = [];
-      return;
-    }
-	this.user.queryUsers(parseInt(localStorage.getItem('user_id')),{
-      query: val
-    })
-	.then(data => {
-		this.currentItems = data[0];
-	});
+		let val = '';  
+		if(ev.target){
+			val = ev.target.value;
+		} else {
+			val = ev;
+		}
+			
+		if (!val || !val.trim()) {
+			this.currentItems = [];
+			return;
+		}
+		this.user.queryUsers(parseInt(localStorage.getItem('user_id')),{
+				query: val
+			})
+		.then(data => {
+			this.currentItems = data[0];
+		});
   }
   /**
    * Navigate to the detail page for this item.
    */
 
 	viewProfile(user_name,user_id) {
-		this.navCtrl.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
+		this.navCtrl.push('ProfilePage', {user_name: user_name,user_id:user_id});
 	} 
+
+	viewEvent(eventProfile){
+	  this.navCtrl.push("EventProfilePage",{eventProfile:eventProfile.event_id});
+  }
+
+  viewGroup(group){
+    this.navCtrl.push("GroupProfilePage",{groupProfile:group});
+  }
+  
+  viewPage(page){
+    this.navCtrl.push("PageProfilePage",{pageProfile:page});
+  }
   
 	/* addAction(item) {
 		this.connectAction(item,"friend-add");

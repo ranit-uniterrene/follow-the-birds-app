@@ -67,10 +67,10 @@ export class GeneralInfoSlidePage {
 		
 		
 	  intro(status: string){
-		if(status == 'done'){
-		  localStorage.setItem('user_intro', 'true');
-		  this.profileReload(localStorage.getItem("user_id"));
-		}
+			if(status == 'done'){
+				localStorage.setItem('user_intro', 'true');
+				this.profileReload(localStorage.getItem("user_id"));
+			}
 	  }
   
 	uploadProfilePicture() {

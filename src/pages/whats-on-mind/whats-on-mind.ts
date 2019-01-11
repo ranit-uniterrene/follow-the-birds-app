@@ -47,18 +47,19 @@ export class WhatsOnMindPage {
     audio:'',
     file:'',
     photos: [],
-	my_id: localStorage.getItem('user_id')
+		my_id: localStorage.getItem('user_id')
   };
   params: Object;
   pushPage: any;
   public publishPhotos : any = [];
-  public icon;
+	public icon;
+	private mediaPublisher : any ='';
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public user: User,
-	formBuilder: FormBuilder,	
+		formBuilder: FormBuilder,	
     public post: Post,  
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
@@ -66,11 +67,11 @@ export class WhatsOnMindPage {
     public actionSheetCtrl: ActionSheetController,
     public platform: Platform, 
     private camera: Camera,
-	public modalCtrl: ModalController,
+		public modalCtrl: ModalController,
     public modal: ViewController,
-	private transfer: FileTransfer,
-	private file: File
-    ) {
+		private transfer: FileTransfer,
+		private file: File
+	) {
 		
       this.loading = this.loadingCtrl.create({
         content: 'Publishing Post...',
@@ -84,65 +85,68 @@ export class WhatsOnMindPage {
       }
       
 	  this.postPhotoOptions = formBuilder.group({
-		file: [],
-		type: "photos",
-		handle: "publisher",
-		multiple: true,
-		user_id : localStorage.getItem('user_id')
+			file: [],
+			type: "photos",
+			handle: "publisher",
+			multiple: true,
+			user_id : localStorage.getItem('user_id')
 	  });
 	  
 	  this.postVideoOptions = formBuilder.group({
-		type: "video",
-		handle: "publisher",
-		multiple: true,
-		user_id : localStorage.getItem('user_id')
+			type: "video",
+			handle: "publisher",
+			multiple: true,
+			user_id : localStorage.getItem('user_id')
 	  });
 	  
 	  this.postAudioOptions = formBuilder.group({
-		type: "audio",
-		handle: "publisher",
-		multiple: true,
-		user_id : localStorage.getItem('user_id')
+			type: "audio",
+			handle: "publisher",
+			multiple: true,
+			user_id : localStorage.getItem('user_id')
 	  });
 	  
 	  this.postFileOptions = formBuilder.group({
-		type: "file",
-		handle: "publisher",
-		multiple: true,
-		user_id : localStorage.getItem('user_id')
+			type: "file",
+			handle: "publisher",
+			multiple: true,
+			user_id : localStorage.getItem('user_id')
 	  });
 		
 	  if(navParams.get('id') == localStorage.getItem('user_id')){
 		  this.publisherInfo.handle = "me";
 	  } else {
-		this.publisherInfo.handle = navParams.get('handle');
-		this.publisherInfo.id = navParams.get('id');
+			this.publisherInfo.handle = navParams.get('handle');
+			this.publisherInfo.id = navParams.get('id');
 	  }
       
 	  
 	  
 	  if(navParams.get('files') && navParams.get('vault_type') == 'image'){
-		let resp = navParams.get('files');
-		if(this.publishPhotos.length > 0){
-			for (var key in resp) {
-			  this.publishPhotos.push(resp[key]);
+			let resp = navParams.get('files');
+			if(this.publishPhotos.length > 0){
+				for (var key in resp) {
+					this.publishPhotos.push(resp[key]);
+				}
+			} else {
+				this.publishPhotos = resp;
 			}
-		} else {
-			this.publishPhotos = resp;
-		}
-		this.publisherInfo.photos = JSON.stringify(navParams.get('files'));
+			this.publisherInfo.photos = JSON.stringify(navParams.get('files'));
 	  } if(navParams.get('files') && navParams.get('vault_type') == 'mp4'){
-		var obj = {source: navParams.get('files')[0]};
-		var myJSON = JSON.stringify(obj);
-		this.publisherInfo.video = myJSON;
+			var obj = {source: navParams.get('files')[0]};
+			var myJSON = JSON.stringify(obj);
+			this.publisherInfo.video = myJSON;
+			this.mediaPublisher = 'video';
 	  } else if(navParams.get('files') && navParams.get('vault_type') == 'mp3'){
-		var obj = {source: navParams.get('files')[0]};
-		var myJSON = JSON.stringify(obj);
-		this.publisherInfo.audio = myJSON;  
+			var obj = {source: navParams.get('files')[0]};
+			var myJSON = JSON.stringify(obj);
+			this.publisherInfo.audio = myJSON;  
+			this.mediaPublisher = 'audio';
 	  } else if(navParams.get('files') && navParams.get('vault_type') == 'files'){
-		var obj = {source: navParams.get('files')[0]};
-		var myJSON = JSON.stringify(obj);
-		this.publisherInfo.file = myJSON;    
+			var obj = {source: navParams.get('files')[0]};
+			var myJSON = JSON.stringify(obj);
+			this.publisherInfo.file = myJSON;
+			this.mediaPublisher = 'file';    
 	  }
 	  
   }
@@ -158,7 +162,7 @@ export class WhatsOnMindPage {
   
   setUser(){    
     this.userName = (localStorage.getItem('user_firstname'))+' '+(localStorage.getItem('user_lastname')); 
-	this.userPic = this.user.getProfilePic();
+		this.userPic = this.user.getProfilePic();
   }
   
   getFeelings(){
@@ -169,9 +173,6 @@ export class WhatsOnMindPage {
 		 this.icon = data.icon;
 	   });
 	   profileModal.present();
-	  /*this.nav.push('FeelingActivityPage');
-	   this.feelings = this.post.get_feelings();
-	  console.log(this.feelings); */
   }
   
   publishPost(){	
@@ -194,37 +195,37 @@ export class WhatsOnMindPage {
   }
 
   uploadPicture() {
-	const actionSheet = this.actionSheetCtrl.create({
-	  title: 'Upload Photos',
-	  buttons: [
-		{
-		  icon: !this.platform.is('ios') ? 'ios-camera' : null,	
-		  text: 'Take a Picture',
-		  handler: () => {
-			this.takeCameraSnap()
-		  }
-		},{
-		  icon: !this.platform.is('ios') ? 'ios-images' : null,		
-		  text: 'Upload from gallery',
-		  handler: () => {
-			this.uploadFromGallery('photo');
-		  }
-		},{
-		  icon: !this.platform.is('ios') ? 'ios-folder' : null,		
-		  text: 'Upload from vault',
-		  handler: () => {
-			this.uploadFromVault('image');
-		  }
-		},{
-		  icon: !this.platform.is('ios') ? 'close' : null,
-		  text: 'Cancel',
-		  role: 'cancel',
-		  handler: () => {
-		  }
-		}
-	  ]
-	});
-	actionSheet.present();
+		const actionSheet = this.actionSheetCtrl.create({
+			title: 'Upload Photos',
+			buttons: [
+			{
+				icon: !this.platform.is('ios') ? 'ios-camera' : null,	
+				text: 'Take a Picture',
+				handler: () => {
+				this.takeCameraSnap()
+				}
+			},{
+				icon: !this.platform.is('ios') ? 'ios-images' : null,		
+				text: 'Upload from gallery',
+				handler: () => {
+				this.uploadFromGallery('photo');
+				}
+			},{
+				icon: !this.platform.is('ios') ? 'ios-folder' : null,		
+				text: 'Upload from vault',
+				handler: () => {
+				this.uploadFromVault('image');
+				}
+			},{
+				icon: !this.platform.is('ios') ? 'close' : null,
+				text: 'Cancel',
+				role: 'cancel',
+				handler: () => {
+				}
+			}
+			]
+		});
+		actionSheet.present();
   }
   
   
@@ -435,10 +436,13 @@ export class WhatsOnMindPage {
 		});
 		let mediaOptions;
 		if(type == 'video'){
+			this.mediaPublisher = 'video';
 			mediaOptions = this.postVideoOptions.value;
 		} else if(type == 'audio'){
+			this.mediaPublisher = 'audio';
 			mediaOptions = this.postAudioOptions.value;
 		}else {
+			this.mediaPublisher = 'file';
 			mediaOptions = this.postFileOptions.value;
 		}
 		

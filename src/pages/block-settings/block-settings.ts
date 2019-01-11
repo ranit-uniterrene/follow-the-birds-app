@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController  } from 'ionic-angular';
 import { User } from '../../providers';
 /**
  * Generated class for the BlockSettingsPage page.
@@ -16,8 +16,8 @@ import { User } from '../../providers';
 export class BlockSettingsPage {
   private users : any = [];
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
-  constructor(public navCtrl: NavController, public user: User, public navParams: NavParams) {
-  }
+  constructor(public navCtrl: NavController, public user: User, public navParams: NavParams, private alertCtrl: AlertController,public toastCtrl: ToastController) {
+}
 
   ionViewDidLoad() {
     this.user.getBlocked({'my_id':localStorage.getItem('user_id')})
@@ -30,8 +30,26 @@ export class BlockSettingsPage {
   }
 
   unblockAction(event,member){
-    event.target.parentNode.parentNode.parentNode.remove();
-    this.connectAction('unblock',member.user_id);
+    const confirm = this.alertCtrl.create({
+			title: 'Unblock '+member.user_firstname+' '+member.user_lastname+'?',
+			message: 'If you unblock, '+member.user_firstname+' may be able to see your timeline and connect to you.',
+			buttons: [
+			{
+				text: 'Cancel',
+				handler: () => {
+				
+				}
+			}
+			,{
+				text: 'Delete',
+				handler: () => {
+          event.target.parentNode.parentNode.parentNode.remove();
+          this.connectAction('unblock',member.user_id);
+				}
+			}
+			]
+		});
+		confirm.present();  
   }
 
   connectAction(type,id,uid?: any){

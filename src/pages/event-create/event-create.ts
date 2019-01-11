@@ -45,6 +45,7 @@ export class EventCreatePage {
 			position: 'top'
 		});
 		toast.present();
+		this.navCtrl.push("EventsPage",{eventzone:'manage'});
 	}, (err) => {
 		let toast = this.toastCtrl.create({
 			message: "Failed to create event! Try Again later",

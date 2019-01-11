@@ -31,7 +31,7 @@
 			{{feeling_action}}
 		</ion-item-divider>
 		<ion-item *ngFor="let type of feeling_types" (click)="setFeelingType(type.action)">
-		 <ion-icon [name]="type.icon"  item-start></ion-icon>
+		 <img width="35" height="35" src="../../assets/icon/{{type.icon}}" >
 		 {{type.text}}			  
 		</ion-item>
 	</ion-list>

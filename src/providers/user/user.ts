@@ -405,7 +405,22 @@ export class User {
 				console.error('ERROR', err);
 			});
 		});
-  }
+	}
+	
+	getActivitylog(params?: any){
+		let activitylogList = [];	
+		let seq = this.api.get('activitylog/'+localStorage.getItem('user_id'), params).share();
+
+		// don't have the data yet
+		return new Promise(resolve => {
+			seq.subscribe((res: any) => {
+				activitylogList.push(res);
+				resolve(activitylogList);
+			}, err => {
+				console.error('ERROR', err);
+			});
+		});
+	}
   
   getVaultStorage(params?: any) {
 		let vaults = [];	

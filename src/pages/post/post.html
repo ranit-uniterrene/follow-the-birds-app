@@ -22,14 +22,14 @@
 	-->
   <ion-card *ngFor="let feeds of postFeeds" >
 	<ion-item text-wrap>
-	  <ion-avatar item-start (click)="viewProfile(feeds.user_name)">
+	  <ion-avatar item-start (click)="viewProfile(feeds)">
 		<img [src]="mediapath+feeds.post_author_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" />
 	  </ion-avatar>
-	  <span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds.user_name,feeds.user_id)"> {{feeds.post_author_name}}</span> 
+	  <span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds)"> {{feeds.post_author_name}}</span> 
 	  <span *ngIf="feeds.feeling_action != ''" >is {{feeds.feeling_action}} {{feeds.feeling_value}} - </span>
 		{{post_type[feeds.post_type]}} 
 	  <span *ngIf="feeds.wall_id > '0'" > to <strong>{{feeds.wall_fullname}}'s</strong> Timeline</span>
-	  <span *ngIf="feeds.post_type == 'shared'" > <strong (click)="viewProfile(feeds.origin.user_name,feeds.origin.user_id)">{{feeds.origin.post_author_name}}</strong>'s Post</span>
+	  <span *ngIf="feeds.post_type == 'shared'" > <strong (click)="viewProfile(feeds.origin)">{{feeds.origin.post_author_name}}</strong>'s Post</span>
 	  <span *ngIf="feeds.in_event == '1'" style="display:inline-block;"><ion-icon name="play" style="font-size: 11px;color: #750bb5;padding-right: 3px;"></ion-icon> <ion-icon name='calendar' style="color:#b5af0b;padding: 0;margin: 0;padding-right: 3px;" item-start></ion-icon>  {{feeds.event_title}}</span>
 	  <ion-note class="msg_time" style="display:block" *ngIf="isAndroid">{{feeds.time | date: 'dd MMM' }} at {{ feeds.time | date: 'h:mm a' }}</ion-note> 
 	  <button ion-button clear icon-only item-end (tap)="postActivity($event,feeds)"><ion-icon name="ios-more-outline"></ion-icon></button>
@@ -74,10 +74,10 @@
 		<div *ngIf="feeds.post_type == 'shared'">
 			<ion-card>
 				<ion-item text-wrap>
-				  <ion-avatar item-start (click)="viewProfile(feeds.origin.user_name)">
+				  <ion-avatar item-start (click)="viewProfile(feeds.origin)">
 					<img [src]="mediapath+feeds.origin.post_author_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" />
 				  </ion-avatar>
-				  <span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds.origin.user_name,feeds.origin.user_id)"> {{feeds.origin.post_author_name}}</span> 
+				  <span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds.origin)"> {{feeds.origin.post_author_name}}</span> 
 				  <span *ngIf="feeds.origin.feeling_action != ''" >is {{feeds.origin.feeling_action}} {{feeds.origin.feeling_value}}</span>
 				  {{post_type[feeds.origin.post_type]}}
 				  <span *ngIf="feeds.in_event == '1'"><ion-icon name="play" style="font-size: 11px;color: #750bb5;padding-right: 3px;"></ion-icon> <ion-icon name='calendar' style="color:#b5af0b;padding: 0;margin: 0;padding-right: 3px;" item-start></ion-icon>  {{feeds.origin.event_title}}</span>

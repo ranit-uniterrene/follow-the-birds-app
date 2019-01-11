@@ -39,11 +39,11 @@ export class NotificationsPage {
   ionViewDidLoad() {
 	
     this.user.getNotifications().then(data => {
-		let item = data[0];
-		for (var key in item) {
-		  this.notifications.push(item[key]);
-		}		
-	});
+			let item = data[0];
+			for (var key in item) {
+				this.notifications.push(item[key]);
+			}		
+		});
   }
   doRefresh(refresher) {
 	this.ionViewDidLoad();
@@ -53,7 +53,7 @@ export class NotificationsPage {
   }
   
   viewProfile(user_name,user_id) {
-	this.nav.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
+		this.nav.push('ProfilePage', {user_name: user_name,user_id:user_id});
   }
   
   isToday(data){

@@ -19,6 +19,7 @@ export class GroupsPage {
 	public groupLists : any = [];
 	private imageURL = "https://dev.followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public navParams: NavParams, public user: User, public groups: Groups) {
+    this.groupzone = navParams.get('groupzone') || 'discover';
   }
 
   ionViewDidLoad() {

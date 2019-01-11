@@ -39,20 +39,21 @@ export class PageCreatePage {
   }
   
   createPage(){
-	this.page.create_page(this.pageC).subscribe((resp) => {
-		let toast = this.toastCtrl.create({
-			message: "Page has been successfully created",
-			duration: 3000,
-			position: 'top'
+		this.page.create_page(this.pageC).subscribe((resp) => {
+			let toast = this.toastCtrl.create({
+				message: "Page has been successfully created",
+				duration: 3000,
+				position: 'top'
+			});
+			toast.present();
+			this.navCtrl.push("PagesPage",{pageszone:'manage'});
+		}, (err) => {
+			let toast = this.toastCtrl.create({
+				message: "Failed to create Page! Try Again later",
+				duration: 3000,
+				position: 'top'
+			});
+			toast.present();
 		});
-		toast.present();
-	}, (err) => {
-		let toast = this.toastCtrl.create({
-			message: "Failed to create Page! Try Again later",
-			duration: 3000,
-			position: 'top'
-		});
-		toast.present();
-	});
   }
 }

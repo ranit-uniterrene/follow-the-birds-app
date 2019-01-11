@@ -34,6 +34,16 @@ ion-icon {
         color: #d99e82;
     }
 
+    &[class*="custom-crazy"] {
+        mask-image: url(../assets/icon/crazy.svg);
+        .tab-button[aria-selected=true] & {
+            mask-image: url(../assets/icon/crazy.svg);;
+        }
+        width: 30px;
+        height: 30px;
+    }
+
+
     &[class*="custom-angry"] {
         mask-image: url(../assets/icon/angry.svg);
         .tab-button[aria-selected=true] & {

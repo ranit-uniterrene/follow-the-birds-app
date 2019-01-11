@@ -138,8 +138,20 @@ export class PostPage {
 		}
   }
   
-  viewProfile(user_name,user_id) {
-	this.nav.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
+  viewProfile(post) {
+		if(post.user_type == 'user'){
+			this.nav.push('ProfilePage', {user_name: post.user_name,user_id:post.user_id});
+		}
+		if(post.user_type == 'page'){
+			this.nav.push("PageProfilePage",{pageProfile:post});
+		}
+		if(post.user_type == 'group'){
+			this.nav.push("GroupProfilePage",{groupProfile:post});
+		}	
+		if(post.user_type == 'event'){
+			this.nav.push("EventProfilePage",{eventProfile:post});
+		}	
+		
   } 
 
   downloadAttachment(filePath){

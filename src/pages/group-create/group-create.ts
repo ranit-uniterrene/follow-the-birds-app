@@ -22,12 +22,7 @@ export class GroupCreatePage {
 	  my_id:localStorage.getItem('user_id'),
   };
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public groups: Groups) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GroupCreatePage');
-  }
-  
+  } 
   createGroup(){
 	  console.log(this.group);
 	this.groups.create_group(this.group).subscribe((resp) => {
@@ -37,6 +32,7 @@ export class GroupCreatePage {
 			position: 'top'
 		});
 		toast.present();
+		this.navCtrl.push("GroupsPage",{groupzone:'manage'});
 	}, (err) => {
 		let toast = this.toastCtrl.create({
 			message: "Failed to create Group! Try Again later",

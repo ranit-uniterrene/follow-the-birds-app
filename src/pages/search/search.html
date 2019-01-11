@@ -11,11 +11,11 @@
 <ion-content>
   <ion-list>
 	<ion-item-sliding *ngFor="let item of currentItems">
-		<ion-buttons ion-item *ngIf="item.type == 'user'">
+		<ion-buttons ion-item *ngIf="item.type == 'user'" (click)="viewProfile(item.user_name,item.user_id)">
 		  <ion-avatar item-start>
 			<img [src]="imageURL+item.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewProfile(item.user_name)">
 		  </ion-avatar>
-		  <h2 (click)="viewProfile(item.user_name,item.user_id)" >{{item.user_firstname}} {{item.user_lastname}}</h2>
+		  <h2  >{{item.user_firstname}} {{item.user_lastname}}</h2>
 		  <p>{{item.user_gender}}</p>
 		  <!-- <button ion-button icon-start item-end outline *ngIf="item.connection == 'add'">
 			  <ion-icon name="person-add"></ion-icon>
@@ -30,11 +30,11 @@
 			  Cancel Request
 		  </button> -->	  
 		</ion-buttons>
-		<ion-buttons ion-item *ngIf="item.type == 'page'">
+		<ion-buttons ion-item *ngIf="item.type == 'page'" (click)="viewPage(item)">
 		  <ion-avatar item-start>
-			<img [src]="imageURL+item.page_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewProfile(item.page_name)">
+			<img [src]="imageURL+item.page_picture" onError="this.src='assets/followthebirdImgs/blank_page.jpg'" >
 		  </ion-avatar>
-		  <h2 (click)="viewProfile(item.user_name)">{{item.page_title}}</h2>
+		  <h2 >{{item.page_title}}</h2>
 		  <p>{{item.page_likes}} likes</p>
 			<!-- <button ion-button icon-start item-end outline *ngIf="item.i_like">
 			  <ion-icon name="thumbs-down"></ion-icon>
@@ -46,22 +46,22 @@
 			</button> -->
 			
 		</ion-buttons>
-		<ion-buttons ion-item *ngIf="item.type == 'group'">
+		<ion-buttons ion-item *ngIf="item.type == 'group'" (click)="viewGroup(item)">
 		  <ion-avatar item-start>
-			<img [src]="imageURL+item.group_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewGroup(item.group_name)">
+			<img [src]="imageURL+item.group_picture" onError="this.src='assets/followthebirdImgs/blank_group.jpg'">
 		  </ion-avatar>
-		  <h2 (click)="viewGroup(item.group_name)">{{item.group_title}}</h2>
+		  <h2 >{{item.group_title}}</h2>
 		  <p>{{item.group_members}} Members</p>
 		  <!-- <button ion-button icon-start item-end outline>
 			  <ion-icon name="home"></ion-icon>
 			  Join
 		  </button> -->
 		</ion-buttons>
-		<ion-buttons ion-item *ngIf="item.type == 'event'">
+		<ion-buttons ion-item *ngIf="item.type == 'event'" (click)="viewEvent(item)">
 		  <ion-avatar item-start>
-			<img [src]="imageURL+item.event_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewEvent(item.user_name)">
+			<img [src]="imageURL+item.event_picture" onError="this.src='assets/followthebirdImgs/blank_event.jpg'" >
 		  </ion-avatar>
-		  <h2 (click)="viewEvent(item.event_id)">{{item.event_title}}</h2>
+		  <h2 >{{item.event_title}}</h2>
 		  <p>{{item.event_interested}} Interested</p>
 		  <!-- <button ion-button icon-start item-end outline>
 			  <ion-icon name="home"></ion-icon>

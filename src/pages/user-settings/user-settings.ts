@@ -35,15 +35,15 @@ export class UserSettingsPage {
   }
   
   viewProfile(){
-	  this.nav.setRoot('ProfilePage', {user_name: this.profile.user_name,user_id:this.profile.user_id});  
+	  this.nav.push('ProfilePage', {user_name: this.profile.user_name,user_id:this.profile.user_id});  
   }
   
   listFriends(){
-	  this.nav.setRoot('FriendsPage',{'user_id':this.profile.user_id});
+	  this.nav.push('FriendsPage',{'user_id':this.profile.user_id});
   }
   
   listGroups(){
-	this.nav.push('GroupsPage',{'user_id':this.profile.user_id});
+	  this.nav.push('GroupsPage',{'user_id':this.profile.user_id});
   }
   
   listEvents(){

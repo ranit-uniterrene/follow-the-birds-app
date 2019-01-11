@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Nav, NavParams, NavController} from 'ionic-angular';
-import { FirstRunPage} from '../';
 import { User } from '../../providers';
 
 /**
@@ -33,9 +32,9 @@ export class FriendRequestsPage {
 			localStorage.setItem('user_live_requests_counter','0')
 		}, (err) => {
 			
-		});
-		
+		});		
 	}
+
 	ionViewDidLoad() {	
 		this.user.getPendingRequest('friend_requests',parseInt(localStorage.getItem('user_id')))
 		.then(data => {
@@ -55,7 +54,6 @@ export class FriendRequestsPage {
 	//	console.log(event.target.parentNode.parentNode.parentNode.innerText = "You are now Friends");
 		this.connectAction("friend-add",user.user_id);
 		event.target.parentNode.parentNode.innerText = "Friend request sent";	
-		this.pendindFriendLists.push(user);	
 	}
 	
 	removeAction(event,user_id) {
@@ -75,7 +73,7 @@ export class FriendRequestsPage {
 	}	
 	
 	viewProfile(user_name,user_id) {
-		this.nav.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
+		this.nav.push('ProfilePage', {user_name: user_name,user_id:user_id});
 	} 
 	
 	connectAction(type,user_id){

@@ -31,17 +31,17 @@
 	  <ion-row >
 		<ion-col class="group_wrap" col-4 *ngFor="let group of groupLists.suggested" >
 			<div class="image-circle" >
-				<img [src]="imageURL+group.group_cover" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewGroup(group)" /> 
+				<img [src]="imageURL+group.group_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewGroup(group)" /> 
 			</div>
 			<div style="text-align: center;" (click)="viewGroup(group)"> {{group.group_title}}</div>
-			<button ion-button item-end outline (tap)="joinGroupAction($event,'group-join',group.group_id)"> Join </button>
-		</ion-col>
+			<!--<button ion-button item-end outline (tap)="joinGroupAction($event,'group-join',group.group_id)"> Join </button>>
+		--></ion-col>
 	  </ion-row>
 	</ion-grid>
 	<ion-list *ngSwitchCase="'joined'">
 		<ion-item *ngFor="let group of groupLists.joined" >
 			<ion-thumbnail item-start class="image-circle" (click)="viewGroup(group)">
-			  <img [src]="imageURL+group.group_cover" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewEvent(event)" /> 
+			  <img [src]="imageURL+group.group_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewEvent(event)" /> 
 			</ion-thumbnail>
 			<h2 (click)="viewGroup(group)">{{group.group_title}}</h2>
 			<p>{{group.group_members}} Members</p>
@@ -51,7 +51,7 @@
 	<ion-list *ngSwitchCase="'manage'">
 		<ion-item *ngFor="let group of groupLists.manage" >
 			<ion-thumbnail item-start class="image-circle" (click)="viewGroup(group)">
-			  <img [src]="imageURL+group.group_cover" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewEvent(event)" /> 
+			  <img [src]="imageURL+group.group_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" (click)="viewEvent(event)" /> 
 			</ion-thumbnail>
 			<h2 (click)="viewGroup(group)">{{group.group_title}}</h2>
 			<p>{{group.group_members}} Members</p>

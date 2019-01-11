@@ -63,7 +63,7 @@ export class PhotosPage {
   }
   
   viewImage(photo){
-	this.nav.push('ViewPhotoPage', {photo: photo});
+		this.nav.push('ViewPhotoPage', {photo: photo});
   }
   
 	

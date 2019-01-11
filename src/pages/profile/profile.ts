@@ -165,19 +165,23 @@ export class ProfilePage {
 	}
   
 	viewProfile(user_name,user_id) {
-		this.nav.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
+		this.nav.push('ProfilePage', {user_name: user_name,user_id:user_id});
+	}
+
+	viewAbout(){
+		this.nav.push('AboutPage', {profile: this.profile});
 	}
 	
 	viewPhotos(user_id){
-		this.nav.setRoot('PhotosPage', {user_id: user_id});
+		this.nav.push('PhotosPage', {user_id: user_id});
 	}
 	
 	editProfile(profile){
-		this.nav.setRoot('EditProfilePage', {'profile': profile});
+		this.nav.push('EditProfilePage', {'profile': profile});
 	}
 	
 	editDetails(profile){
-		this.nav.setRoot('EditDetailsPage', {'profile': profile});
+		this.nav.push('EditDetailsPage', {'profile': profile});
 	}
 	
 	uploadProfilePicture() {
@@ -286,17 +290,16 @@ export class ProfilePage {
 				correctOrientation: true //Corrects Android orientation quirks
 			};	
 			this.camera.getPicture(options).then((imageData) => {
-				// imageData is either a base64 encoded string or a file URI
 				if(type == 'profile'){			  
-				this.profilePhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
-				this.uploadProfilePhoto(this.profilePhotoOptions);
+					this.profilePhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
+					this.uploadProfilePhoto(this.profilePhotoOptions);
 				} else {
-				this.coverPhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
-				this.uploadCoverPhoto(this.coverPhotoOptions); 
+						this.coverPhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
+						this.uploadCoverPhoto(this.coverPhotoOptions); 
 				}
-			 }, (err) => {
+			}, (err) => {
 				alert('Unable to take photo');
-			 });
+			});
 		}
 		
 		
@@ -436,6 +439,32 @@ export class ProfilePage {
 		  toast.present();
 		});
 	} */
+
+	activityAction(){
+		this.nav.push('ActivityPage', {'profile': this.profile});
+	}
+
+	moreActivityAction(){
+		const actionSheet = this.actionSheetCtrl.create({
+		  buttons: [
+			{
+			  icon: !this.platform.is('ios') ? 'ios-person-add' : null,	
+			  text: 'Disable Profile',
+			  handler: () => {
+					this.reportAction('user',this.profile.user_id)
+			  }
+			},{
+			  icon: !this.platform.is('ios') ? 'ios-close' : null,		
+			  text: 'Block',
+			  handler: () => {
+				this.blockAction()
+			  }
+			}
+		  ]
+		});
+		actionSheet.present();
+	}
+
 	downloadAttachment(filePath){
 	  let arr = filePath.split('/');
 	  var filename = arr.pop();
@@ -712,12 +741,31 @@ export class ProfilePage {
 	}
 	
 	listFriends(){
-		this.nav.setRoot('FriendsPage',{'user_id':this.profile.user_id});
+		this.nav.push('FriendsPage',{'user_id':this.profile.user_id});
 	}
 
 	blockAction(){
-		this.connectAction('block');
-		this.nav.setRoot('HomePage');
+		const confirm = this.alertCtrl.create({
+			title: 'Block '+this.profile.user_firstname+' '+this.profile.user_lastname+'?',
+			message: 'If you block, '+this.profile.user_firstname+' will no longer to see your timeline and can not connect to you.',
+			buttons: [
+			{
+				text: 'Cancel',
+				handler: () => {
+				
+				}
+			}
+			,{
+				text: 'Delete',
+				handler: () => {
+          this.connectAction('block');
+					this.nav.setRoot('HomePage');
+				}
+			}
+			]
+		});
+		confirm.present();  
+		
   }
 	
 	connectAction(type){
@@ -763,7 +811,7 @@ export class ProfilePage {
 	}
 	
 	openSearch(){
-	  this.navCtrl.setRoot("SearchPage");
+	  this.navCtrl.push("SearchPage");
 	}
 	
 	getLiveLitePost(){

@@ -67,20 +67,20 @@ export class ViewMessagePage {
 
 	ionViewDidLoad() {	 
 	  if(this.conversation.conversation_id) {		
-			this.user.viewMessage({user_id:localStorage.getItem('user_id'),conversation_id:this.conversation.conversation_id}).then(data => {
-				this.messages = data['messages'];	
-				localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
-			});
+		this.user.viewMessage({user_id:localStorage.getItem('user_id'),conversation_id:this.conversation.conversation_id}).then(data => {
+			this.messages = data['messages'];	
+			localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
+		});
 	  } else {
-			this.user.getMessages({user_id:localStorage.getItem('user_id'),ids:this.conversation.id}).then(data => {
-				if(data[0].messages){
-					this.messages = data[0].messages;   
-					localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
-				}	   
-				if(data[0].conversation_id){
-				this.chatInfo['conversation_id'] = data[0].conversation_id;
-				}
-			});
+		this.user.getMessages({user_id:localStorage.getItem('user_id'),ids:this.conversation.id}).then(data => {
+			if(data[0].messages){
+				this.messages = data[0].messages;   
+				localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
+			}	   
+			if(data[0].conversation_id){
+			this.chatInfo['conversation_id'] = data[0].conversation_id;
+			}
+		});
 	  }
 	}
 
@@ -114,16 +114,11 @@ export class ViewMessagePage {
 	
 	uploadFromVault(){
 		let profileModal = this.modalCtrl.create("VaultsPage", {'filter':"image",handle:'chat',conversation_id:this.conversation.conversation_id});
-			profileModal.present();
+		profileModal.present();
     }
   
   sendMessage(){
 	  this.user.postMessage(this.chatInfo).subscribe((resp) => {	
-		this.chatInfo.message = '';
-		this.chatBox.image = resp['image'];
-		this.chatBox.message = resp['message'];
-		this.chatBox.time = resp['time'];
-		this.messages.push(this.chatBox);
 		this.publishPhotos = [];
 	}, (err) => {
 		
