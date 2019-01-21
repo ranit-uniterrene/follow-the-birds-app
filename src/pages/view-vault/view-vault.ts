@@ -323,11 +323,11 @@ export class ViewVaultPage {
 		});
 		
 		if(type == 'status'){
-			this.navCtrl.setRoot("WhatsOnMindPage",{'files':filtered,handle:this.handle,id:this.handle_id,vault_type:this.type});
+			this.navCtrl.push("WhatsOnMindPage",{'files':filtered,handle:this.handle,id:this.handle_id,vault_type:this.type});
 		}
 		
 		if(type == 'message'){
-			this.navCtrl.setRoot("MessagesPage",{'files':filtered,handle:this.handle,id:this.handle_id,vault_type:this.type});
+			this.navCtrl.push("MessagesPage",{'files':filtered,bulkMessage:'true',handle:this.handle,id:this.handle_id,vault_type:this.type});
 		}
 		
 	}

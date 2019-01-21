@@ -14,17 +14,28 @@ import { User } from '../../providers';
   templateUrl: 'messages.html',
 })
 export class MessagesPage {
-	public user_live_messages_counter = '';
+  public user_live_messages_counter = '';
   public onlineUsers = [];
   public offlineUsers = [];
   messagezone: string = "messages";
   public messages : any = [];
   public groups : any = [];
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private bulkMessage;
+  private chatPhotos = [];
+  private chatInfo : any = {
+	conversation_id:'',
+	photo:'',
+	message: '',
+	user_id:localStorage.getItem('user_id'),
+  };
   constructor(public navCtrl: NavController, public user: User, public navParams: NavParams,private alertCtrl: AlertController,public toastCtrl: ToastController) {
 	  this.getOnlineUsers();
-		this.getOfflineUsers();
-		this.getProfileData(localStorage.getItem('user_id'));
+	  this.getOfflineUsers();
+	  this.getProfileData(localStorage.getItem('user_id'));
+	  this.bulkMessage = navParams.get('bulkMessage') || 'false';
+	  this.chatPhotos = navParams.get('files');
+	  
   }
 
   ionViewDidLoad() {
@@ -40,21 +51,20 @@ export class MessagesPage {
 				this.groups.push(item[key]);
 			} else {
 				this.messages.push(item[key]);
-			}
-		 
+			}		 
 		}		
 	});
-	}
+  }
 	
-	getProfileData(id){
-		this.user.updateProfile(id).subscribe((resp) => {	
-			this.user_live_messages_counter = resp['user_live_messages_counter'];
-			if(this.user_live_messages_counter == '0'){
-				this.user_live_messages_counter = '';
-			}
-		}, (err) => {
-			
-		});	
+  getProfileData(id){
+	this.user.updateProfile(id).subscribe((resp) => {	
+		this.user_live_messages_counter = resp['user_live_messages_counter'];
+		if(this.user_live_messages_counter == '0'){
+			this.user_live_messages_counter = '';
+		}
+	}, (err) => {
+		
+	});	
   }
   
   getOnlineUsers(){
@@ -71,19 +81,16 @@ export class MessagesPage {
 		}); 
   }
   
-  
-  
   viewMessage(conversation){
-	  this.navCtrl.setRoot('ViewMessagePage', {conversation: conversation});
+	  this.navCtrl.push('ViewMessagePage', {conversation: conversation});
   }
   
   viewMessageGroup(conversation,group){
-	  this.navCtrl.setRoot('ViewMessagePage', {conversation: conversation,group:group});
+	  this.navCtrl.push('ViewMessagePage', {conversation: conversation,group:group});
   }
-  
-  
+    
   createConversation(){
-		this.navCtrl.setRoot('CreateMessagePage');
+		this.navCtrl.push('CreateMessagePage');
   }
   
   isToday(data){
@@ -111,35 +118,51 @@ export class MessagesPage {
 	 }
 	 
   }
-	messageAction(profile){
-		let recipient = {
-			name:profile.user_firstname+' '+profile.user_lastname,
-			picture:profile.user_picture,
-			id:profile.user_id
-		};
-		this.navCtrl.push('ViewMessagePage', {conversation: recipient});
-	}
-	deleteConversationAction(conversation){
-		const confirm = this.alertCtrl.create({
-			title: 'Delete conversation?',
-			message: 'Once you delete you can not undo this step.',
-			buttons: [
-			{
-				text: 'Cancel',
-				handler: () => {
-				
-				}
-			}
-			,{
-				text: 'Delete',
-				handler: () => {
-				this.deleteConversation(conversation);
-				}
-			}
-			]
+  
+  sentBulkMessage(event,message){		
+	let item = this.chatPhotos;	
+	for(var key in item){
+		this.chatInfo.conversation_id = message.conversation_id;
+		this.chatInfo.photo = JSON.stringify(item[key]);
+		this.user.postMessage(this.chatInfo).subscribe((resp) => {	
+			event.target.innerText = "SENT";
+			event.target.offsetParent.disabled = true;
+		}, (err) => {
+			
 		});
-		confirm.present(); 
 	}
+  } 
+  
+  messageAction(profile){
+	let recipient = {
+		name:profile.user_firstname+' '+profile.user_lastname,
+		picture:profile.user_picture,
+		id:profile.user_id
+	};
+	this.navCtrl.push('ViewMessagePage', {conversation: recipient});
+  }
+  
+  deleteConversationAction(conversation){
+	const confirm = this.alertCtrl.create({
+		title: 'Delete conversation?',
+		message: 'Once you delete you can not undo this step.',
+		buttons: [
+		{
+			text: 'Cancel',
+			handler: () => {
+			
+			}
+		}
+		,{
+			text: 'Delete',
+			handler: () => {
+			this.deleteConversation(conversation);
+			}
+		}
+		]
+	});
+	confirm.present(); 
+  }
 	deleteConversation(conversation){
 		let items :any = {
 			user_id:localStorage.getItem('user_id'),

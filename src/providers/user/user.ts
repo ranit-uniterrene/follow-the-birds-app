@@ -392,7 +392,7 @@ export class User {
     
   }   
   
-  getNotifications(params?: any){
+	getNotifications(params?: any){
 		let notificationsList = [];	
 		let seq = this.api.get('notifications/'+localStorage.getItem('user_id'), params).share();
 
@@ -423,31 +423,31 @@ export class User {
 	}
   
   getVaultStorage(params?: any) {
-		let vaults = [];	
-		let seq = this.api.get('vault', params).share();
-		// don't have the data yet
-		return new Promise(resolve => {
-			seq.subscribe((res: any) => {
-				vaults.push(res);
-				resolve(vaults);
-			}, err => {
-				console.error('ERROR', err);
-			});
+	let vaults = [];	
+	let seq = this.api.get('vault', params).share();
+	// don't have the data yet
+	return new Promise(resolve => {
+		seq.subscribe((res: any) => {
+			vaults.push(res);
+			resolve(vaults);
+		}, err => {
+			console.error('ERROR', err);
 		});
+	});
   }
   
   viewVault(params?: any){
 	let items = [];	
-		let seq = this.api.get('view_vault', params).share();
-		// don't have the data yet
-		return new Promise(resolve => {
-			seq.subscribe((res: any) => {
-				items.push(res);
-				resolve(items);
-			}, err => {
-				console.error('ERROR', err);
-			});
+	let seq = this.api.get('view_vault', params).share();
+	// don't have the data yet
+	return new Promise(resolve => {
+		seq.subscribe((res: any) => {
+			items.push(res);
+			resolve(items);
+		}, err => {
+			console.error('ERROR', err);
 		});
+	});
   }
   
   createNewVault(params){
@@ -461,11 +461,11 @@ export class User {
 	
 	resetAlert(params?: any){
 		let seq = this.api.post('reset', params).share();
-    seq.subscribe((res: any) => {  
-    }, err => {
-      console.error('ERROR', err);
-    });
-    return seq;
+		seq.subscribe((res: any) => {  
+		}, err => {
+			console.error('ERROR', err);
+		});
+		return seq;
 	}
 	
   activityDelete(params){
@@ -694,9 +694,37 @@ export class User {
 	});  
   }
   
+  getStories(params: any){
+	let stories = [];
+	let seq = this.api.get('get_stories', params).share();
+	// don't have the data yet
+	return new Promise(resolve => {
+		seq.subscribe((res: any) => {
+			stories.push(res);
+			resolve(stories);
+		}, err => {
+			console.error('ERROR', err);
+		});
+	});  
+  }
+  
   getMessages(params: any){
 	let messages = [];
 	let seq = this.api.get('get_messages', params).share();
+	// don't have the data yet
+	return new Promise(resolve => {
+		seq.subscribe((res: any) => {
+			messages.push(res);
+			resolve(messages);
+		}, err => {
+			console.error('ERROR', err);
+		});
+	});  
+  }
+  
+  loadMessages(params: any){
+	let messages = [];
+	let seq = this.api.get('load', params).share();
 	// don't have the data yet
 	return new Promise(resolve => {
 		seq.subscribe((res: any) => {

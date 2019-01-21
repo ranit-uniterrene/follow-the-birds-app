@@ -35,6 +35,8 @@ export class ViewPostPage {
 		group_cover: 'updated group cover',
 		event_cover: 'updated event cover'
 	};
+	height : number = 300;
+	width : number = 300;
   constructor(
 	public navCtrl: NavController, 
     public user: User,
@@ -48,11 +50,14 @@ export class ViewPostPage {
 	public modalCtrl: ModalController,
 	private platform: Platform
 	) {
-	  this.feeds = navParams.get('post') || '';
+		platform.ready().then((readySource) => {
+			this.width = platform.width();
+			this.height = platform.height();
+		});
+		this.feeds = navParams.get('post') || '';
     }
 
   ionViewDidLoad() {
-    console.log(this.feeds);
   }
   
   getBackgroundStyle(url) {
@@ -115,6 +120,17 @@ export class ViewPostPage {
   
   viewComments(comments,post_id,handle){
 	const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':handle});
+	commentsModal.onDidDismiss(data => {
+		this.feeds.comments = data;
+	});
+	commentsModal.present();
+  }
+  
+  viewPhotoComments(index,comments,post_id,handle){
+	const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':handle});
+	commentsModal.onDidDismiss(data => {
+		this.feeds.photos[index].comments = data;
+	});
 	commentsModal.present();
   }
   

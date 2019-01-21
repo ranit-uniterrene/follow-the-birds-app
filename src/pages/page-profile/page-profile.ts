@@ -53,6 +53,8 @@ export class PageProfilePage {
     group_cover: 'updated group cover',
     event_cover: 'updated event cover'
   };
+  height : number = 300;
+  width : number = 300;
   constructor(public page: PageProvider,
     public navCtrl: NavController, 
     public user: User,
@@ -72,6 +74,10 @@ export class PageProfilePage {
     private transfer: FileTransfer,
     private file: File,
     private alertCtrl: AlertController) {
+	  platform.ready().then((readySource) => {
+		this.width = platform.width();
+		this.height = platform.height();
+	  });
       this.pageProfile = navParams.get('pageProfile');
       this.page.getPageProfile(parseInt(this.pageProfile.page_id),{'user_id':localStorage.getItem('user_id'),'filter':'all'}).then(data => {
         this.pageProfile = data;
@@ -482,10 +488,13 @@ export class PageProfilePage {
 		});
   }
 
-  viewComments(comments,post_id,){
+  viewComments(index,comments,post_id){
 		const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':'post'});
+		 commentsModal.onDidDismiss(data => {
+			this.postFeeds[index].comments = data;
+		});
 		commentsModal.present();
-  }
+ }
   
   sharePostCtrl(post_id): void
 	{

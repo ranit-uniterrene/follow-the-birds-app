@@ -1,8 +1,6 @@
 <ion-header>
 	<ion-navbar color="primary">
-		<ion-buttons left>
-		  <button ion-button icon-only (click)="goBack()"><ion-icon name="arrow-back"></ion-icon></button>
-		</ion-buttons>
+
 		<ion-searchbar
 		 
 		  [(ngModel)]="myInput"
@@ -19,16 +17,6 @@
 </ion-header>
 
 <ion-content>
-	<!-- <ion-tags-input
-		[placeholder]="'add friends'"
-		[separatorStr]="','"
-		[once]="true"
-		[color]="'primary'"
-		[(ngModel)]="recipients"
-		(ionFocus)="onFocus($event)"
-		(ionBlur)="onBlur($event)"
-		(onChange)="onChange($event)">
-	</ion-tags-input> -->
 	<div *ngFor="let recipient of recipients" class="recipient_tag"> 
 		<div class="recipient_avater">
 		  <img [src]="imageURL+recipient.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
@@ -40,6 +28,10 @@
 			X
 		</span>
 	</div>
+	<ion-infinite-scroll style="height:0" position="top" threshold="1%" (ionInfinite)="doInfinite($event)">
+		<ion-infinite-scroll-content loadingSpinner="bubbles">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>
  <ion-list no-lines *ngIf="!isChat">
     <ion-item *ngFor="let item of currentItems" >
      <ion-avatar item-start (click)="addRecipient(item)">

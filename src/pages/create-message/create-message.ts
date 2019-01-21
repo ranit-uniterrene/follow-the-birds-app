@@ -44,7 +44,8 @@ export class CreateMessagePage {
 	user_name: localStorage.getItem('user_name'),
 	user_picture: localStorage.getItem('user_picture')
   };
-  
+  private pageCount = 1;
+  public conversation_id = ''
   constructor(public navCtrl: NavController,  public user: User, public navParams: NavParams,formBuilder: FormBuilder, private camera: Camera, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
 	this.user.getfriends(parseInt(localStorage.getItem('user_id')))
 	.then(data => {
@@ -131,6 +132,7 @@ export class CreateMessagePage {
 				this.messages = [];
 		   }	   
 		   if(data[0].conversation_id){
+			this.conversation_id = data[0].conversation_id;  
 			this.chatInfo['conversation_id'] = data[0].conversation_id;
 		   }
 		});  
@@ -191,20 +193,19 @@ export class CreateMessagePage {
   }
   
    getItems(ev: any) {
-	this.isChat = false;    
-    // Reset items back to all of the items
-    this.initializeItems();
-    // set val to the value of the searchbar
-    const val = ev.target.value;
+		this.isChat = false;    
+		// Reset items back to all of the items
+		this.initializeItems();
+		// set val to the value of the searchbar
+		const val = ev.target.value;
 
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.currentItems = this.currentItems.filter((item) => {
-        return (item.user_firstname.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-	
-  }
+		// if the value is an empty string don't filter the items
+		if (val && val.trim() != '') {
+		  this.currentItems = this.currentItems.filter((item) => {
+			return (item.user_firstname.toLowerCase().indexOf(val.toLowerCase()) > -1);
+		  })
+		}	
+	}
 
   
   getBackgroundStyle(url) {
@@ -250,8 +251,19 @@ export class CreateMessagePage {
 	});
   }
   
-  goBack(){
-	this.navCtrl.setRoot('MessagesPage');
-  }
+	doInfinite(infiniteScroll) {
+		setTimeout(() => {
+		  this.user.loadMessages({user_id:localStorage.getItem('user_id'),conversation_id:this.conversation_id,'page': this.pageCount}).then(data => {
+				let item : any = data[0];
+				if(data[0].length > 0){
+					for (var key in item) {
+					  this.messages.unshift(item[key]);
+					}
+				}
+				this.pageCount = this.pageCount + 1;
+			});
+		  infiniteScroll.complete();
+		}, 100);
+	}
 	
 }

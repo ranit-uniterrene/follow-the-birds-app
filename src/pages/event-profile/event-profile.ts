@@ -55,6 +55,8 @@ export class EventProfilePage {
   sub : any = '';
   private myId : number = parseInt(localStorage.getItem('user_id'));
   private imageURL = "https://dev.followthebirds.com/content/uploads/";	
+  height : number = 300;
+  width : number = 300;
   constructor(
 	public navCtrl: NavController, 
 	public user: User,
@@ -76,6 +78,10 @@ export class EventProfilePage {
 	private file: File,
 	private alertCtrl: AlertController			
   ) {
+	  platform.ready().then((readySource) => {
+		this.width = platform.width();
+		this.height = platform.height();
+	  });
 	  this.eventProfileId = navParams.get('eventProfile') || 3;
 	  this.events.getEventProfile(parseInt(this.eventProfileId),{'user_id':localStorage.getItem('user_id'),'filter':'all'}).then(data => {
 			this.eventProfile = data;
@@ -358,8 +364,11 @@ export class EventProfilePage {
 		}
 	}
 	
-	viewComments(comments,post_id,){
+	viewComments(index,comments,post_id){
 		const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':'post'});
+		 commentsModal.onDidDismiss(data => {
+			this.postFeeds[index].comments = data;
+		});
 		commentsModal.present();
 	}
 	

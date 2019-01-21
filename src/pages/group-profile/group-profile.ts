@@ -49,7 +49,9 @@ export class GroupProfilePage {
     group_picture: 'updated group picture',
     group_cover: 'updated group cover',
     event_cover: 'updated event cover'
-    };
+  };
+  height : number = 300;
+  width : number = 300;
   constructor(
     public groups: Groups,
     public navCtrl: NavController, 
@@ -71,6 +73,10 @@ export class GroupProfilePage {
     private file: File,
     private alertCtrl: AlertController	
   ) {
+	  platform.ready().then((readySource) => {
+		this.width = platform.width();
+		this.height = platform.height();
+	  });
 		this.groupProfile = navParams.get('groupProfile');
 		this.groups.getGroupProfile(parseInt(this.groupProfile.group_id),{'user_id':localStorage.getItem('user_id'),'filter':'all'}).then(data => {
 		  this.groupProfile = data;
@@ -324,9 +330,12 @@ export class GroupProfilePage {
     }
   }
 
-  viewComments(comments,post_id,){
-		const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':'post'});
-		commentsModal.present();
+  viewComments(index,comments,post_id){
+	const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':'post'});
+	 commentsModal.onDidDismiss(data => {
+		this.postFeeds[index].comments = data;
+	});
+	commentsModal.present();
   }
   
   sharePostCtrl(post_id): void

@@ -7,12 +7,85 @@ page-post {
 	}
 	
 	ion-slides {
-		height: 200px;
+		height: 130px;
 	}
+	
+	.stories_status {
+		margin-top: 11px;
+		box-shadow: 0px 7px 6px 3px #d3d3d3, 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px -20px 5px 0 rgba(0, 0, 0, 0.12);
+		padding-bottom: 11px;
+		padding-top: 11px;
+		.stories-title {
+			font-weight: bold;
+			margin-left: 11px;
+			margin-bottom: 9px;
+		}
+		ion-card {
+			width: 91%;
+		}
+		
+		.story-overlay{
+		    width: 100%;
+            height: 100%;		
+			background: -moz-linear-gradient(top, rgba(255,255,255,0) 1%, rgba(95,95,95,0) 63%, rgba(0,0,0,0.71) 100%); 
+			background: -webkit-linear-gradient(top, rgba(255,255,255,0) 1%,rgba(95,95,95,0) 63%,rgba(0,0,0,0.71) 100%); 
+			background: linear-gradient(to bottom, rgba(255,255,255,0) 1%,rgba(95,95,95,0) 63%,rgba(0,0,0,0.71) 100%); 
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#b5000000',GradientType=0 );
+			position:relative;
+			.add_story_wrap{
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				border: 2px solid #fff;
+				line-height: 36px;
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				background: rgba(117,11,181,0.8);
+				ion-icon {
+					display: inline-block;
+					font-size: 1.5em;
+					color: #fff;
+					font-weight: 700;
+				}
+			}
+		}
+		
+	}
+	
+	.user_details {
+		bottom: 5px;
+		position: absolute;
+		color: #fff;
+		padding-left: 6px;
+		text-align: left;
+	}
+			
 	.ImgWrapBig{
-        height: 160px;
+        height: 130px;
         background-size: cover !important;
         background-repeat: no-repeat !important;
         background-position: center center !important; 
     }
+	.more {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width:100%;
+		height:100%;
+		content:'';
+		display:block;
+		background:rgba(0,0,0,0.5);
+		.more-number {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			color: #fff;
+			font-size: 25px;
+			transform: translate(-50%,-50%);
+		}
+	}
+	
+	
+	
 }

@@ -47,9 +47,12 @@ page-view-vault {
 	.selected_files .checkbox-md{
 	    position: absolute;
 		z-index: 9;
-		bottom: 24px;
+		top: 6px;
 		right: 5px;
-		
+		.checkbox-icon {
+			width: 27px;
+			height: 27px;
+		}
 	}
 	.selected_files.added .checkbox-md{	   
 		display:block;

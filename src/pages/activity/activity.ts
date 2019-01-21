@@ -16,6 +16,7 @@ import { User } from '../../providers';
 export class ActivityPage {
   profile = '';
   activities : any = [];
+  public imageURL : any = "https://dev.followthebirds.com/content/uploads/";	
   constructor(public navCtrl: NavController, public user: User, public navParams: NavParams) {
     this.profile = navParams.get('profile') || '';
   }

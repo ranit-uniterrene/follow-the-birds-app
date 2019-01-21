@@ -1,8 +1,5 @@
 <ion-header>
 	<ion-navbar color="primary">
-		<ion-buttons left>
-		  <button ion-button icon-only (click)="goBack()"><ion-icon name="arrow-back"></ion-icon></button>
-		</ion-buttons>
 		<ion-searchbar (input)="getItems($event)" ></ion-searchbar>
 		<ion-buttons right>
 		  <button ion-button icon-only (click)="createConversation()"><ion-icon name="add-circle"></ion-icon></button>
@@ -28,14 +25,15 @@
 			<ion-item-divider color="light" *ngIf="messages <= 0" center>
 				No Messages
 			</ion-item-divider>
-			<ion-item *ngFor="let message of messages" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}" (click)="viewMessage(message)" (press)="deleteConversationAction(message)" >
-				<ion-avatar item-start text-wrap (click)="viewProfile(message.user_name,message.user_id)">
+			<ion-item *ngFor="let message of messages" class="seen" [ngClass]="{'seen': message.seen == '1', 'unseen': message.seen != '1'}"  (press)="deleteConversationAction(message)" >
+				<ion-avatar item-start text-wrap (click)="viewMessage(message)">
 				  <img [src]="imageURL+message.picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 				</ion-avatar>
-				<h2  style="font-weight:inherit"> {{message.name}}</h2>
-				<p text-wrap >{{message.message}}</p>
-				<ion-note item-end *ngIf="isToday(message.time)">{{ message.time | date: 'h:mm a' }}</ion-note>
-				<ion-note item-end *ngIf="!isToday(message.time)">{{ message.time | date: 'dd MMM' }}</ion-note>
+				<h2  style="font-weight:inherit"(click)="viewMessage(message)"> {{message.name}}</h2>
+				<p text-wrap (click)="viewMessage(message)">{{message.message}}</p>
+				<button ion-button outline *ngIf="bulkMessage == 'true'" item-end (click)="sentBulkMessage($event,message)">Send</button>
+				<ion-note item-end *ngIf="isToday(message.time) && bulkMessage != 'true' ">{{ message.time | date: 'h:mm a' }}</ion-note>
+				<ion-note item-end *ngIf="!isToday(message.time) && bulkMessage != 'true' ">{{ message.time | date: 'dd MMM' }}</ion-note>
 			</ion-item>
 			<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
 			   <ion-infinite-scroll-content></ion-infinite-scroll-content>

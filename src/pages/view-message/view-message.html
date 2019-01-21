@@ -1,11 +1,8 @@
 <ion-header>
-
   <ion-toolbar color="primary">
-    <ion-buttons left (tap)="goBack()" >
-      <button ion-button icon-only color="royal">
-        <ion-icon name="arrow-back"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-buttons left>
+	  <button ion-button icon-only (tap)="goBack()"><ion-icon name="arrow-back"></ion-icon></button>
+	</ion-buttons>
 	<div class="conversation_user" *ngIf="!group">
 	  <img [src]="imageURL+conversation.picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" style="width: 100%;height: 100%;">
 	</div>
@@ -17,6 +14,10 @@
    </ion-toolbar>
 </ion-header>
 <ion-content>
+	<ion-infinite-scroll style="height:0" position="top" threshold="1%" (ionInfinite)="doInfinite($event)">
+		<ion-infinite-scroll-content loadingSpinner="bubbles">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>
 	<ion-list style="margin-top:7px">
 	  <div *ngFor="let message of messages" class="conversation left {{myId}}" [ngClass]="{'right': message.user_id == myId, 'left': message.user_id != myId}">
 		<ion-note class="msg_time" *ngIf="isToday(message.time)">{{ message.time | date: 'h:mm a' }}</ion-note>
@@ -43,9 +44,6 @@
 <ion-footer no-padding>
   <ion-toolbar>
 	<ion-buttons left *ngIf="publishPhotos.length < '1'">
-	  <!--<button ion-button icon-only color="primary" (tap)="uploadFromVault()">
-		<ion-icon name="add-circle"></ion-icon>
-	  </button> -->
 	  <button ion-button icon-only color="primary" (tap)="takeCameraSnap()">
 		<ion-icon name="camera"></ion-icon>
 	  </button>

@@ -26,29 +26,29 @@ export class FriendsPage {
 	}
 
   ionViewDidLoad() {
-	this.user.getfriends(this.profile_id)
-	.then(data => {
-		this.friendLists = data[0];
-	});
-	
-	this.user.getSentRequest('sent_requests',parseInt(localStorage.getItem('user_id')))
-	.then(data => {
-		this.pendindFriendLists = data[0];
-	});
-	
-	this.user.getSuggestedUser('all',parseInt(localStorage.getItem('user_id')))
-	.then(data => {
-		this.getSuggestedUsers = data[0];
-		console.log(this.getSuggestedUsers);
-	});
+		this.user.getfriends(this.profile_id)
+		.then(data => {
+			this.friendLists = data[0];
+		});
+		
+		this.user.getSentRequest('sent_requests',parseInt(localStorage.getItem('user_id')))
+		.then(data => {
+			this.pendindFriendLists = data[0];
+		});
+		
+		this.user.getSuggestedUser('all',parseInt(localStorage.getItem('user_id')))
+		.then(data => {
+			this.getSuggestedUsers = data[0];
+			console.log(this.getSuggestedUsers);
+		});
 		
   }
   
   getOnlineUsers(){
-	 this.user.getOnlineUsers({user_id: parseInt(localStorage.getItem('user_id'))})
-	.then(data => {
-		this.onlineUsers = data[0];
-	}); 
+		this.user.getOnlineUsers({user_id: parseInt(localStorage.getItem('user_id'))})
+		.then(data => {
+			this.onlineUsers = data[0];
+		}); 
   }
   
 	addAction(event,user) {
@@ -92,7 +92,7 @@ export class FriendsPage {
 	
 
   viewProfile(user_name,user_id) {
-		this.navCtrl.setRoot('ProfilePage', {user_name: user_name,user_id:user_id});
+		this.navCtrl.push('ProfilePage', {user_name: user_name,user_id:user_id});
   } 
   
   goBack(){

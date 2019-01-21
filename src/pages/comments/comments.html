@@ -46,11 +46,11 @@
     <ion-row class="message_row">
       <ion-col col-9>
         <ion-item no-lines>
-          <input #comment_box type="text" placeholder="Message" [(ngModel)]="post_comment.message"  name="message">
+          <input #comment_box type="text" placeholder="Write a comment" [(ngModel)]="post_comment.message"  name="message">
         </ion-item>
       </ion-col>
       <ion-col col-3>
-      <button ion-button outline color="primary" (click)="postComment()" [disabled]="post_comment.message === ''">
+      <button ion-button outline color="primary" placeholder="Write a comment"  (click)="postComment()" [disabled]="post_comment.message === ''">
         Send
       </button>
       </ion-col>

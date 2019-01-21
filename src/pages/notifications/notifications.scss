@@ -13,6 +13,14 @@ page-notifications {
 		width: 100%;
 		display: block;
 		overflow: hidden;
-		font-size: 11px;
+		font-size: 14px;
 	}
+
+	ion-avatar img {
+		border-radius: 50% !important;
+		overflow: hidden !important;
+		width: 60px !important;
+		height: 60px !important;
+	}
+	
 }

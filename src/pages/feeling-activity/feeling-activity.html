@@ -21,7 +21,7 @@
 <ion-content>
 	<ion-list no-border *ngIf="feelingBox">
 		<ion-item *ngFor="let feeling of feelings; let i=index" (click)="setFeeling(feeling,i)">
-		 <ion-icon [name]="feeling.icon" item-start></ion-icon>
+		 <ion-icon [name]="feeling.icon"  item-start></ion-icon>
 		 {{feeling.text}}...			  
 		</ion-item>
 	</ion-list>
@@ -30,10 +30,14 @@
 			<ion-icon name='arrow-back' item-start></ion-icon>
 			{{feeling_action}}
 		</ion-item-divider>
-		<ion-item *ngFor="let type of feeling_types" (click)="setFeelingType(type.action)">
-		 <img width="35" height="35" src="../../assets/icon/{{type.icon}}" >
-		 {{type.text}}			  
-		</ion-item>
+		<div class="item feeling_wrap" *ngFor="let type of feeling_types" (click)="setFeelingType(type.action)">
+		 <div class="feelingIcon">	
+			<img width="35" height="35" src="../../assets/icon/{{type.icon}}" >
+		 </div>
+		 <div class="feelingText" >
+			{{type.text}}			  
+		 </div>
+		</div>
 	</ion-list>
 	<ion-list no-border *ngIf="feelingInputBox">
 	  <ion-item-divider color="light" (click)="goBack()">

@@ -1,0 +1,43 @@
+page-story {
+	ion-list {
+		margin: 0 !important;
+	}
+	.dark_page{
+		background: #000;
+		color: #fff;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+	}
+	.preloader {
+		position: fixed;
+		top: 0px;
+		height: 100%;
+		width: 100%;
+		left: 0px;
+		right: 0px;
+		background: #fff;
+		z-index: 200;
+		opacity: 1;
+		-webkit-transition: opacity 1s;
+		transition: opacity 1s;
+	}
+	
+	.preloader.gone{
+	  opacity: 0;
+	  z-index: -100;
+	}
+
+	.loader{
+	  height: 4px;
+	  background-color: #9C27B0;
+      position: absolute;
+      width: 100%;
+      left: 0px;
+	}
+
+	.otherloader{
+	  height: 0px;
+	  background-color: #cce5e2;
+	}
+}

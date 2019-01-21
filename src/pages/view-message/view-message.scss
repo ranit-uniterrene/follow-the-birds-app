@@ -24,7 +24,7 @@ page-view-message {
 		float: left;
 	}
 	.right .conversation_body {
-		background: #729ecc;
+		background: #117cec;
 		color: #fff;
 		float: right;
 	}
@@ -48,7 +48,7 @@ page-view-message {
 		width: 0;
 		height: 0;
 		border: 8px solid transparent;
-		border-color: transparent transparent transparent #729ecc;
+		border-color: transparent transparent transparent #117cec;
 		-webkit-box-shadow: 0 0 black;
 		box-shadow: 0 0 black;
 		z-index: 9;
@@ -82,7 +82,7 @@ page-view-message {
         background-repeat: no-repeat !important;
         background-position: center center !important; 
 		.remove_photo {
-			position: ABSOLUTE;
+			position: absolute;
 			right: 0;
 			text-align: center;
 			background: #fff;
@@ -102,6 +102,7 @@ page-view-message {
 		bottom: 0;
 		background: #fff;
 		z-index: 9;
+		height: 0;
 	}
 	.publisher-photos {
 		border-right: 1px solid #e8e8e8;

@@ -25,6 +25,7 @@ export class ViewMessagePage {
   private group = false;
   public publishPhotos : any = [];
   myId = localStorage.getItem('user_id');
+  private pageCount = 1;
   public chatBox : any = {
 		image: "",
 		message: "",
@@ -39,8 +40,8 @@ export class ViewMessagePage {
   };
   sub : any = '';
   private chatInfo : any = {
-		message: '',
-		user_id:localStorage.getItem('user_id')
+	message: '',
+	user_id:localStorage.getItem('user_id')
   };
   
   private recipients = [];
@@ -61,15 +62,16 @@ export class ViewMessagePage {
 			this.recipients.push(this.conversation.id);
 			this.chatInfo['recipients'] = this.recipients;
 		}
-		this.sub = Observable.interval(4000)
+		this.sub = Observable.interval(2000)
 			.subscribe((val) => { this.getLiveLiteChat() });
 	}
 
-	ionViewDidLoad() {	 
+	ionViewDidLoad() {
 	  if(this.conversation.conversation_id) {		
 		this.user.viewMessage({user_id:localStorage.getItem('user_id'),conversation_id:this.conversation.conversation_id}).then(data => {
 			this.messages = data['messages'];	
 			localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
+			this.update_scroll();
 		});
 	  } else {
 		this.user.getMessages({user_id:localStorage.getItem('user_id'),ids:this.conversation.id}).then(data => {
@@ -78,9 +80,12 @@ export class ViewMessagePage {
 				localStorage.setItem('last_message_id',this.messages[this.messages.length-1].message_id)
 			}	   
 			if(data[0].conversation_id){
-			this.chatInfo['conversation_id'] = data[0].conversation_id;
+				this.conversation.conversation_id = data[0].conversation_id;
+				this.chatInfo['conversation_id'] = data[0].conversation_id;	
 			}
+			this.update_scroll();
 		});
+		
 	  }
 	}
 
@@ -120,6 +125,8 @@ export class ViewMessagePage {
   sendMessage(){
 	  this.user.postMessage(this.chatInfo).subscribe((resp) => {	
 		this.publishPhotos = [];
+		this.chatInfo = [];
+		this.chatInfo.message = [];
 	}, (err) => {
 		
 	});
@@ -155,35 +162,35 @@ export class ViewMessagePage {
 			picture:profile.user_picture,
 			id:profile.user_id
 		};
-		this.navCtrl.setRoot('ViewMessagePage', {conversation: recipient});
+		this.navCtrl.push('ViewMessagePage', {conversation: recipient});
 	}
   
   getBackgroundStyle(url) {
-		if(!url){
-			return 'url(assets/followthebirdImgs/no-profile-img.jpeg)'
-		} else {
-			return 'url(' + this.imageURL+url + ')'
-		}
+	if(!url){
+		return 'url(assets/followthebirdImgs/no-profile-img.jpeg)'
+	} else {
+		return 'url(' + this.imageURL+url + ')'
+	}
   }
   
   removePhoto(){
-	  this.publishPhotos = [];
-	  this.chatInfo['photo'] = '';
+	this.publishPhotos = [];
+	this.chatInfo['photo'] = '';
   }
   
   uploadFromGallery(){
-		this.postPhoto.nativeElement.click();
+	this.postPhoto.nativeElement.click();
   }
   
   processWebImage(event) {
-		let reader = new FileReader();
-		reader.onload = (readerEvent) => {
-		let imageData = (readerEvent.target as any).result;
-		this.postPhotoOptions.patchValue({ 'file': imageData });
-		this.postPhotoOptions.patchValue({ 'multiple': false });
-		this.uploadPhoto(this.postPhotoOptions);	  
-		};
-		reader.readAsDataURL(event.target.files[0]);
+	let reader = new FileReader();
+	reader.onload = (readerEvent) => {
+	let imageData = (readerEvent.target as any).result;
+	this.postPhotoOptions.patchValue({ 'file': imageData });
+	this.postPhotoOptions.patchValue({ 'multiple': false });
+	this.uploadPhoto(this.postPhotoOptions);	  
+	};
+	reader.readAsDataURL(event.target.files[0]);
   }
   
   uploadPhoto(params){
@@ -206,9 +213,7 @@ export class ViewMessagePage {
 		});
 	}
   
-  goBack(){
-		this.navCtrl.setRoot('MessagesPage');
-	}
+	
 	
 	getLiveLiteChat(){
 		let items :any = {
@@ -223,9 +228,52 @@ export class ViewMessagePage {
 				for (var key in item) {
 				  this.messages.push(item[key]);
 				}
+				this.update_scroll();
 			}
+			
 		}, (err) => {
 				
 		});
+		
 	}
+	
+	doInfinite(infiniteScroll) {
+		setTimeout(() => {
+		  if(this.conversation.conversation_id) {		
+			this.user.loadMessages({user_id:localStorage.getItem('user_id'),conversation_id:this.conversation.conversation_id,'page': this.pageCount}).then(data => {
+				let item : any = data[0];
+				if(data[0].length > 0){
+					for (var key in item) {
+					  this.messages.unshift(item[key]);
+					}
+				}
+				this.pageCount = this.pageCount + 1;
+			});
+		  } else {
+			this.user.loadMessages({user_id:localStorage.getItem('user_id'),ids:this.conversation.id,'page': this.pageCount}).then(data => {
+				let item : any = data[0];
+				if(data[0].length > 0){
+					for (var key in item) {
+					  this.messages.unshift(item[key]);
+					}
+				}
+				this.pageCount = this.pageCount + 1;
+			});
+		  }
+		  infiniteScroll.complete();
+		}, 100);
+	}
+	
+	update_scroll(){		
+		setTimeout(function(){
+			var aa = document.getElementsByClassName('scroll-content');
+			aa[4].scrollTo(0,aa[4].scrollHeight)
+		},10)
+	}
+	
+	goBack(){
+		this.navCtrl.pop();
+	}
+	
+	
 }

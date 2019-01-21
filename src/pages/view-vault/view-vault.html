@@ -63,8 +63,8 @@
 	
 	<ion-grid class="photosGrid" class="photosGrid" *ngIf="type == 'mp4'">
 		<ion-row>
-			<ion-col class="selected_files" *ngFor="let file of files; let i=index" col-6 (press)="pressEvent($event)">		
-				<video style="width:100%" controls preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+			<ion-col class="selected_files" *ngFor="let file of files; let i=index" col-12 (press)="pressEvent($event)">		
+				<video style="width:100%;padding: 7px;" controls preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
 					<source [src]="imageURL+file" type="video/mp4"/>
 				</video>
 				<ion-checkbox *ngIf="activeAdd" (ionChange)="onChange(file, $event, i)" value="file" ></ion-checkbox>

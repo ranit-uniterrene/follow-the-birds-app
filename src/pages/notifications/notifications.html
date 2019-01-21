@@ -8,10 +8,11 @@
 			Notifications
 		</ion-item-divider>
 		<ion-item *ngFor="let notification of notifications" class="seen" [ngClass]="{'seen': notification.seen == '1', 'unseen': notification.seen != '1'}">
-				<ion-avatar item-start text-wrap (click)="viewProfile(notification.user_name,notification.user_id)">
+				<ion-avatar class="user_photo" item-start text-wrap (click)="viewProfile(notification.user_name,notification.user_id)">
 				  <img [src]="imageURL+notification.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 				</ion-avatar>
-				<p text-wrap (click)="viewProfile(notification.user_name,notification.user_id)"><strong>{{notification.user_firstname}} {{notification.user_lastname}}</strong> <span>{{notification.message}}</span></p>
+				
+				<p style="font-size: 17px;" text-wrap (click)="viewProfile(notification.user_name,notification.user_id)"> <ion-icon [name]="notification.icon"></ion-icon> <strong>{{notification.user_firstname}} {{notification.user_lastname}}</strong> <span>{{notification.message}}</span></p>
 				<ion-note class="msg_time" *ngIf="isToday(notification.time)">{{ notification.time | date: 'h:mm a' }}</ion-note>
 				<ion-note class="msg_time" *ngIf="!isToday(notification.time)" color="primary">{{ notification.time | date: 'dd MMM' }} at {{ notification.time | date: 'h:mm a' }}</ion-note> 
 		</ion-item>

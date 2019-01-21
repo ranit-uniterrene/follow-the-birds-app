@@ -24,6 +24,7 @@
 
 
 <ion-content>
+	<img [src]="dummyImage" />
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
     <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
     <div class="profile-image-wrapper" (click)="getPicture()">

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-list class="dark_page">
+	  <ion-item class="dark_page">
+		<ion-avatar item-start>
+		  <img [src]="imageURL+story.user_picture">
+		</ion-avatar>
+		<h2>{{story.user_firstname}} {{story.user_lastname}}</h2>
+	  </ion-item>
+  </ion-list>
+  <div class="loader" [style.width.%]='loaderWidth'></div>
+</ion-header>
+<ion-content class="dark_page">
+	
+	<ion-slides autoplay="10000" loop="true" speed="300" (ionSlideDidChange)="lineLoader()">
+	  <ion-slide *ngFor="let media of mediaStory">
+		<img [src]="imageURL+media.src" />
+	  </ion-slide>
+	</ion-slides>	
+</ion-content>
+<ion-footer class="dark_page" *ngIf="story.text">
+	<ion-row>
+	  <ion-col text-center>
+		{{story.text}}
+	  </ion-col>		  
+	</ion-row>
+</ion-footer>

@@ -10,7 +10,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="readyState=='true'">
   <ion-refresher (ionRefresh)="doRefresh($event)">
      <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -67,18 +67,18 @@
     <ion-row>
 	  <ion-col col-3>
         <button ion-button clear block full *ngIf="profile.we_friends" (click)="friendsAction()"> 
-            <ion-icon ios="ios-person-add" md="md-person"></ion-icon>
+            <ion-icon ios="ios-person" md="md-person"></ion-icon>
             Friends
         </button>
 		<button ion-button clear block full *ngIf="profile.he_request" (click)="responseAction()"> 
             <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon>
             Respond
         </button>
-		<button ion-button clear block full *ngIf="profile.i_request" (click)="sentAction()"> 
+	    	<button ion-button clear block full *ngIf="profile.i_request" (click)="sentAction()"> 
             <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon>
             Sent
         </button>
-		<button ion-button clear block full *ngIf="!profile.i_request && !profile.he_request && !profile.we_friends" (click)="addAction()"> 
+	    	<button ion-button clear block full *ngIf="!profile.i_request && !profile.he_request && !profile.we_friends" (click)="addAction()"> 
             <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon>
             Add Friend
         </button>
@@ -199,8 +199,7 @@
                 </button>
                 <p>Friends</p>
             </ion-col>
-            <ion-col col-4 *ngFor="let friend of friendLists | slice:0:6; let i=index">
-				
+            <ion-col col-4 *ngFor="let friend of friendLists | slice:0:6; let i=index">		
                 <div class="ImgWrapSmall" [style.backgroundImage]="getBackgroundStyle(friend.user_picture)" (click)="viewProfile(friend.user_name,friend.user_id)" >                               
                 </div>
 				<p (click)="viewProfile(friend.user_name)"><strong>{{friend.user_firstname}} {{friend.user_lastname}}</strong></p>
@@ -217,7 +216,7 @@
             </ion-col> 
         </ion-row>
     </ion-grid>
-	<ion-card *ngFor="let feeds of postFeeds">
+	<ion-card *ngFor="let feeds of postFeeds; let i = index">
 		<ion-item text-wrap>
 		  <ion-avatar item-start (click)="viewProfile(feeds.user_name)">
 			<img [src]="imageURL+feeds.post_author_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" />
@@ -233,18 +232,35 @@
 			<p style="padding-bottom: 3px;padding-left: 10px;">{{feeds.text}}</p>
 		</ion-card-content>
 		<div (click)= "viewPost(feeds)">	
-			<div class="pg_wrapper" *ngIf="feeds.photos_num <= 2">
-				<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos">
-					<img [src]="imageURL+photo.source" >
-				</div>	
-			</div>	
-			<div class="pg_wrapper" *ngIf="feeds.photos_num > 2">
-				<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" ></div>
-				<div class="pg_2x" >
-					<div class="pg_4x" *ngFor="let photo of feeds.photos | slice:1:feeds.photos_num; " [style.backgroundImage]="getBackgroundStyle(photo.source)" >
+		<div class="pg_wrapper" *ngIf="feeds.photos_num <= 2">
+			<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.photos_num">
+			</div>
+		</div>	
+		<div class="pg_wrapper" *ngIf="feeds.photos_num == 3">
+			<div class="pg_1x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" [style.height.px]="width/2">
+			</div>
+			<div class="pg_1x " [style.height.px]="width/2">
+				<div class="pg_2x" [style.height.px]="width/2" *ngFor="let photo of feeds.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+			</div>
+		</div>		
+		<div class="pg_wrapper" *ngIf="feeds.photos_num == 4">
+			<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.photos_num">
+			</div>
+		</div>
+		<div class="pg_wrapper" *ngIf="feeds.photos_num >= 5">
+			<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" [style.height.px]="width/2"></div>
+			<div class="pg_2x " [style.height.px]="width/2">
+				<div class="pg_4x" [style.height.px]="width/4" *ngFor="let photo of feeds.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+				<div class="pg_4x" style="position:relative" [style.height.px]="width/4" *ngFor="let photo of feeds.photos | slice:4:5; " [style.backgroundImage]="getBackgroundStyle(photo.source)" >
+					<div class="more" *ngIf="feeds.photos_num > 5" >
+					 <span class="more-number">
+					     +{{feeds.photos_num - 5}}
+					 </span>
 					</div>
 				</div>
+				
 			</div>
+		</div>		
 		
 			<div *ngIf="feeds.post_type == 'video'">
 				<video *ngFor="let vid of feeds.video" style="width:100%" controls preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
@@ -282,17 +298,33 @@
 				</ion-item>
 				<ion-card-content>
 					<p style="padding-bottom: 3px;padding-left: 20px;">{{feeds.origin.text}}</p>
-					<!--<img *ngFor="let photo of feeds.origin.photos" [src]="imageURL+photo.source" > -->
 					<div class="pg_wrapper" *ngIf="feeds.origin.photos_num <= 2">
-						<div class="pg_{{feeds.origin.photos_num}}x" *ngFor="let photo of feeds.origin.photos">
-							<img [src]="imageURL+photo.source" >
-						</div>	
-					</div>	
-					<div class="pg_wrapper" *ngIf="feeds.origin.photos_num > 2">
-						<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.origin.photos[0].source)" ></div>
-						<div class="pg_2x" >
-							<div class="pg_4x" *ngFor="let photo of feeds.origin.photos | slice:1:feeds.origin.photos_num; " [style.backgroundImage]="getBackgroundStyle(photo.source)" >
+						<div class="pg_{{feeds.origin.photos_num}}x" *ngFor="let photo of feeds.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.origin.photos_num">
+						</div>
+					</div>
+					<div class="pg_wrapper" *ngIf="feeds.origin.photos_num == 3">
+						<div class="pg_1x" [style.backgroundImage]="getBackgroundStyle(feeds.origin.photos[0].source)" [style.height.px]="width/2">
+						</div>
+						<div class="pg_1x " [style.height.px]="width/2">
+							<div class="pg_2x" [style.height.px]="width/2" *ngFor="let photo of feeds.origin.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+						</div>
+					</div>		
+					<div class="pg_wrapper" *ngIf="feeds.origin.photos_num == 4">
+						<div class="pg_{{feeds.origin.photos_num}}x" *ngFor="let photo of feeds.origin.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.origin.photos_num">
+						</div>
+					</div>
+					<div class="pg_wrapper" *ngIf="feeds.origin.photos_num >= 5">
+						<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.origin.photos[0].source)" [style.height.px]="width/2"></div>
+						<div class="pg_2x " [style.height.px]="width/2">
+							<div class="pg_4x" [style.height.px]="width/4" *ngFor="let photo of feeds.origin.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+							<div class="pg_4x" style="position:relative" [style.height.px]="width/4" *ngFor="let photo of feeds.origin.photos | slice:4:5; " [style.backgroundImage]="getBackgroundStyle(photo.source)" >
+								<div class="more" *ngIf="feeds.origin.photos_num > 5" >
+								 <span class="more-number">
+									 +{{feeds.origin.photos_num - 5}}
+								 </span>
+								</div>
 							</div>
+							
 						</div>
 					</div>
 					<div *ngIf="feeds.origin.post_type == 'video'">
@@ -323,7 +355,7 @@
 		</div>
 		<ion-row>
 		  <ion-col>
-			<button ion-button color="primary" clear small icon-start (click)="viewComments(feeds.post_comments,feeds.post_id)">
+			<button ion-button color="primary" clear small icon-start (click)="viewComments(i,feeds.post_comments,feeds.post_id)">
 				<ion-icon ios="ios-text" md="md-text"></ion-icon>
 				{{feeds.comments}} Comments
 			</button>
@@ -342,4 +374,7 @@
 	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
 	   <ion-infinite-scroll-content></ion-infinite-scroll-content>
 	</ion-infinite-scroll>
+</ion-content>
+<ion-content *ngIf="readyState=='false'">
+  <ion-spinner name="bubbles"></ion-spinner>
 </ion-content>

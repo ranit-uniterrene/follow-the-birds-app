@@ -42,42 +42,50 @@ export class PostPage {
 		group_cover: 'updated group cover',
 		event_cover: 'updated event cover'
   };
-	 sub : any = '';
-	 slidesPerView : number = 1;
-   public postElement = [];
-   public sharedInfo = [];
-   private pageCount = 2;
-   private arrayPosition = 0;
-   private isAndroid = false;
-	 private mediapath = "https://dev.followthebirds.com/content/uploads/";
-	 usermayknow : any = [];
-   constructor(
-    public navCtrl: NavController, 
-    public user: User,
-    public post: Post,  
-    public storage: StorageProvider,
-    public toastCtrl: ToastController,
-    public navParams: NavParams,  
-    private camera: Camera,
+	sub : any = '';
+	slidesPerView : number = 1;
+	public postElement = [];
+	public sharedInfo = [];
+	private pageCount = 2;
+	private arrayPosition = 0;
+	private isAndroid = false;
+	private mediapath = "https://dev.followthebirds.com/content/uploads/";
+	usermayknow : any = [];
+	stories : any = [];
+	height : number = 300;
+	width : number = 300;
+	private user_picture = localStorage.getItem('user_picture')
+	constructor(
+		public navCtrl: NavController, 
+		public user: User,
+		public post: Post,  
+		public storage: StorageProvider,
+		public toastCtrl: ToastController,
+		public navParams: NavParams,  
+		private camera: Camera,
 		public actionSheetCtrl: ActionSheetController,
-    public menu: MenuController,
+		public menu: MenuController,
 		private photoViewer: PhotoViewer,
-    public nav: Nav,
+		public nav: Nav,
 		public modalCtrl: ModalController,
 		private transfer: FileTransfer,
 		private file: File,
 		private platform: Platform,
 		private alertCtrl: AlertController	
   ) {
-	  this.sub = Observable.interval(3000)
+		platform.ready().then((readySource) => {
+			this.width = platform.width();
+			this.height = platform.height();
+		});
+		this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getLiveLitePost() });
   }
   
   ionViewDidLoad() {
-		this.isAndroid = this.platform.is("android");
-		this.postElement['handle'] = "me";
-		this.postElement['id'] = '';  
-    this.post.getfeeds('newsfeed',localStorage.getItem('user_id'),localStorage.getItem('user_id'),{})
+	this.isAndroid = this.platform.is("android");
+	this.postElement['handle'] = "me";
+	this.postElement['id'] = '';  
+	this.post.getfeeds('newsfeed',localStorage.getItem('user_id'),localStorage.getItem('user_id'),{})
     .then(data => {
 			this.postFeeds = [];
 			let item = data[0];
@@ -85,13 +93,13 @@ export class PostPage {
 			for (var key in item) {
 				this.postFeeds.push(item[key]);
 			}
-		})
-		this.getPeopleYouMayKnow()
+	});
+	this.getStories()
   }
   
-  ionViewDidLeave() {
+  /* ionViewDidLeave() {
 		this.sub.unsubscribe();
-  }
+  } */
   
   doInfinite(infiniteScroll) {
     setTimeout(() => {
@@ -110,32 +118,44 @@ export class PostPage {
   }
   
   doRefresh(refresher) {
-	this.ionViewDidLoad();
+		this.ionViewDidLoad();
     setTimeout(() => {
       refresher.complete();
     }, 2000);
   }
  
   viewImage(url){
-		const option : PhotoViewerOptions = {
-				share: true
-			};
-		this.photoViewer.show(this.mediapath+url,"Image Preview",option);
+	const option : PhotoViewerOptions = {
+			share: true
+		};
+	this.photoViewer.show(this.mediapath+url,"Image Preview",option);
   }
   
   getPeopleYouMayKnow(){
-		this.user.getPeopleYouMayKnow('may_know',parseInt(localStorage.getItem('user_id')))
-		.then(data => {
-			this.usermayknow = data[0];
-		});
-	}
+	this.user.getPeopleYouMayKnow('may_know',parseInt(localStorage.getItem('user_id')))
+	.then(data => {
+		this.usermayknow = data[0];
+	});
+  }
+  
+  getStories(){
+	this.user.getStories({user_id:localStorage.getItem('user_id')})
+	.then(data => {
+		this.stories = data[0];
+		console.log(this.stories[0].media[0].src)
+	});
+  }
+  
+  viewStory(story){
+	this.nav.push('StoryPage',{story: story});
+  }
   
   viewPost(post) {
-		if(post.photos_num == '1'){
-			this.nav.push('ViewPhotoPage', {photo: post.photos[0]});
-		} else {	
-			this.nav.push('ViewPostPage', {post: post});
-		}
+	if(post.photos_num == '1'){
+		this.nav.push('ViewPhotoPage', {photo: post.photos[0]});
+	} else {	
+		this.nav.push('ViewPostPage', {post: post});
+	}
   }
   
   viewProfile(post) {
@@ -175,8 +195,11 @@ export class PostPage {
 	 });
   }
   
-  viewComments(comments,post_id){
+  viewComments(index,comments,post_id){
 	const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':'post'});
+	 commentsModal.onDidDismiss(data => {
+		this.postFeeds[index].comments = data;
+	});
 	commentsModal.present();
   }
   

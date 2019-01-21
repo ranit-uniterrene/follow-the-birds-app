@@ -32,6 +32,7 @@ export class ProfilePage {
 	profilePhotoOptions: FormGroup;
 	coverPhotoOptions: FormGroup;
 	sub : any = '';
+	public readyState = 'false';
 	private imageURL = "https://dev.followthebirds.com/content/uploads/";
 	private myId :number = parseInt(localStorage.getItem('user_id'));
 	headerActive = false;
@@ -40,6 +41,8 @@ export class ProfilePage {
 	private profile_id;
 	public postElement = [];
 	postFeeds: any = [];
+	height : number = 300;
+	width : number = 300;
 	post_type: any = {
 		shared: 'shared',
 		link: 'shared a link',
@@ -80,6 +83,10 @@ export class ProfilePage {
 		private file: File,
 		private alertCtrl: AlertController			
     ) {
+		platform.ready().then((readySource) => {
+			this.width = platform.width();
+			this.height = platform.height();
+		});
 		this.profileName = navParams.get('user_name') || localStorage.getItem('user_name');
 		this.profile_id = navParams.get('user_id') || localStorage.getItem('user_id');
 		if(navParams.get('user_name')){
@@ -116,9 +123,21 @@ export class ProfilePage {
 	
 	ionViewDidLoad(){
 		this.user.getProfile(parseInt(localStorage.getItem('user_id')),{'user_name':this.profileName}).then(data => {
-			this.profile = data;
-			this.postElement['handle'] = "user";
-			this.postElement['id'] = this.profile_id;
+			if(data){
+				this.profile = data;
+				this.postElement['handle'] = "user";
+				this.postElement['id'] = this.profile_id;
+				this.readyState = 'true';
+			} else {
+				let toast = this.toastCtrl.create({
+					message: "This user can not be visible",
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
+				this.nav.setRoot('HomePage');
+			}
+			
 		});
 		
 		this.photos = [];
@@ -351,9 +370,9 @@ export class ProfilePage {
 		}, (err) => {
 			loading.dismiss();		
 		  let toast = this.toastCtrl.create({
-			message: "image uploading failed",
-			duration: 3000,
-			position: 'top'
+				message: "image uploading failed",
+				duration: 3000,
+				position: 'top'
 		  });
 		  toast.present();
 		});
@@ -597,8 +616,11 @@ export class ProfilePage {
 		this.navCtrl.push('ViewMessagePage', {conversation: recipient});
 	}
 	
-	viewComments(comments,post_id,){
+	viewComments(index,comments,post_id){
 		const commentsModal = this.modalCtrl.create('CommentsPage',{comments,'post_id':post_id,'handle':'post'});
+		 commentsModal.onDidDismiss(data => {
+			this.postFeeds[index].comments = data;
+		});
 		commentsModal.present();
 	}
 	

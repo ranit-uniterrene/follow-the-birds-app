@@ -37,8 +37,8 @@ export class WhatsOnMindPage {
 	message: '',
     album: '',
     feeling_action:'',
-	feeling_value: '',
-	location : '',
+		feeling_value: '',
+		location : '',
     privacy: 'public',
     link: '',
     poll_options:'',
@@ -54,7 +54,7 @@ export class WhatsOnMindPage {
   public publishPhotos : any = [];
 	public icon;
 	private mediaPublisher : any ='';
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://dev.followthebirds.com/content/uploads/";
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -157,7 +157,7 @@ export class WhatsOnMindPage {
   }
 
   closeModal(){
-    this.navCtrl.setRoot('HomePage');
+    this.navCtrl.pop();
   }
   
   setUser(){    
@@ -168,9 +168,9 @@ export class WhatsOnMindPage {
   getFeelings(){
 	   let profileModal = this.modalCtrl.create('FeelingActivityPage');
 	   profileModal.onDidDismiss(data => {
-		 this.publisherInfo.feeling_action = data.feeling_action;
-		 this.publisherInfo.feeling_value = data.feeling_value;
-		 this.icon = data.icon;
+			this.publisherInfo.feeling_action = data.feeling_action;
+			this.publisherInfo.feeling_value = data.feeling_value;
+			this.icon = data.icon;
 	   });
 	   profileModal.present();
   }
@@ -179,7 +179,15 @@ export class WhatsOnMindPage {
     this.loading.present();
       //Attempt to login in through our User service
       this.post.publishPost(this.publisherInfo).subscribe((resp) => {
-        this.loading.dismiss();
+				this.loading.dismiss();
+				this.loading.dismiss();
+        let toast = this.toastCtrl.create({
+          message: "Status has been successfully posted.",
+          duration: 3000,
+          position: 'top',
+          dismissOnPageChange: true
+        });
+        toast.present();
         this.closeModal();
       }, (err) => {
         this.loading.dismiss();
@@ -192,6 +200,14 @@ export class WhatsOnMindPage {
         toast.present();
         this.closeModal();
       });
+  }
+  
+  removePhoto(index){
+	var index = this.publishPhotos.indexOf(index);
+	if (index > -1) {
+	  this.publishPhotos.splice(index, 1);
+	}
+	this.publisherInfo.photos = JSON.stringify(this.publishPhotos);
   }
 
   uploadPicture() {
@@ -285,35 +301,34 @@ export class WhatsOnMindPage {
   }
   
   uploadFromVault(filter){
-	  console.log(this.publisherInfo.handle+this.publisherInfo.id);
-	this.navCtrl.setRoot("VaultsPage",{'filter':filter,handle:this.publisherInfo.handle,handle_id:this.publisherInfo.id});
+		this.navCtrl.setRoot("VaultsPage",{'filter':filter,handle:this.publisherInfo.handle,handle_id:this.publisherInfo.id});
   }
 
   uploadFile() {
-	const actionSheet = this.actionSheetCtrl.create({
-	  buttons: [
-		{
-		  icon: !this.platform.is('ios') ? 'ios-attach' : null,		
-		  text: 'Upload Attachment',
-		  handler: () => {
-			this.uploadFromGallery('file');
-		  }
-		},{
-		  icon: !this.platform.is('ios') ? 'ios-folder' : null,		
-		  text: 'Upload from vault',
-		  handler: () => {
-			this.uploadFromVault('files');
-		  }
-		},{
-		  icon: !this.platform.is('ios') ? 'close' : null,
-		  text: 'Cancel',
-		  role: 'cancel',
-		  handler: () => {
-		  }
-		}
-	  ]
-	});
-	actionSheet.present();
+		const actionSheet = this.actionSheetCtrl.create({
+			buttons: [
+			{
+				icon: !this.platform.is('ios') ? 'ios-attach' : null,		
+				text: 'Upload Attachment',
+				handler: () => {
+				this.uploadFromGallery('file');
+				}
+			},{
+				icon: !this.platform.is('ios') ? 'ios-folder' : null,		
+				text: 'Upload from vault',
+				handler: () => {
+				this.uploadFromVault('files');
+				}
+			},{
+				icon: !this.platform.is('ios') ? 'close' : null,
+				text: 'Cancel',
+				role: 'cancel',
+				handler: () => {
+				}
+			}
+			]
+		});
+		actionSheet.present();
   }
   
   

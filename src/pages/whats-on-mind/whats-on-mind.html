@@ -37,19 +37,20 @@
           <ion-list>
             
           </ion-list>
-          <ion-card-content>
-      <ion-textarea [(ngModel)]="publisherInfo.message" rows="1" placeholder="Whats on your mind" class="main_textarea_field" name="message"></ion-textarea>
-      <div class="publisher-meta" *ngIf="mediaPublisher == 'video'"><ion-icon name="videocam"></ion-icon> {{mediaPublisher}} has been uploaded</div>
-      <div class="publisher-meta" *ngIf="mediaPublisher == 'audio'"><ion-icon name="musical-notes"></ion-icon> {{mediaPublisher}} has been uploaded</div>
-      <div class="publisher-meta" *ngIf="mediaPublisher == 'file'"><ion-icon name="attach"></ion-icon> {{mediaPublisher}} has been uploaded</div>
-      </ion-card-content>
+        <ion-card-content>
+		  <ion-textarea [(ngModel)]="publisherInfo.message" rows="1" placeholder="Whats on your mind" class="main_textarea_field" name="message"></ion-textarea>
+		  <div class="publisher-meta" *ngIf="mediaPublisher == 'video'"><ion-icon name="videocam"></ion-icon> {{mediaPublisher}} has been uploaded</div>
+		  <div class="publisher-meta" *ngIf="mediaPublisher == 'audio'"><ion-icon name="musical-notes"></ion-icon> {{mediaPublisher}} has been uploaded</div>
+		  <div class="publisher-meta" *ngIf="mediaPublisher == 'file'"><ion-icon name="attach"></ion-icon> {{mediaPublisher}} has been uploaded</div>
+		</ion-card-content>
 		  <input type="file" #postPhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" multiple/>
 		  <input type="file" #postVideo style="visibility: hidden; height: 0px" name="files[]" (change)="processWebVideo($event)"/>
 		  <input type="file" #postAudio style="visibility: hidden; height: 0px" name="files[]" (change)="processWebAudio($event)"/>
 		  <input type="file" #postFile style="visibility: hidden; height: 0px" name="files[]" (change)="processWebFile($event)"/>
         <ion-row>
             <ion-col *ngFor="let photo of publishPhotos" col-4 class="publisher-photos">		
-				<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo)" (click)="viewImage(photo)">
+				<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo)" >
+				  <span class="remove_photo" (click)="removePhoto(photo)">X</span>
 				</div>
 			</ion-col>
         </ion-row>
@@ -66,26 +67,26 @@
       </ion-card>
 	  <ion-list>
       <ion-item>
-			<ion-icon ios="ios-arrow-up" md="md-arrow-up" center></ion-icon>
+		  <ion-icon ios="ios-arrow-up" md="md-arrow-up" center></ion-icon>
 		  </ion-item>
 		  <ion-item (tap)="getFeelings()">
 			<ion-icon name="happy" item-start></ion-icon>
 			  Feelings/Activity
 		  </ion-item>
 		  <ion-item (tap)="uploadPicture()">
-			<ion-icon name="camera" item-start></ion-icon>
+			<ion-icon name="camera" style="color:#2176b9" item-start></ion-icon>
 			  Add Photos
 		  </ion-item>
 		  <ion-item (tap)="uploadAudio()">
-			<ion-icon name="musical-notes" item-start></ion-icon>
+			<ion-icon name="musical-notes" style="color:#0f867b" item-start></ion-icon>
 			  Add Audio
 		  </ion-item>
 		  <ion-item (tap)="uploadVideo()">
-			<ion-icon name="videocam" item-start></ion-icon>
+			<ion-icon name="videocam"  style="color:#e6190a" item-start></ion-icon>
 			  Add Video
 		  </ion-item>
 		  <ion-item (tap)="uploadFile()">
-			<ion-icon name="attach" item-start></ion-icon>
+			<ion-icon name="attach"  style="color:#6015e6" item-start></ion-icon>
 			  Add File
 		  </ion-item>		  
 	  </ion-list>

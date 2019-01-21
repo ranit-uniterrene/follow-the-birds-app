@@ -39,14 +39,13 @@ export class CommentsPage {
 	if(this.post_comment.handle == 'photo'){
 		this.user.getPhoto(parseInt(localStorage.getItem('user_id')),{'photo_id':this.post_comment.id})
 			.then(data => {
-			console.log(data);
 			this.comments = data['photo_comments'];
 		});
 	} 
   }
 	
   dismiss() {
-   this.viewCtrl.dismiss();
+   this.viewCtrl.dismiss(this.comments.length);
   }
   
     setReplyComment(comments,post_id){
@@ -56,7 +55,6 @@ export class CommentsPage {
   
   
 	postComment(){
-		console.log(this.post_comment);
 	  this.post.postComment(this.post_comment).subscribe((resp) => {	
 		  this.comments.push(resp);
 		  this.post_comment.message = '';

@@ -48,7 +48,7 @@
 	<whats-on-mind [handle]="postElement" *ngIf="groupProfile.i_joined == 'approved'"></whats-on-mind>  
   <div [ngSwitch]="groupDetailszone">
 		<ion-list *ngSwitchCase="'timeline'">
-			<ion-card *ngFor="let feeds of groupProfile.posts" full>
+			<ion-card *ngFor="let feeds of groupProfile.posts; let i = index" full>
 				<ion-item text-wrap>
 					<ion-avatar item-start (click)="viewProfile(feeds.user_name)">
 					<img [src]="imageURL+feeds.post_author_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" />
@@ -64,15 +64,32 @@
 					<p style="padding-bottom: 3px;padding-left: 10px;">{{feeds.text}}</p>
 				</ion-card-content>   
 				<div class="pg_wrapper" *ngIf="feeds.photos_num <= 2">
-					<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos">
-						<img [src]="imageURL+photo.source" (click)="viewImage(photo.source)">
-					</div>	
+					<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.photos_num">
+					</div>
 				</div>	
-				<div class="pg_wrapper" *ngIf="feeds.photos_num > 2">
-					<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" ></div>
-					<div class="pg_2x" >
-						<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos | slice:1:feeds.photos_num; " [style.backgroundImage]="getBackgroundStyle(photo.source)" (click)="viewImage('')">
+				<div class="pg_wrapper" *ngIf="feeds.photos_num == 3">
+					<div class="pg_1x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" [style.height.px]="width/2">
+					</div>
+					<div class="pg_1x " [style.height.px]="width/2">
+						<div class="pg_2x" [style.height.px]="width/2" *ngFor="let photo of feeds.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+					</div>
+				</div>		
+				<div class="pg_wrapper" *ngIf="feeds.photos_num == 4">
+					<div class="pg_{{feeds.photos_num}}x" *ngFor="let photo of feeds.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.photos_num">
+					</div>
+				</div>
+				<div class="pg_wrapper" *ngIf="feeds.photos_num >= 5">
+					<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.photos[0].source)" [style.height.px]="width/2"></div>
+					<div class="pg_2x " [style.height.px]="width/2">
+						<div class="pg_4x" [style.height.px]="width/4" *ngFor="let photo of feeds.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+						<div class="pg_4x" style="position:relative" [style.height.px]="width/4" *ngFor="let photo of feeds.photos | slice:4:5; " [style.backgroundImage]="getBackgroundStyle(photo.source)" >
+							<div class="more" *ngIf="feeds.photos_num > 5" >
+							 <span class="more-number">
+								 +{{feeds.photos_num - 5}}
+							 </span>
+							</div>
 						</div>
+						
 					</div>
 				</div>
 				<div *ngIf="feeds.post_type == 'video'">
@@ -111,7 +128,35 @@
 						</ion-item>
 						<ion-card-content>
 							<p style="padding-bottom: 3px;padding-left: 20px;">{{feeds.origin.text}}</p>
-							<img *ngFor="let photo of feeds.origin.photos" [src]="imageURL+photo.source" (click)="viewImage(photo.source)">
+							<div class="pg_wrapper" *ngIf="feeds.origin.photos_num <= 2">
+								<div class="pg_{{feeds.origin.photos_num}}x" *ngFor="let photo of feeds.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.origin.photos_num">
+								</div>
+							</div>
+							<div class="pg_wrapper" *ngIf="feeds.origin.photos_num == 3">
+								<div class="pg_1x" [style.backgroundImage]="getBackgroundStyle(feeds.origin.photos[0].source)" [style.height.px]="width/2">
+								</div>
+								<div class="pg_1x " [style.height.px]="width/2">
+									<div class="pg_2x" [style.height.px]="width/2" *ngFor="let photo of feeds.origin.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+								</div>
+							</div>		
+							<div class="pg_wrapper" *ngIf="feeds.origin.photos_num == 4">
+								<div class="pg_{{feeds.origin.photos_num}}x" *ngFor="let photo of feeds.origin.photos" [style.backgroundImage]="getBackgroundStyle(photo.source)" [style.height.px]="width/feeds.origin.photos_num">
+								</div>
+							</div>
+							<div class="pg_wrapper" *ngIf="feeds.origin.photos_num >= 5">
+								<div class="pg_2x" [style.backgroundImage]="getBackgroundStyle(feeds.origin.photos[0].source)" [style.height.px]="width/2"></div>
+								<div class="pg_2x " [style.height.px]="width/2">
+									<div class="pg_4x" [style.height.px]="width/4" *ngFor="let photo of feeds.origin.photos | slice:1:4; " [style.backgroundImage]="getBackgroundStyle(photo.source)" ></div>
+									<div class="pg_4x" style="position:relative" [style.height.px]="width/4" *ngFor="let photo of feeds.origin.photos | slice:4:5; " [style.backgroundImage]="getBackgroundStyle(photo.source)" >
+										<div class="more" *ngIf="feeds.origin.photos_num > 5" >
+										 <span class="more-number">
+											 +{{feeds.origin.photos_num - 5}}
+										 </span>
+										</div>
+									</div>
+									
+								</div>
+							</div>
 							<div *ngIf="feeds.origin.post_type == 'video'">
 								<video *ngFor="let originvid of feeds.origin.video" style="width:100%" controls preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
 									<source [src]="imageURL+originvid.source" type="video/mp4"/>
@@ -139,7 +184,7 @@
 				</div>
 				<ion-row>
 					<ion-col>
-					<button ion-button color="primary" clear small icon-start (click)="viewComments(feeds.post_comments,feeds.post_id)">
+					<button ion-button color="primary" clear small icon-start (click)="viewComments(i,feeds.post_comments,feeds.post_id)">
 						<ion-icon ios="ios-text" md="md-text"></ion-icon>
 						{{feeds.comments}} Comments
 					</button>

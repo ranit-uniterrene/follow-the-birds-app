@@ -16,7 +16,7 @@ export class ItemCreatePage {
   item: any;
 
   form: FormGroup;
-
+	dummyImage : any = '';
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
     this.form = formBuilder.group({
       profilePic: [''],
@@ -52,14 +52,12 @@ export class ItemCreatePage {
   }
 
   processWebImage(event) {
-	   alert("processWebImage");
     let reader = new FileReader();
     reader.onload = (readerEvent) => {
-
+	 
       let imageData = (readerEvent.target as any).result;
-	  
+	  this.dummyImage = imageData;
       this.form.patchValue({ 'profilePic': imageData });
-	  alert(imageData);
     };
 
     reader.readAsDataURL(event.target.files[0]);
