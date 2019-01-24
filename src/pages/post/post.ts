@@ -41,7 +41,7 @@ export class PostPage {
 		group_picture: 'updated group picture',
 		group_cover: 'updated group cover',
 		event_cover: 'updated event cover'
-  };
+    };
 	sub : any = '';
 	slidesPerView : number = 1;
 	public postElement = [];
@@ -118,7 +118,7 @@ export class PostPage {
   }
   
   doRefresh(refresher) {
-		this.ionViewDidLoad();
+	this.ionViewDidLoad();
     setTimeout(() => {
       refresher.complete();
     }, 2000);
@@ -142,7 +142,7 @@ export class PostPage {
 	this.user.getStories({user_id:localStorage.getItem('user_id')})
 	.then(data => {
 		this.stories = data[0];
-		console.log(this.stories[0].media[0].src)
+		console.log(data)
 	});
   }
   
@@ -310,6 +310,11 @@ export class PostPage {
 		}
 	}
 	
+	getStoryBackgroundStyle(media) {
+		let obj = JSON.parse(media)
+		return 'url(' + this.mediapath+obj[0].src + ')'
+	}
+	
   sharePost(type,id){
 	this.post.sharePost({'do':type,id:id,my_id:localStorage.getItem('user_id')}).subscribe((resp) => {
 	  let toast = this.toastCtrl.create({
@@ -367,6 +372,10 @@ export class PostPage {
 	  });
 	  toast.present();
 	});
+  }
+  
+  AddStory(){
+	this.nav.push('AddStoryPage'); 
   }
   
   getLiveLitePost(){

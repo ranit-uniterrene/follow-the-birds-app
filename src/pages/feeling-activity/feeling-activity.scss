@@ -1,3 +1,16 @@
 page-feeling-activity {
-
+	.feeling_wrap {
+		margin: 10px 0;
+		padding: 0 12px;
+		border-bottom: 1px solid #e8e8e8;
+		.feelingIcon {
+			width: 40px;
+			float: left;
+			margin-right: 10px;
+		}
+		.feelingText {
+			float: left;
+			padding-top: 9px;
+		}
+	}
 }

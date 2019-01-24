@@ -63,6 +63,21 @@ export class Post {
     return seq;
   }
   
+  publishStory(publishStory: any) {
+    let seq = this.api.post('post-story', publishStory).share();
+
+    seq.subscribe((res: any) => {
+      // If the API returned a successful response, mark the user as logged in
+      return res;
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+  
+  
+  
   postComment(commentInfo: any) {
     let seq = this.api.post('post-comment', commentInfo).share();
 

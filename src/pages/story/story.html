@@ -5,21 +5,22 @@
 		  <img [src]="imageURL+story.user_picture">
 		</ion-avatar>
 		<h2>{{story.user_firstname}} {{story.user_lastname}}</h2>
+		<button ion-button icon-only clear (tap)="closeModal()" item-end style="color:#ffffff;"><ion-icon ios="ios-close" md="md-close"></ion-icon></button>
 	  </ion-item>
+	  
   </ion-list>
   <div class="loader" [style.width.%]='loaderWidth'></div>
 </ion-header>
 <ion-content class="dark_page">
-	
-	<ion-slides autoplay="10000" loop="true" speed="300" (ionSlideDidChange)="lineLoader()">
-	  <ion-slide *ngFor="let media of mediaStory">
+	<ion-slides #slides autoplay="5000" loop="true" speed="300" (ionSlideDidChange)="lineLoader()" (tap)="slideNext()">
+	  <ion-slide *ngFor="let media of mediaStory" >
 		<img [src]="imageURL+media.src" />
 	  </ion-slide>
 	</ion-slides>	
 </ion-content>
-<ion-footer class="dark_page" *ngIf="story.text">
+<ion-footer class="dark_page" *ngIf="story.text" padding>
 	<ion-row>
-	  <ion-col text-center>
+	  <ion-col text-wrap>
 		{{story.text}}
 	  </ion-col>		  
 	</ion-row>

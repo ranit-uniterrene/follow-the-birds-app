@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Create a Story</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	<ion-textarea elasticTextArea [(ngModel)]="publishStory.message" height="640px" placeholder="Type your status">
+    </ion-textarea>
+	<input type="file" #postPhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" multiple/>
+	<ion-row>
+		<ion-col *ngFor="let photo of publishPhotos" col-4 class="publisher-photos">		
+			<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(photo)" >
+			  <span class="remove_photo" (click)="removePhoto(photo)">X</span>
+			</div>
+		</ion-col>
+   </ion-row>
+</ion-content>
+<ion-footer >
+  <ion-toolbar>
+	<ion-buttons left>
+	  <button ion-button icon-only color="primary" (tap)="takeCameraSnap()">
+		<ion-icon name="camera"></ion-icon>
+	  </button>
+	  <button ion-button icon-only color="primary" (tap)="uploadFromGallery()"> 
+		<ion-icon ios="ios-image" md="md-image"></ion-icon>
+	  </button>	  
+	</ion-buttons>
+	<ion-buttons right>
+	  <button ion-button round outline color="primary" (tap)="postStory()"> 
+		Share
+	  </button>	
+	</ion-buttons>
+  </ion-toolbar>
+  
+</ion-footer>

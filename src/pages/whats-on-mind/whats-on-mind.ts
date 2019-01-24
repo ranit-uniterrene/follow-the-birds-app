@@ -37,8 +37,8 @@ export class WhatsOnMindPage {
 	message: '',
     album: '',
     feeling_action:'',
-		feeling_value: '',
-		location : '',
+	feeling_value: '',
+	location : '',
     privacy: 'public',
     link: '',
     poll_options:'',
@@ -47,19 +47,19 @@ export class WhatsOnMindPage {
     audio:'',
     file:'',
     photos: [],
-		my_id: localStorage.getItem('user_id')
+	my_id: localStorage.getItem('user_id')
   };
   params: Object;
   pushPage: any;
   public publishPhotos : any = [];
-	public icon;
-	private mediaPublisher : any ='';
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  public icon;
+  private mediaPublisher : any ='';
+  private imageURL = "https://dev.followthebirds.com/content/uploads/";
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public user: User,
-		formBuilder: FormBuilder,	
+	formBuilder: FormBuilder,	
     public post: Post,  
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
@@ -67,10 +67,10 @@ export class WhatsOnMindPage {
     public actionSheetCtrl: ActionSheetController,
     public platform: Platform, 
     private camera: Camera,
-		public modalCtrl: ModalController,
+	public modalCtrl: ModalController,
     public modal: ViewController,
-		private transfer: FileTransfer,
-		private file: File
+	private transfer: FileTransfer,
+	private file: File
 	) {
 		
       this.loading = this.loadingCtrl.create({

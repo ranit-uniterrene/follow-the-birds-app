@@ -10,7 +10,7 @@
 		<ion-slide>
 			<ion-card text-wrap>
 				<div class="ImgWrapBig" [style.backgroundImage]= "getBackgroundStyle(user_picture)" >
-					<div class="story-overlay">
+					<div class="story-overlay" (tap)="AddStory();">
 						<h3 class="user_details"> Add a story</h3>
 						<div class="add_story_wrap">
 						    <ion-icon name="add"></ion-icon>
@@ -21,7 +21,7 @@
 		</ion-slide>
 		<ion-slide  *ngFor="let story of stories" (tap)="viewStory(story)">
 			<ion-card text-wrap>
-				<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(story.user_picture)" >
+				<div class="ImgWrapBig" [style.backgroundImage]="getStoryBackgroundStyle(story.media)" >
 				  <div class="story-overlay">
 					<h3 class="user_details">{{story.user_firstname}} {{story.user_lastname}}</h3>
 				  </div>	

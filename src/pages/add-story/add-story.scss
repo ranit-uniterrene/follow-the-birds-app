@@ -1,0 +1,22 @@
+page-add-story {
+	ion-content{
+		background-color: #f5e4ff !important;
+	}
+	.ImgWrapBig{
+        height: 110px;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important; 
+		position:relative;
+    }
+	ion-col.publisher-photos.col {
+		padding: 1px;
+    }
+	span.remove_photo {
+		position: absolute;
+		right: 0;
+		padding: 5px;
+		background: #ffffff;
+		font-weight: bold;
+	}
+}
