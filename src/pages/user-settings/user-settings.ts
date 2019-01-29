@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Nav, AlertController, LoadingController   } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { User } from '../../providers';
 /**
  * Generated class for the UserSettingsPage page.
  *
@@ -22,6 +23,7 @@ export class UserSettingsPage {
     public alertCtrl : AlertController,
     public loadingCtrl: LoadingController,
     private camera: Camera,
+	public user: User,
     public nav: Nav) {
 		for (var i = 0; i < localStorage.length; i++){
 			this.profile[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
@@ -31,7 +33,7 @@ export class UserSettingsPage {
 
 
   ionViewDidLoad() {
-   
+	
   }
   
   viewProfile(){
