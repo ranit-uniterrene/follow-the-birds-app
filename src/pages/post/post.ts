@@ -147,7 +147,7 @@ export class PostPage {
   }
   
   viewStory(story){
-	this.nav.push('StoryPage',{story: story});
+	//this.nav.push('StoryPage',{story: story});
   }
   
   viewPost(post) {
@@ -311,8 +311,20 @@ export class PostPage {
 	}
 	
 	getStoryBackgroundStyle(media) {
+		
+		if(media != 'null'){
+			console.log(media);
+			let obj = JSON.parse(media)
+			return 'url(' + this.mediapath+obj[0].src + ')'
+		} else {
+			return 'url(assets/followthebirdImgs/no-profile-img.jpeg)'
+		}
+		
+	}
+	
+	getMedia(media) {
 		let obj = JSON.parse(media)
-		return 'url(' + this.mediapath+obj[0].src + ')'
+		return this.mediapath+obj[0].src;
 	}
 	
   sharePost(type,id){

@@ -21,7 +21,9 @@ export class StoryPage {
 	sub : any = '';
 	constructor(private navCtrl: NavController, private navParams: NavParams, private platform: Platform) {
 	  this.story = navParams.get('story');
-	  this.mediaStory = JSON.parse(this.story.media);
+	  /* if(this.story.media != 'null'){
+		this.mediaStory = JSON.parse(this.story.media);
+	  } */
 	}
 
   ionViewDidLoad() {	
@@ -35,7 +37,6 @@ export class StoryPage {
   }
   
   slideNext() {
-	console.log("hi");
     this.slides.slideNext();
 	
   }
