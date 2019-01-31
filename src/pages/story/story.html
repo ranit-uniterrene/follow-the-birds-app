@@ -12,13 +12,18 @@
   <div class="loader" [style.width.%]='loaderWidth'></div>
 </ion-header>
 <ion-content class="dark_page">
-	<ion-slides #slides autoplay="5000" loop="true" speed="300" (ionSlideDidChange)="lineLoader()" (tap)="slideNext()">
+	<ion-slides *ngIf="story.media != 'null'" #slides autoplay="5000" loop="true" speed="300" (ionSlideDidChange)="lineLoader()" (tap)="slideNext()">
 	  <ion-slide *ngFor="let media of mediaStory" >
 		<img [src]="imageURL+media.src" />
 	  </ion-slide>
 	</ion-slides>	
+	<div class="text_message_container" *ngIf="story.media == 'null'">
+		<div class="text_message" >
+			{{story.text}}
+		</div>
+	</div>
 </ion-content>
-<ion-footer class="dark_page" *ngIf="story.text" padding>
+<ion-footer class="dark_page" *ngIf="story.text && story.media != 'null'" padding>
 	<ion-row>
 	  <ion-col text-wrap>
 		{{story.text}}

@@ -24,9 +24,7 @@ page-group-profile {
         
     }
 	.editTabGrid{
-        border-top: 2px solid #ddd;
-        border-bottom: 2px solid #ddd;
-        padding: 0;
+        
         ion-col{
             padding: 0;
             border-right: 2px solid #ddd;
@@ -38,7 +36,6 @@ page-group-profile {
         button{            
             min-height: 6rem;
             height: 100%;
-            color: #3a3a3a;
             text-transform: none;
             margin: 0;
         }
@@ -46,13 +43,12 @@ page-group-profile {
             flex-direction: column;
             ion-icon{
                 font-size: 30px;
-                color: #3a3a3a;
             }
         }
     }
 	.editTabGrid.lowHeight{
         button{
-            min-height: 4rem;
+            min-height: 3rem;
         }
     }
 

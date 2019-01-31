@@ -222,7 +222,7 @@
 			<img [src]="imageURL+feeds.post_author_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" />
 		  </ion-avatar>
 		  <span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds.user_name,feeds.user_id)"> {{feeds.post_author_name}}</span> 
-		  <span *ngIf="feeds.feeling_action != ''" >is {{feeds.feeling_action}} {{feeds.feeling_value}}</span>
+		  <span *ngIf="feeds.feeling_action != ''" >is <ion-icon [name]="feeds.feeling_icon"></ion-icon>  {{feeds.feeling_action}} {{feeds.feeling_value}}</span>
 		  {{post_type[feeds.post_type]}}
 		  <span *ngIf="feeds.in_event == '1'"><ion-icon name="play" style="font-size: 11px;color: #750bb5;padding-right: 3px;"></ion-icon> <ion-icon name='calendar' style="color:#b5af0b;padding: 0;margin: 0;padding-right: 3px;" item-start></ion-icon>  {{feeds.event_title}}</span>
 		  <ion-note class="msg_time" style="display:block" >{{feeds.time | date: 'dd MMM' }} at {{ feeds.time | date: 'h:mm a' }}</ion-note> 
@@ -376,5 +376,7 @@
 	</ion-infinite-scroll>
 </ion-content>
 <ion-content *ngIf="readyState=='false'">
-  <ion-spinner name="bubbles"></ion-spinner>
+  <div class="loader">
+	<ion-spinner name="bubbles" class="loading_spinner"></ion-spinner>
+  </div>
 </ion-content>

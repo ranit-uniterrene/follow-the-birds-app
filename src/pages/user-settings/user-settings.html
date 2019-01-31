@@ -13,21 +13,22 @@
     <ion-item (tap)="listFriends()">
 	  <ion-icon name='people' style="color:#0b3bb5" item-start></ion-icon>
       <h2>Friends</h2>
-	  <p> 500 Friends </p>      
+	  <p> {{profile.friends_count}} Friends </p>      
     </ion-item>
     <ion-item (tap)="listGroups()">
 	  <ion-icon name='contacts' style="color:#b0176a"  item-start></ion-icon>	
        <h2>Groups</h2>
-	   <p> 25 Groups joined </p>
+	   <p> {{profile.group_joined}} Groups joined </p>
     </ion-item>
     <ion-item (tap)="listEvents()">
 	  <ion-icon name='calendar' style="color:#b5af0b"  item-start></ion-icon>
       <h2>Events</h2>
-      <p> 15 Member interested </p>
+      <p>{{profile.event_interested}} events interested </p>
     </ion-item>
     <ion-item (tap)="listPages()">
-      Pages
-      <ion-icon name='flag' style="color:#ed581e"  item-start></ion-icon>
+		<ion-icon name='flag' style="color:#ed581e"  item-start></ion-icon>
+		<h2>Pages</h2>
+		<p>{{profile.page_liked}} page liked </p>    
     </ion-item>
 	<ion-item (tap)="goVaults()">
       Vault

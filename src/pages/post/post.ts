@@ -79,6 +79,7 @@ export class PostPage {
 		});
 		this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getLiveLitePost() });
+		this.getStories()
   }
   
   ionViewDidLoad() {
@@ -94,7 +95,7 @@ export class PostPage {
 				this.postFeeds.push(item[key]);
 			}
 	});
-	this.getStories()
+	
   }
   
   /* ionViewDidLeave() {
@@ -147,7 +148,7 @@ export class PostPage {
   }
   
   viewStory(story){
-	//this.nav.push('StoryPage',{story: story});
+	this.nav.push('StoryPage',{story: story});
   }
   
   viewPost(post) {
@@ -317,7 +318,7 @@ export class PostPage {
 			let obj = JSON.parse(media)
 			return 'url(' + this.mediapath+obj[0].src + ')'
 		} else {
-			return 'url(assets/followthebirdImgs/no-profile-img.jpeg)'
+			return 'url(assets/followthebirdImgs/story_background.png)'
 		}
 		
 	}

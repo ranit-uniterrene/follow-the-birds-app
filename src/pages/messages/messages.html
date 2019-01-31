@@ -30,7 +30,12 @@
 				  <img [src]="imageURL+message.picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 				</ion-avatar>
 				<h2  style="font-weight:inherit"(click)="viewMessage(message)"> {{message.name}}</h2>
-				<p text-wrap (click)="viewMessage(message)">{{message.message}}</p>
+				<div text-wrap (click)="viewMessage(message)"> 
+					<div *ngIf="stickers.hasOwnProperty(message.message) == true">
+						<img [src]=	"imageURL+stickers[message.message]" >
+					</div>
+					<div *ngIf="stickers.hasOwnProperty(message.message) == false"> {{message.message}} </div>
+				</div>
 				<button ion-button outline *ngIf="bulkMessage == 'true'" item-end (click)="sentBulkMessage($event,message)">Send</button>
 				<ion-note item-end *ngIf="isToday(message.time) && bulkMessage != 'true' ">{{ message.time | date: 'h:mm a' }}</ion-note>
 				<ion-note item-end *ngIf="!isToday(message.time) && bulkMessage != 'true' ">{{ message.time | date: 'dd MMM' }}</ion-note>

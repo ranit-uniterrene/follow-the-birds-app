@@ -40,4 +40,34 @@ page-story {
 	  height: 0px;
 	  background-color: #cce5e2;
 	}
+	
+	.text_message_container {
+		width: 100%;
+		color: #fff;
+		height: 100%;
+		position: relative;
+		background: rgba(255,93,177,1);
+		background: -moz-linear-gradient(left, rgba(255,93,177,1) 0%, rgba(255,93,177,1) 43%, rgba(233,93,240,1) 100%);
+		background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,93,177,1)), color-stop(43%, rgba(255,93,177,1)), color-stop(100%, rgba(233,93,240,1)));
+		background: -webkit-linear-gradient(left, rgba(255,93,177,1) 0%, rgba(255,93,177,1) 43%, rgba(233,93,240,1) 100%);
+		background: -o-linear-gradient(left, rgba(255,93,177,1) 0%, rgba(255,93,177,1) 43%, rgba(233,93,240,1) 100%);
+		background: -ms-linear-gradient(left, rgba(255,93,177,1) 0%, rgba(255,93,177,1) 43%, rgba(233,93,240,1) 100%);
+		background: linear-gradient(to right, rgba(255,93,177,1) 0%, rgba(255,93,177,1) 43%, rgba(233,93,240,1) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff5db1', endColorstr='#e95df0', GradientType=1 );
+	}
+	
+	.text_message {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		font-size: 24px;
+		-ms-transform: translate(50px,100px);
+		-webkit-transform: translate(50px,100px);
+		transform: translate(-50%,-50%);
+		font-weight: bold;
+		font-family: cursive;
+		width: 100%;
+		text-align: center;
+		padding: 20px;
+	}
 }

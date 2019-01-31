@@ -33,7 +33,14 @@ export class UserSettingsPage {
 
 
   ionViewDidLoad() {
-	
+	this.user.updateProfile(parseInt(localStorage.getItem('user_id'))).subscribe(data => {
+		if(data){
+			this.profile = data;
+		} else {
+		
+		}
+		
+	});
   }
   
   viewProfile(){

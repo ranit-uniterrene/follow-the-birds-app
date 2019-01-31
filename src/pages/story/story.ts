@@ -14,16 +14,16 @@ import { IonicPage, NavController, NavParams, Platform, Slides } from 'ionic-ang
 })
 export class StoryPage {
 	@ViewChild('slides') slides: Slides;
-	private story;
-	private mediaStory = [];
+	private story : any = [];
+	private mediaStory : any = [];
 	private imageURL = "https://dev.followthebirds.com/content/uploads/";
 	public loaderWidth : number = 0;
 	sub : any = '';
 	constructor(private navCtrl: NavController, private navParams: NavParams, private platform: Platform) {
 	  this.story = navParams.get('story');
-	  /* if(this.story.media != 'null'){
+	   if(this.story.media != 'null'){
 		this.mediaStory = JSON.parse(this.story.media);
-	  } */
+	  } 
 	}
 
   ionViewDidLoad() {	

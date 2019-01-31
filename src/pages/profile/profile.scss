@@ -3,6 +3,18 @@ page-profile {
 	.ion-content {
 		background-color: #bfb8b8;
 	}
+	.loader{
+		position:relative;
+		width:100%;
+		height:100%;
+		.loading_spinner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+	
 	.grid {
 		background-color: #fff;
 	}

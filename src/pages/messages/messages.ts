@@ -23,6 +23,26 @@ export class MessagesPage {
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
   private bulkMessage;
   private chatPhotos = [];
+  private stickers : any = {
+	':STK-1:':'stickers/1.png',
+	':STK-2:':'stickers/2.png',
+	':STK-3:':'stickers/3.png',
+	':STK-4:':'stickers/4.png',
+	':STK-5:':'stickers/5.png',
+	':STK-6:':'stickers/6.png',
+	':STK-7:':'stickers/7.png',
+	':STK-8:':'stickers/8.png',
+	':STK-9:':'stickers/9.png',
+	':STK-10:':'stickers/10.png',
+	':STK-11:':'stickers/11.png',
+	':STK-12:':'stickers/12.png',	
+	':STK-13:':'stickers/13.png',	
+	':STK-14:':'stickers/14.png',	
+	':STK-15:':'stickers/15.png',	
+	':STK-16:':'stickers/16.png',	
+	':STK-17:':'stickers/17.png',	
+	':STK-18:':'stickers/18.png',	
+  };
   private chatInfo : any = {
 	conversation_id:'',
 	photo:'',
