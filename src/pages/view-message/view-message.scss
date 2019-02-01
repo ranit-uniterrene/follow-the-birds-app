@@ -3,6 +3,9 @@ page-view-message {
 		overflow: hidden;
 		width: 100%;
 	}
+	.ion-ios-happy:before, .ion-md-happy:before {
+		color: inherit;
+	}
 	.conversation.right .conversation_user {
 		float: right;
 	}
@@ -126,5 +129,10 @@ page-view-message {
 		right: -18px;
 		top: 0;
 		border-radius: 0px;
+	}
+	.stickers_container {
+		height: 0;
+		background: #fff;
+		overflow-y: scroll;
 	}
 }

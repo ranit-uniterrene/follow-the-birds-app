@@ -13,7 +13,7 @@
     <ion-title class="chat-head"> {{ conversation.name }}</ion-title>
    </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content (tap)="hideSticker()">
 	<ion-infinite-scroll style="height:0" position="top" threshold="1%" (ionInfinite)="doInfinite($event)">
 		<ion-infinite-scroll-content loadingSpinner="bubbles">
 		</ion-infinite-scroll-content>
@@ -51,6 +51,9 @@
 	  <button ion-button icon-only color="primary" (tap)="uploadFromGallery()"> 
 		<ion-icon ios="ios-image" md="md-image"></ion-icon>
 	  </button>	  
+	  <button ion-button icon-only color="primary" (tap)="showSticker()"> 
+		<ion-icon ios="ios-happy" md="md-happy"></ion-icon>
+	  </button>	  	  
 	</ion-buttons>
 	<ion-item no-lines>
 	  <ion-input type="text" class="chat_message" placeholder="Send message" [(ngModel)]="chatInfo.message"></ion-input>
@@ -61,4 +64,13 @@
 	  </button>
 	</ion-buttons>
   </ion-toolbar>
+  <div class="stickers_container" [style.height.px]="stickerHeight" >
+	<ion-grid>
+	  <ion-row>
+		<ion-col *ngFor="let sticker of allSticker" col-3 (tap)="sendStickerMsg(':STK-'+sticker.sticker_id+':')"> 
+			<img [src]="imageURL+sticker.image">
+		</ion-col>
+	  </ion-row>	
+	</ion-grid>  
+  </div>
 </ion-footer>

@@ -27,16 +27,16 @@ export class ViewMessagePage {
   myId = localStorage.getItem('user_id');
   private pageCount = 1;
   public chatBox : any = {
-		image: "",
-		message: "",
-		message_id: "34",
-		time: "",
-		user_firstname: localStorage.getItem('user_firstname'),
-		user_gender: localStorage.getItem("male"),
-		user_id: localStorage.getItem('user_id'),
-		user_lastname: localStorage.getItem('user_lastname'),
-		user_name: localStorage.getItem('user_name'),
-		user_picture: localStorage.getItem('user_picture')
+	image: "",
+	message: "",
+	message_id: "34",
+	time: "",
+	user_firstname: localStorage.getItem('user_firstname'),
+	user_gender: localStorage.getItem("male"),
+	user_id: localStorage.getItem('user_id'),
+	user_lastname: localStorage.getItem('user_lastname'),
+	user_name: localStorage.getItem('user_name'),
+	user_picture: localStorage.getItem('user_picture')
   };
   sub : any = '';
   private chatInfo : any = {
@@ -46,28 +46,16 @@ export class ViewMessagePage {
   
   private recipients = [];
   
-  private stickers : any = {
-	':STK-1:':'stickers/1.png',
-	':STK-2:':'stickers/2.png',
-	':STK-3:':'stickers/3.png',
-	':STK-4:':'stickers/4.png',
-	':STK-5:':'stickers/5.png',
-	':STK-6:':'stickers/6.png',
-	':STK-7:':'stickers/7.png',
-	':STK-8:':'stickers/8.png',
-	':STK-9:':'stickers/9.png',
-	':STK-10:':'stickers/10.png',
-	':STK-11:':'stickers/11.png',
-	':STK-12:':'stickers/12.png',
-	':STK-13:':'stickers/13.png',
-	':STK-14:':'stickers/14.png',
-	':STK-15:':'stickers/15.png',	
-	':STK-16:':'stickers/16.png',	
-	':STK-17:':'stickers/17.png',	
-	':STK-18:':'stickers/18.png',	
-  }
-  
+  private stickers = [];
+  private stickerHeight;
+  private allSticker = [];
   constructor(public navCtrl: NavController, public user: User, formBuilder: FormBuilder, public modalCtrl: ModalController, private camera: Camera, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams) {
+	  this.user.getStickers({}).then(data => {		  
+		let item = data[0];
+		for (var key in item) {
+			this.stickers[":STK-"+item[key].sticker_id+":"] = item[key].image;
+		}	
+	  });
 	  this.postPhotoOptions = formBuilder.group({
 			file: [],
 			type: "photos",
@@ -108,6 +96,11 @@ export class ViewMessagePage {
 		});
 		
 	  }
+	  
+	  this.user.getStickers({}).then(data => {		  
+		this.allSticker = data[0];	
+	  });
+	  
 	}
 
 	ionViewDidLeave() {
@@ -163,7 +156,7 @@ export class ViewMessagePage {
 	 var pDate = date[0].split('-');
 	 if(pDate[0] != yyyy ){
 		 return false;
-	 }else{
+	 } else {
 		 if(pDate[1] != mm){
 			 return false;
 		 }else{
@@ -201,6 +194,34 @@ export class ViewMessagePage {
   
   uploadFromGallery(){
 	this.postPhoto.nativeElement.click();
+  }
+  
+  showSticker(){
+	var interval;
+	clearInterval(interval);
+	for(var i=0; i<=250;i++){
+		interval = setInterval(() => {
+			this.stickerHeight = i;
+		}, 100);
+	}	
+  }
+  
+  hideSticker(){
+	var interval;
+	clearInterval(interval);
+	for(var i=250; i>=0;i--){
+		interval = setInterval(() => {
+			this.stickerHeight = i;
+		}, 100);
+	}
+  }
+  
+  
+  
+  sendStickerMsg(sticker){
+	 console.log(sticker);
+	this.chatInfo.message = sticker;
+	this.sendMessage();
   }
   
   processWebImage(event) {

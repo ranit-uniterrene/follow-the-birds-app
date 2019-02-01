@@ -775,4 +775,18 @@ export class User {
 		return seq; 
 	}
   
+  getStickers(params: any){
+	let stickers = [];
+	let seq = this.api.get('stickers', params).share();
+	// don't have the data yet
+	return new Promise(resolve => {
+		seq.subscribe((res: any) => {
+			stickers.push(res);
+			resolve(stickers);
+		}, err => {
+			console.error('ERROR', err);
+		});
+	});  
+  }
+  
 }
