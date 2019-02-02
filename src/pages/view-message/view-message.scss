@@ -31,7 +31,7 @@ page-view-message {
 		color: #fff;
 		float: right;
 	}
-	.conversation_body {		
+	.conversation_body , .conversation_sitcker{		
 		display: block;
 		padding: 5px 15px;
 		float: left;
@@ -42,6 +42,10 @@ page-view-message {
 		position: relative;
 	}
 	
+	.right .conversation_sitcker {
+		float: right;
+	}
+
 	.right .conversation_body:after {
 		content: '';
 		display: block;

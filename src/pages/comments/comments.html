@@ -3,15 +3,14 @@
     <ion-title> {{title}} </ion-title>
 	<ion-buttons right>
       <button ion-button (click)="dismiss()">
-        <span ion-text color="primary" showWhen="ios">Cancel</span>
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+        <ion-icon name="close" ></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content>
+<ion-content (tap)="hideSticker()">
 	<ion-list no-lines *ngFor="let comment of comments" text-wrap>
 	  <ion-item >
 		<ion-avatar item-start>
@@ -20,7 +19,9 @@
 		<ion-label class="commant-wrap"> 
 			<div  class="comment-box" >
 				<h3>{{comment.author_name}}</h3>
-				<p>{{comment.text}}</p>
+				<p *ngIf="stickers.hasOwnProperty(comment.text) == false">{{comment.text}}</p>
+				<div *ngIf="stickers.hasOwnProperty(comment.text) == true"><img [src]="imageURL+stickers[comment.text]" ></div>
+				<img class="comment_image" *ngIf="comment.image != ''" [src]="imageURL+comment.image">
 			</div>			
 		</ion-label>		
 	  </ion-item>
@@ -36,24 +37,64 @@
 				<ion-label class="comment-box"> 
 					<h3>{{replies.author_name}}</h3>
 					<p>{{replies.text}}</p>
+					<img class="comment_image" *ngIf="replies.image != ''" [src]="imageURL+comment.image">
+					<div *ngIf="stickers.hasOwnProperty(replies.text) == true"><img [src]="imageURL+stickers[replies.text]" ></div>
 				</ion-label>
 			</ion-item>	
 		</div>	
 	</ion-list>
+	
+	<input type="file" #postPhoto style="visibility: hidden; height: 0px;position:absolute" name="files[]" (change)="processWebImage($event)" multiple/>	
 </ion-content>
+<ion-row class="media_list" *ngIf="publishPhotos != ''" >
+		<ion-col col-3 class="publisher-photos">		
+			<div class="ImgWrapBig" [style.backgroundImage]="getBackgroundStyle(publishPhotos)">
+				<span class="remove_photo" (click)="removePhoto()"> X </span>
+			</div>
+		</ion-col>
+	</ion-row>
 <ion-footer>
-  <ion-toolbar>
+  <!-- <ion-toolbar>
     <ion-row class="message_row">
       <ion-col col-9>
         <ion-item no-lines>
-          <input #comment_box type="text" placeholder="Write a comment" [(ngModel)]="post_comment.message"  name="message">
         </ion-item>
       </ion-col>
       <ion-col col-3>
-      <button ion-button outline color="primary" placeholder="Write a comment"  (click)="postComment()" [disabled]="post_comment.message === ''">
+      <button ion-button outline color="primary" placeholder="Write a comment"  (click)="postComment()" >
         Send
       </button>
       </ion-col>
     </ion-row>
+  </ion-toolbar> -->
+  <ion-toolbar>
+	<ion-buttons left *ngIf="publishPhotos== ''">
+	  <button ion-button icon-only color="primary" (tap)="takeCameraSnap()">
+		<ion-icon name="camera"></ion-icon>
+	  </button>
+	  <button ion-button icon-only color="primary" (tap)="uploadFromGallery()"> 
+		<ion-icon ios="ios-image" md="md-image"></ion-icon>
+	  </button>	  
+	  <button ion-button icon-only color="primary" (tap)="showSticker()"> 
+		<ion-icon ios="ios-happy" md="md-happy"></ion-icon>
+	  </button>	  	  
+	</ion-buttons>
+	<ion-item no-lines>
+	  <ion-input #comment_box type="text" class="chat_message" placeholder="Write a comment" [(ngModel)]="post_comment.message"  name="message" ></ion-input>
+	</ion-item>
+	<ion-buttons right (tap)="postComment()" >
+	  <button ion-button icon-only color="primary" [disabled]="post_comment.message === ''">
+		<ion-icon name="send"></ion-icon>
+	  </button>
+	</ion-buttons>
   </ion-toolbar>
+  <div class="stickers_container" [style.height.px]="stickerHeight" >
+	<ion-grid>
+	  <ion-row>
+		<ion-col *ngFor="let sticker of allSticker" col-3 (tap)="sendStickerMsg(':STK-'+sticker.sticker_id+':')"> 
+			<img [src]="imageURL+sticker.image">
+		</ion-col>
+	  </ion-row>	
+	</ion-grid>  
+  </div>
 </ion-footer>

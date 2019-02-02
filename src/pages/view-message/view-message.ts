@@ -197,29 +197,45 @@ export class ViewMessagePage {
   }
   
   showSticker(){
+	let timer = 100;
 	var interval;
 	clearInterval(interval);
-	for(var i=0; i<=250;i++){
-		interval = setInterval(() => {
-			this.stickerHeight = i;
-		}, 100);
-	}	
+	var smooth = 10;
+	var unit = (smooth*100)/timer;
+    var width = unit;
+	interval = setInterval(() => {
+        width = width + unit;
+		if(width <= 250){
+			this.stickerHeight = width;			
+		} else {
+			clearInterval(interval);
+		}
+    }, smooth);
   }
   
-  hideSticker(){
+
+  
+  hideSticker() {
+	let timer = 100;
 	var interval;
 	clearInterval(interval);
-	for(var i=250; i>=0;i--){
-		interval = setInterval(() => {
-			this.stickerHeight = i;
-		}, 100);
-	}
+	var smooth = 10;
+	var unit = (smooth*100);
+    var width = unit;
+	interval = setInterval(() => {
+        width = width - unit;
+		if(width >= 0){
+			this.stickerHeight = width;			
+		} else {
+			clearInterval(interval);
+		}
+    }, smooth);
   }
   
   
   
   sendStickerMsg(sticker){
-	 console.log(sticker);
+	this.stickerHeight = 0;
 	this.chatInfo.message = sticker;
 	this.sendMessage();
   }
@@ -236,24 +252,24 @@ export class ViewMessagePage {
   }
   
   uploadPhoto(params){
-		let loading = this.loadingCtrl.create({
-			content: 'Uploading...'
+	let loading = this.loadingCtrl.create({
+		content: 'Uploading...'
+	});
+	loading.present();
+	this.user.photoUploader(params).subscribe((resp) => {
+		loading.dismiss();	
+		this.publishPhotos.push(resp);
+		this.chatInfo['photo'] = JSON.stringify(this.publishPhotos[0]);
+	}, (err) => {
+		loading.dismiss();		
+		let toast = this.toastCtrl.create({
+		message: "image uploading failed",
+		duration: 3000,
+		position: 'top'
 		});
-		loading.present();
-		this.user.photoUploader(params).subscribe((resp) => {
-			loading.dismiss();	
-			this.publishPhotos.push(resp);
-			this.chatInfo['photo'] = JSON.stringify(this.publishPhotos[0]);
-		}, (err) => {
-			loading.dismiss();		
-			let toast = this.toastCtrl.create({
-			message: "image uploading failed",
-			duration: 3000,
-			position: 'top'
-			});
-			toast.present();
-		});
-	}
+		toast.present();
+	});
+  }
   
 	
 	
