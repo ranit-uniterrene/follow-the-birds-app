@@ -26,7 +26,8 @@
 		  <img style="width:100%" [src]="imageURL+message.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" style="width: 100%;height: 100%;">
 		</div>
 		<div class="conversation_body" *ngIf="stickers.hasOwnProperty(message.message) == false">
-			<div class="only_chat_text" >{{message.message}}</div>
+			<div class="only_chat_text" *ngIf="emojis.hasOwnProperty(message.message) == false"> hi {{message.message}}</div>
+			<div class="only_chat_text" *ngIf="emojis.hasOwnProperty(message.message) == true" > {{emojis[message.message]}}</div>
 			<div *ngIf="message.image != ''"> <img [src]="imageURL+message.image"></div>			
 		</div>
 		<div class="conversation_sitcker"  *ngIf="stickers.hasOwnProperty(message.message) == true">

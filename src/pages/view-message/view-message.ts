@@ -47,6 +47,13 @@ export class ViewMessagePage {
   private recipients = [];
   
   private stickers = [];
+  private emojis = {
+	  ":D":"😃",
+	  ":kiss:":"💋",
+	  ":heart:":"❤️",
+	  ":green_heart:":"💚",
+	  ":cupid:":"💘",
+  };
   private stickerHeight;
   private allSticker = [];
   constructor(public navCtrl: NavController, public user: User, formBuilder: FormBuilder, public modalCtrl: ModalController, private camera: Camera, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams) {
@@ -137,10 +144,11 @@ export class ViewMessagePage {
     }
   
   sendMessage(){
+	  console.log(this.chatInfo);
 	  this.user.postMessage(this.chatInfo).subscribe((resp) => {	
 		this.publishPhotos = [];
-		this.chatInfo = [];
-		this.chatInfo.message = [];
+		this.chatInfo.message = '';
+		this.chatInfo.photo = '';
 	}, (err) => {
 		
 	});
