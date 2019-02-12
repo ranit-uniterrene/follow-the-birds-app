@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, Nav, NavParams, ActionSheetController, ToastController, Platform, MenuController, LoadingController, } from 'ionic-angular';
 import { FirstRunPage} from '../';
 import { User } from '../../providers';
+import { Badge } from '@ionic-native/badge';
 /**
  * Generated class for the NotificationsPage page.
  *
@@ -26,11 +27,13 @@ export class NotificationsPage {
 		public platform: Platform, 
 		public menu: MenuController,
 		public nav: Nav,
+		public badge: Badge,
 		public actionSheetCtrl: ActionSheetController,
 		public loadingCtrl: LoadingController
 	) {
 		this.user.resetAlert({my_id:localStorage.getItem('user_id'),type:'notifications'}).subscribe((resp) => {
-			localStorage.setItem('user_live_notifications_counter','0')
+			localStorage.setItem('user_live_notifications_counter','0');
+			this.badge.clear();
 		}, (err) => {
 			
 		});  

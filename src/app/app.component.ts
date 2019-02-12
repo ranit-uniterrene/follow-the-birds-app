@@ -7,6 +7,8 @@ import { Observable, Subject, ReplaySubject} from 'rxjs';
 import { FirstRunPage } from '../pages';
 import { Settings } from '../providers';
 import { AlertController } from 'ionic-angular';
+import { Badge } from '@ionic-native/badge';
+import { User } from '../providers';
 @Component({
   template: `<ion-menu [content]="content">
     <ion-header>
@@ -52,8 +54,9 @@ export class MyApp {
     { title: 'Profile page', component: 'ProfilePage' }
     
   ]
-
-  constructor(private translate: TranslateService, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  public notificationCount = '';
+  sub : any = '';
+  constructor(private translate: TranslateService, public badge: Badge,public user: User, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -61,6 +64,8 @@ export class MyApp {
       this.statusBar.backgroundColorByHexString('#750bb5');
       //this.statusBar.styleBlackOpaque();
       this.splashScreen.hide();
+	  this.sub = Observable.interval(3000)
+			.subscribe((val) => { this.getNotifictionData() });
 	 /*  platform.registerBackButtonAction(() => {
         if (this.alertShown==false) {
           this.presentConfirm();  
@@ -129,7 +134,14 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  getProfileData(){
-    
+  getNotifictionData(){
+	this.user.getLiveLiteData({id: localStorage.getItem('user_id')}).subscribe((resp) => {	
+		if(resp['user_live_notifications_counter'] > this.notificationCount){
+			console.log("here",this.notificationCount);
+		}
+		this.badge.set(resp['user_live_notifications_counter']);
+	}, (err) => {
+		
+	});	
   }
 }

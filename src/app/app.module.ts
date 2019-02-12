@@ -27,7 +27,7 @@ import { File } from '@ionic-native/file';
 import { AlbumProvider } from '../providers/album/album';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PageProvider } from '../providers/page/page';
-
+import { Badge } from '@ionic-native/badge';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 
@@ -86,6 +86,7 @@ export function provideSettings(storage: Storage) {
     Items,
     User,
     Camera,
+	Badge,
     SplashScreen,
     StatusBar,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },

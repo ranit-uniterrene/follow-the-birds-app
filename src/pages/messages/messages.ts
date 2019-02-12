@@ -23,26 +23,16 @@ export class MessagesPage {
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
   private bulkMessage;
   private chatPhotos = [];
-  private stickers : any = {
-	':STK-1:':'stickers/1.png',
-	':STK-2:':'stickers/2.png',
-	':STK-3:':'stickers/3.png',
-	':STK-4:':'stickers/4.png',
-	':STK-5:':'stickers/5.png',
-	':STK-6:':'stickers/6.png',
-	':STK-7:':'stickers/7.png',
-	':STK-8:':'stickers/8.png',
-	':STK-9:':'stickers/9.png',
-	':STK-10:':'stickers/10.png',
-	':STK-11:':'stickers/11.png',
-	':STK-12:':'stickers/12.png',	
-	':STK-13:':'stickers/13.png',	
-	':STK-14:':'stickers/14.png',	
-	':STK-15:':'stickers/15.png',	
-	':STK-16:':'stickers/16.png',	
-	':STK-17:':'stickers/17.png',	
-	':STK-18:':'stickers/18.png',	
+  private pageCount = 2;
+  private stickers = [];
+  private emojis = {
+	  ":D":"ðŸ˜ƒ",
+	  ":kiss:":"ðŸ’‹",
+	  ":heart:":"â¤ï¸",
+	  ":green_heart:":"ðŸ’š",
+	  ":cupid:":"ðŸ’˜",
   };
+  
   private chatInfo : any = {
 	conversation_id:'',
 	photo:'',
@@ -50,6 +40,13 @@ export class MessagesPage {
 	user_id:localStorage.getItem('user_id'),
   };
   constructor(public navCtrl: NavController, public user: User, public navParams: NavParams,private alertCtrl: AlertController,public toastCtrl: ToastController) {
+	  this.user.getStickers({}).then(data => {		  
+		let item = data[0];
+		for (var key in item) {
+			this.stickers[":STK-"+item[key].sticker_id+":"] = item[key].image;
+		}	
+	  });
+	  
 	  this.getOnlineUsers();
 	  this.getOfflineUsers();
 	  this.getProfileData(localStorage.getItem('user_id'));
@@ -153,6 +150,26 @@ export class MessagesPage {
 	}
   } 
   
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+	  this.user.getConversations({user_id:localStorage.getItem('user_id'),'page': this.pageCount})
+		.then(data => {			
+			if(data[0].length > 0) {
+				let item = data[0];
+				for (var key in item) {
+					if(item[key].multiple_recipients){
+						this.groups.push(item[key]);
+					} else {
+						this.messages.push(item[key]);
+					}
+				}
+			}
+		});
+	  this.pageCount = this.pageCount + 1;
+      infiniteScroll.complete();
+    }, 500);
+  }
+   
   messageAction(profile){
 	let recipient = {
 		name:profile.user_firstname+' '+profile.user_lastname,
@@ -183,33 +200,34 @@ export class MessagesPage {
 	});
 	confirm.present(); 
   }
-	deleteConversation(conversation){
-		let items :any = {
-			user_id:localStorage.getItem('user_id'),
-			conversation_id:conversation.conversation_id,
-			last_message_id:localStorage.getItem('last_message_id')
-		}
-		this.user.deleteConversation(items).subscribe((resp) => {	
-			let toast = this.toastCtrl.create({
-				message: "Conversation has been deleted",
-				duration: 3000,
-				position: 'top',
-				dismissOnPageChange: true
-		  });
-      toast.present();		
-			this.navCtrl.setRoot('MessagesPage');
-		}, (err) => {
-			let toast = this.toastCtrl.create({
-				message: "Failed to deleted conversation",
-				duration: 3000,
-				position: 'top',
-				dismissOnPageChange: true
-		  });
-      toast.present();	
-		});
+  
+  deleteConversation(conversation){
+	let items :any = {
+		user_id:localStorage.getItem('user_id'),
+		conversation_id:conversation.conversation_id,
+		last_message_id:localStorage.getItem('last_message_id')
 	}
+	this.user.deleteConversation(items).subscribe((resp) => {	
+		let toast = this.toastCtrl.create({
+			message: "Conversation has been deleted",
+			duration: 3000,
+			position: 'top',
+			dismissOnPageChange: true
+	  });
+	  toast.present();		
+	  this.navCtrl.setRoot('MessagesPage');
+	}, (err) => {
+		let toast = this.toastCtrl.create({
+			message: "Failed to deleted conversation",
+			duration: 3000,
+			position: 'top',
+			dismissOnPageChange: true
+		});
+		toast.present();	
+	});
+  }
 	
   goBack(){
-		this.navCtrl.setRoot('HomePage');
+	this.navCtrl.setRoot('HomePage');
   }
 }
