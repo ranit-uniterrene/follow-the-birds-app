@@ -21,11 +21,11 @@ import { ForgetPasswordProvider } from '../providers/forget-password/forget-pass
 
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { SQLite } from '@ionic-native/sqlite';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+//import { FileOpener } from '@ionic-native/file-opener';
 import { AlbumProvider } from '../providers/album/album';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PageProvider } from '../providers/page/page';
 import { Badge } from '@ionic-native/badge';
 // The translate loader needs to know where to load i18n files
@@ -96,6 +96,8 @@ export function provideSettings(storage: Storage) {
 	Post,
 	EventsProvider,
 	Groups,
+	SocialSharing,
+	//FileOpener,
     ForgetPasswordProvider,
 	FileTransfer,
 	FileTransferObject,
@@ -103,7 +105,6 @@ export function provideSettings(storage: Storage) {
 	SQLitePorter,
     SQLite,
     AlbumProvider,
-    PhotoViewer,
     PageProvider	
   ]
 })

@@ -5,7 +5,6 @@ import { Post } from '../../providers/post/post';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { User } from '../../providers';
 import { StorageProvider } from '../../providers/storage/storage';
-import { PhotoViewer,PhotoViewerOptions } from '@ionic-native/photo-viewer';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Observable, Subject, ReplaySubject} from 'rxjs';
@@ -65,7 +64,6 @@ export class PostPage {
 		private camera: Camera,
 		public actionSheetCtrl: ActionSheetController,
 		public menu: MenuController,
-		private photoViewer: PhotoViewer,
 		public nav: Nav,
 		public modalCtrl: ModalController,
 		private transfer: FileTransfer,
@@ -126,10 +124,7 @@ export class PostPage {
   }
  
   viewImage(url){
-	const option : PhotoViewerOptions = {
-			share: true
-		};
-	this.photoViewer.show(this.mediapath+url,"Image Preview",option);
+	
   }
   
   getPeopleYouMayKnow(){
@@ -143,7 +138,7 @@ export class PostPage {
 	this.user.getStories({user_id:localStorage.getItem('user_id')})
 	.then(data => {
 		this.stories = data[0];
-		console.log(data)
+		console.log("stories",data)
 	});
   }
   

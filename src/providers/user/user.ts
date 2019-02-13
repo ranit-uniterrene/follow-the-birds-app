@@ -789,4 +789,20 @@ export class User {
 	});  
   }
   
+  getEmojis(params: any){
+	let emojis = [];
+	let seq = this.api.get('emojis', params).share();
+	// don't have the data yet
+	return new Promise(resolve => {
+		seq.subscribe((res: any) => {
+			emojis.push(res);
+			resolve(emojis);
+		}, err => {
+			console.error('ERROR', err);
+		});
+	});  
+  }
+  
+  
+  
 }

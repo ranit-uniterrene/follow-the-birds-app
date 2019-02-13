@@ -66,14 +66,53 @@
 		<ion-icon name="send"></ion-icon>
 	  </button>
 	</ion-buttons>
-  </ion-toolbar>
-  <div class="stickers_container" [style.height.px]="stickerHeight" >
-	<ion-grid>
+  </ion-toolbar>	
+	<ion-segment [(ngModel)]="stickerEmoji" class="sticker_emoji_tab" *ngIf="sticker_active == 'true'">
+		<ion-segment-button value="emoji">
+		  Emoji
+		</ion-segment-button>
+		<ion-segment-button value="sticker">
+		  Sticker
+		</ion-segment-button>
+	</ion-segment>
+	<!-- <ion-grid>
 	  <ion-row>
-		<ion-col *ngFor="let sticker of allSticker" col-3 (tap)="sendStickerMsg(':STK-'+sticker.sticker_id+':')"> 
-			<img [src]="imageURL+sticker.image">
+		<ion-col text-center> 
+			<button  ion-button color="primary" round  (tap)="showEmoji('true',$event)">Emoji</button>
+		</ion-col>
+		<ion-col text-center> 
+			<button class="stickerToggle" ion-button color="light" round  (tap)="showEmoji('false',$event)"></button>
 		</ion-col>
 	  </ion-row>	
-	</ion-grid>  
-  </div>
+	</ion-grid> -->
+	<div [ngSwitch]="stickerEmoji" class="stickers_container" [style.height.px]="stickerHeight"> 
+	  <ion-grid *ngSwitchCase="'emoji'">
+		<ion-row>
+			<ion-col *ngFor="let sticker of allSticker" col-2 (tap)="sendStickerMsg(':STK-'+sticker.sticker_id+':')">
+			 emoji
+			</ion-col>
+		</ion-row>
+	  </ion-grid>
+
+	  <ion-grid *ngSwitchCase="'sticker'">
+		<ion-row>
+			<ion-col *ngFor="let sticker of allSticker" col-3 (tap)="sendStickerMsg(':STK-'+sticker.sticker_id+':')">
+			 <img [src]="imageURL+sticker.image">
+			</ion-col>
+		</ion-row>
+	  </ion-grid>
+	</div>
+	<!-- <div  >	
+		<>
+		  <ion-row *ngIf="showEmojiTab == 'true'">
+			<ion-col col-2 > 
+			</ion-col>
+		  </ion-row>
+		  <ion-row *ngIf="showEmojiTab == 'false'">
+			<ion-col  > 
+				
+			</ion-col>
+		  </ion-row>
+		</ion-grid>  
+	</div> -->
 </ion-footer>

@@ -55,7 +55,11 @@ export class ViewMessagePage {
 	  ":cupid:":"💘",
   };
   private stickerHeight;
+  private stickerEmoji : string = "emoji";
+  private sticker_active = 'false';
+  private showEmojiTab;
   private allSticker = [];
+  private allEmoji = [];
   constructor(public navCtrl: NavController, public user: User, formBuilder: FormBuilder, public modalCtrl: ModalController, private camera: Camera, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams) {
 	  this.user.getStickers({}).then(data => {		  
 		let item = data[0];
@@ -107,6 +111,11 @@ export class ViewMessagePage {
 	  this.user.getStickers({}).then(data => {		  
 		this.allSticker = data[0];	
 	  });
+	  
+	  this.user.getEmojis({}).then(data => {		  
+		this.allEmoji = data[0];	
+	  });
+	  
 	  
 	}
 
@@ -205,6 +214,8 @@ export class ViewMessagePage {
   }
   
   showSticker(){
+	this.sticker_active = 'true';
+	console.log("hi",this.sticker_active);
 	let timer = 100;
 	var interval;
 	clearInterval(interval);
@@ -213,7 +224,7 @@ export class ViewMessagePage {
     var width = unit;
 	interval = setInterval(() => {
         width = width + unit;
-		if(width <= 250){
+		if(width <= 170){
 			this.stickerHeight = width;			
 		} else {
 			clearInterval(interval);
@@ -224,6 +235,7 @@ export class ViewMessagePage {
 
   
   hideSticker() {
+	this.sticker_active = 'false';
 	let timer = 100;
 	var interval;
 	clearInterval(interval);
@@ -240,10 +252,17 @@ export class ViewMessagePage {
     }, smooth);
   }
   
-  
+  showEmoji(action,event){
+	 /*  console.log(event);
+	  event.target.style.backgroundColor = "#750bb5";
+	  event.target.style.color = "#ffffff"; */
+	  this.showEmojiTab = action;
+  }
+
   
   sendStickerMsg(sticker){
 	this.stickerHeight = 0;
+	this.sticker_active = 'false';
 	this.chatInfo.message = sticker;
 	this.sendMessage();
   }

@@ -151,6 +151,7 @@ export class StorageProvider {
 						this.file.createDir(this.file.externalRootDirectory, 'FollowTheBirds/ProfilePic', false);
 						this.file.createDir(this.file.externalRootDirectory, 'FollowTheBirds/CoverPic', false);
 						this.file.createDir(this.file.externalRootDirectory, 'FollowTheBirds/Vault', false);
+						this.file.createDir(this.file.externalRootDirectory, 'FollowTheBirds/ShareImage', false);
 					}).catch(err => {
 					
 					}); 

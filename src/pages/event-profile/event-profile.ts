@@ -6,7 +6,6 @@ import { EventsProvider } from '../../providers/events/events';
 import { User } from '../../providers';
 import { StorageProvider } from '../../providers/storage/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PhotoViewer,PhotoViewerOptions } from '@ionic-native/photo-viewer';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Observable, Subject, ReplaySubject} from 'rxjs';
@@ -70,7 +69,6 @@ export class EventProfilePage {
 	public menu: MenuController,
 	public nav: Nav,
 	public actionSheetCtrl: ActionSheetController,
-	private photoViewer: PhotoViewer,
 	public loadingCtrl: LoadingController,
 	public events: EventsProvider,
 	public modalCtrl: ModalController,

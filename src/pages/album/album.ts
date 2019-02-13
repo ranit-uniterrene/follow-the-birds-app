@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, Nav, NavParams } from 'ionic-angular';
-import { PhotoViewer,PhotoViewerOptions } from '@ionic-native/photo-viewer';
 import { AlbumProvider } from '../../providers/album/album';
 
 /**
@@ -19,7 +18,7 @@ export class AlbumPage {
   private album_id = '';
   public photoAlbum :any = [];
   private imageURL = "https://dev.followthebirds.com/content/uploads/";
-  constructor(public navCtrl: NavController, public nav: Nav, public navParams: NavParams, public album: AlbumProvider,private photoViewer: PhotoViewer) {
+  constructor(public navCtrl: NavController, public nav: Nav, public navParams: NavParams, public album: AlbumProvider) {
     this.album_id = navParams.get('album_id');
   }
 

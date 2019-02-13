@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, Nav, NavParams, ActionSheetController, ToastController, Platform, MenuController, LoadingController, Slides } from 'ionic-angular';
 import { FirstRunPage} from '../';
 import { User } from '../../providers';
-import { PhotoViewer,PhotoViewerOptions } from '@ionic-native/photo-viewer';
 /**
  * Generated class for the PhotosPage page.
  *
@@ -33,7 +32,6 @@ export class PhotosPage {
 	public platform: Platform, 
 	public menu: MenuController,
 	public nav: Nav,
-	private photoViewer: PhotoViewer,
 	public actionSheetCtrl: ActionSheetController,
 	public loadingCtrl: LoadingController	
   ) {

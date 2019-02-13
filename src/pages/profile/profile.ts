@@ -6,7 +6,6 @@ import { Post } from '../../providers/post/post';
 import { User } from '../../providers';
 import { StorageProvider } from '../../providers/storage/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PhotoViewer,PhotoViewerOptions } from '@ionic-native/photo-viewer';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Observable, Subject, ReplaySubject} from 'rxjs';
@@ -76,7 +75,6 @@ export class ProfilePage {
 		public menu: MenuController,
 		public nav: Nav,
 		public actionSheetCtrl: ActionSheetController,
-		private photoViewer: PhotoViewer,
 		public loadingCtrl: LoadingController,
 		public modalCtrl: ModalController,
 		private transfer: FileTransfer,
