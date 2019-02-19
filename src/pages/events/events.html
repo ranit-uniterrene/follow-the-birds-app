@@ -30,7 +30,7 @@
 			</button>
 		  </ion-col>
 		</ion-row>	
-		<ion-slides class="card-background-page" >
+		<ion-slides class="card-background-page" [slidesPerView]="1.2"  [centeredSlides]="true">
 		  <ion-slide *ngFor="let event of eventLists.suggested" >
 			<ion-card class="carasol_image" (click)="viewEvent(event)">
 				<img [src]="imageURL+event.event_cover" onError="this.src='assets/followthebirdImgs/blank_event.jpg'"/>

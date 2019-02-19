@@ -89,7 +89,7 @@ export class HomePage {
   }
   
   getItems(ev) {
-	  this.navCtrl.setRoot("SearchPage",{'event':ev.target.value});
+	  this.navCtrl.push("SearchPage",{'event':ev.target.value});
   }
   
   getProfileData(id){

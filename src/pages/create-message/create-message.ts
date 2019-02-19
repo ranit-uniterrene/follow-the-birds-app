@@ -132,8 +132,13 @@ export class CreateMessagePage {
 				this.messages = [];
 		   }	   
 		   if(data[0].conversation_id){
-			this.conversation_id = data[0].conversation_id;  
-			this.chatInfo['conversation_id'] = data[0].conversation_id;
+				this.conversation_id = data[0].conversation_id;  
+				this.chatInfo['conversation_id'] = data[0].conversation_id;
+		   } else {
+			   this.conversation_id = '';		
+				if (this.chatInfo.hasOwnProperty("conversation_id")) {
+				  delete this.chatInfo.conversation_id;
+				}
 		   }
 		});  
 	  } else {

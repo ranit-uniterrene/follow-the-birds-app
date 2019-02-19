@@ -3,8 +3,9 @@ import { IonicPage, NavController, Nav, NavParams, ActionSheetController, AlertC
 import { User } from '../../providers';
 import { Post } from '../../providers/post/post';
 import { File } from '@ionic-native/file';
-//import { FileOpener } from '@ionic-native/file-opener';
+import { FileOpener } from '@ionic-native/file-opener';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { StorageProvider } from '../../providers/storage/storage';
 /**
  * Generated class for the ViewPhotoPage page.
  *
@@ -30,8 +31,9 @@ export class ViewPhotoPage {
     public menu: MenuController,
     public nav: Nav,
 	private file: File, 
-    //private fileOpener: FileOpener, 
+    private fileOpener: FileOpener, 
 	private socialSharing: SocialSharing,
+	public storage: StorageProvider,
 	public modalCtrl: ModalController,
 	private platform: Platform) {
 	  this.photo = this.navParams.get('photo') || [];
@@ -78,8 +80,7 @@ export class ViewPhotoPage {
 		  icon: !this.platform.is('ios') ? 'ios-download' : null,	
 		  text: 'Save to phone',
 		  handler: () => {
-			 // this.saveImg();
-			//this.socialSharing.saveToPhotoAlbum(this.imageURL+photo.source)
+			this.download(photo.source,"ShareImage");
 		  }
 		},{
 		  icon: !this.platform.is('ios') ? 'share-alt' : null,		
@@ -150,22 +151,27 @@ export class ViewPhotoPage {
 	}
 	
 	//Save Image Function
- /*  saveImg() {
-    let imageName = "followthebirds_"+Math.ceil(Math.random()*999999)+".jpg";
-    //Copy our asset/img/FreakyJolly.jpg to folder we created
-	this.file.copyFile(this.imageURL + "photos/2019/02/", "sngine_a7edf4bb5868494d5a1a394dda89e3e0.jpg", this.file.externalRootDirectory + "FollowTheBirds/ShareImage" + '//', imageName)
-	  .then((entries) => {
-		//Open copied file in device's default viewer
-		this.fileOpener.open(this.file.externalRootDirectory + "FollowTheBirds/ShareImage" + "/" + imageName, 'image/jpeg')
-		  .then(() => console.log('File is opened'))
-		  .catch(e => alert('Error' + JSON.stringify(e)));
-	  })
-	  .catch((error) => {
-		alert('error ' + JSON.stringify(error));
-	  });
-  }
+	download(url,folder) {
+		if(this.storage.imageDownload(url,folder)){
+			let toast = this.toastCtrl.create({
+				message: "Image has been saved!",
+				duration: 3000,
+				position: 'top',
+				dismissOnPageChange: true
+			});
+			toast.present();
+		} else {
+			let toast = this.toastCtrl.create({
+				message: "Image has been saved!",
+				duration: 3000,
+				position: 'top',
+				dismissOnPageChange: true
+			});
+			toast.present();
+		}
+	}
  
-  shareImg() { 
+ /* shareImg() { 
     let imageName = "FreakyJolly.jpg";
     const ROOT_DIRECTORY = 'file:///sdcard//';
     const downloadFolderName = 'tempDownloadFolder';

@@ -9,6 +9,7 @@ import { Settings } from '../providers';
 import { AlertController } from 'ionic-angular';
 import { Badge } from '@ionic-native/badge';
 import { User } from '../providers';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 @Component({
   template: `<ion-menu [content]="content">
     <ion-header>
@@ -56,7 +57,7 @@ export class MyApp {
   ]
   public notificationCount = '';
   sub : any = '';
-  constructor(private translate: TranslateService, public badge: Badge,public user: User, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(private translate: TranslateService, private androidPermissions: AndroidPermissions, public badge: Badge,public user: User, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -71,6 +72,7 @@ export class MyApp {
           this.presentConfirm();  
         }
 	 }, 0) */
+	 this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.GET_ACCOUNTS]);
    });
     this.initTranslate();
   }

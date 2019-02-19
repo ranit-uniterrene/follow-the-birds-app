@@ -76,6 +76,7 @@ export class PageProfilePage {
 		this.width = platform.width();
 		this.height = platform.height();
 	  });
+	  
       this.pageProfile = navParams.get('pageProfile');
       this.page.getPageProfile(parseInt(this.pageProfile.page_id),{'user_id':localStorage.getItem('user_id'),'filter':'all'}).then(data => {
         this.pageProfile = data;
@@ -83,6 +84,7 @@ export class PageProfilePage {
         this.postElement['handle'] = "page";
         this.postElement['id'] = this.pageProfile['page_id'];	
       });
+	  
       this.coverPhotoOptions = formBuilder.group({
         file: "assets/followthebirdImgs/coverimage.png",
         type: "photos",
@@ -90,16 +92,18 @@ export class PageProfilePage {
         multiple: false,
         id: '',
         user_id : localStorage.getItem('user_id')
-			});
-			this.profilePhotoOptions = formBuilder.group({
+	 });
+	 
+	 this.profilePhotoOptions = formBuilder.group({
         file: "assets/followthebirdImgs/coverimage.png",
         type: "photos",
         handle: "picture-page",
         multiple: false,
         id: '',
         user_id : localStorage.getItem('user_id')
-			});
-			this.sub = Observable.interval(10000)
+	  });
+	  
+	  this.sub = Observable.interval(10000)
 			.subscribe((val) => { this.getLiveLitePost() });
   }
 
@@ -125,6 +129,7 @@ export class PageProfilePage {
       return 'url(' + this.imageURL+this.pageProfile.page_cover + ')'
     }
   }
+  
   getBackgroundStyle(url) {
 		if(!url){
 			return 'url(assets/followthebirdImgs/no-profile-img.jpeg)'
@@ -222,7 +227,7 @@ export class PageProfilePage {
 		 });
   }
   
-  uploadFromGallery(type){
+	uploadFromGallery(type){
 		if(type == 'profile'){
 			this.profilePhoto.nativeElement.click();
 		} else {
@@ -545,11 +550,21 @@ export class PageProfilePage {
       });
 	}
 
-  getAlbum(album_id){
+	getAlbum(album_id){
 		this.navCtrl.push("AlbumPage",{'album_id':album_id});
 	}
 
-  connectAction(type,uid?: any){
+	pageLikeAction(){
+		this.connectAction('page-like');
+		this.pageProfile.i_like = true;
+	}
+	  
+	pageUnlikeAction(){
+		this.connectAction('page-unlike');
+		this.pageProfile.i_like = false;
+	}
+	
+	connectAction(type,uid?: any){
 		let params :any = {
 			'do': type,
 			'id': this.pageProfile.page_id,
@@ -582,4 +597,5 @@ export class PageProfilePage {
 		});
 	}
 
+	
 }

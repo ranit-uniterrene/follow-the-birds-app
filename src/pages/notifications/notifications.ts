@@ -32,8 +32,8 @@ export class NotificationsPage {
 		public loadingCtrl: LoadingController
 	) {
 		this.user.resetAlert({my_id:localStorage.getItem('user_id'),type:'notifications'}).subscribe((resp) => {
-			localStorage.setItem('user_live_notifications_counter','0');
 			this.badge.clear();
+			localStorage.setItem('user_live_notifications_counter','0');
 		}, (err) => {
 			
 		});  

@@ -35,7 +35,7 @@ export class FriendRequestsPage {
 		});		
 	}
 
-	ionViewDidLoad() {	
+	ionViewDidEnter() {	
 		this.user.getPendingRequest('friend_requests',parseInt(localStorage.getItem('user_id')))
 		.then(data => {
 			this.pendindFriendLists = data[0];

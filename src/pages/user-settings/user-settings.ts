@@ -32,7 +32,7 @@ export class UserSettingsPage {
   }
 
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
 	this.user.updateProfile(parseInt(localStorage.getItem('user_id'))).subscribe(data => {
 		if(data){
 			this.profile = data;

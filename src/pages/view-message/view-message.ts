@@ -153,8 +153,20 @@ export class ViewMessagePage {
     }
   
   sendMessage(){
-	  console.log(this.chatInfo);
 	  this.user.postMessage(this.chatInfo).subscribe((resp) => {	
+		this.conversation.conversation_id = resp.conversation_id;
+		localStorage.setItem('last_message_id',resp.last_message_id);
+		let message = new Array();
+		message['image'] = resp['image'];
+		message['message'] = resp['message'];
+		message['time'] = resp['time'];
+		message['user_firstname'] = localStorage.getItem("user_firstname");
+		message['user_id'] = localStorage.getItem("user_id");
+		message['user_gender'] = localStorage.getItem("user_gender");
+		message['user_lastname'] = localStorage.getItem("user_lastname");
+		message['user_name'] = localStorage.getItem("user_name");
+		message['user_picture'] = localStorage.getItem("user_picture");
+		this.messages.push(message);
 		this.publishPhotos = [];
 		this.chatInfo.message = '';
 		this.chatInfo.photo = '';
@@ -270,10 +282,10 @@ export class ViewMessagePage {
   processWebImage(event) {
 	let reader = new FileReader();
 	reader.onload = (readerEvent) => {
-	let imageData = (readerEvent.target as any).result;
-	this.postPhotoOptions.patchValue({ 'file': imageData });
-	this.postPhotoOptions.patchValue({ 'multiple': false });
-	this.uploadPhoto(this.postPhotoOptions);	  
+		let imageData = (readerEvent.target as any).result;
+		this.postPhotoOptions.patchValue({ 'file': imageData });
+		this.postPhotoOptions.patchValue({ 'multiple': false });
+		this.uploadPhoto(this.postPhotoOptions);	  
 	};
 	reader.readAsDataURL(event.target.files[0]);
   }
@@ -301,25 +313,27 @@ export class ViewMessagePage {
 	
 	
 	getLiveLiteChat(){
-		let items :any = {
-			user_id:localStorage.getItem('user_id'),
-			conversation_id:this.conversation.conversation_id,
-			last_message_id:localStorage.getItem('last_message_id')
-		}
-		this.user.getLiveLiteChat(items).then((data) => {	
-			let item : any = data;
-			if(item.length > 0){
-				localStorage.setItem('last_message_id',data[0].message_id);
-				for (var key in item) {
-				  this.messages.push(item[key]);
-				}
-				this.update_scroll();
+		if(this.conversation.conversation_id !== undefined){
+			console.log(this.conversation.conversation_id);
+			let items :any = {
+				user_id:localStorage.getItem('user_id'),
+				conversation_id:this.conversation.conversation_id,
+				last_message_id:localStorage.getItem('last_message_id')
 			}
-			
-		}, (err) => {
+			this.user.getLiveLiteChat(items).then((data) => {	
+				let item : any = data;
+				if(item.length > 0){
+					localStorage.setItem('last_message_id',data[0].message_id);
+					for (var key in item) {
+					  this.messages.push(item[key]);
+					}
+					this.update_scroll();
+				}
 				
-		});
-		
+			}, (err) => {
+					
+			});
+		}
 	}
 	
 	doInfinite(infiniteScroll) {
@@ -352,7 +366,9 @@ export class ViewMessagePage {
 	update_scroll(){		
 		setTimeout(function(){
 			var aa = document.getElementsByClassName('scroll-content');
-			aa[4].scrollTo(0,aa[4].scrollHeight)
+			if(aa.length > 0){
+				aa[4].scrollTo(0,aa[4].scrollHeight)
+			}
 		},10)
 	}
 	

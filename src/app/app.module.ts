@@ -24,10 +24,11 @@ import { SQLite } from '@ionic-native/sqlite';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
-//import { FileOpener } from '@ionic-native/file-opener';
+import { FileOpener } from '@ionic-native/file-opener';
 import { AlbumProvider } from '../providers/album/album';
 import { PageProvider } from '../providers/page/page';
 import { Badge } from '@ionic-native/badge';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 
@@ -83,6 +84,7 @@ export function provideSettings(storage: Storage) {
   ],
   providers: [
     Api,
+	AndroidPermissions,
     Items,
     User,
     Camera,
@@ -97,7 +99,7 @@ export function provideSettings(storage: Storage) {
 	EventsProvider,
 	Groups,
 	SocialSharing,
-	//FileOpener,
+	FileOpener,
     ForgetPasswordProvider,
 	FileTransfer,
 	FileTransferObject,

@@ -161,13 +161,16 @@ export class StorageProvider {
 	}
 	
 	imageDownload(url,folder){
+	  let image = []
 	  var arr = url.split("/");
 	  var pic_name = arr[arr.length - 1];
 	  const absurl = this.imageURL+url;
 	  this.fileTransfer.download(absurl, this.file.externalRootDirectory + 'FollowTheBirds/'+folder+'/'+pic_name).then((entry) => {
-		  return true;
+		return new Promise(resolve => {
+			return true;
+		});  
 	  }, (error) => {
-		// handle error
+		console.log(error);
 	  });
 	}
 

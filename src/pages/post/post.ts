@@ -33,13 +33,13 @@ export class PostPage {
     audio: 'added an audio',
     file: 'added a file',
     photos: 'added a photo',
-		profile_picture: 'updated his profile picture',
-		profile_cover: 'updated his cover photo',
-		page_picture: 'updated page picture',
-		page_cover: 'updated cover photo',
-		group_picture: 'updated group picture',
-		group_cover: 'updated group cover',
-		event_cover: 'updated event cover'
+	profile_picture: 'updated his profile picture',
+	profile_cover: 'updated his cover photo',
+	page_picture: 'updated page picture',
+	page_cover: 'updated cover photo',
+	group_picture: 'updated group picture',
+	group_cover: 'updated group cover',
+	event_cover: 'updated event cover'
     };
 	sub : any = '';
 	slidesPerView : number = 1;
@@ -77,10 +77,11 @@ export class PostPage {
 		});
 		this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getLiveLitePost() });
-		this.getStories()
+		
   }
   
   ionViewDidLoad() {
+	this.getStories();
 	this.isAndroid = this.platform.is("android");
 	this.postElement['handle'] = "me";
 	this.postElement['id'] = '';  
@@ -90,6 +91,9 @@ export class PostPage {
 			let item = data[0];
 			localStorage.setItem('last_post_live',item[0].post_id);
 			for (var key in item) {
+				if(item[key].post_type == 'photos'){
+					this.post_type.photos = "added "+item[key].photos_num+" photos";
+				}
 				this.postFeeds.push(item[key]);
 			}
 	});
