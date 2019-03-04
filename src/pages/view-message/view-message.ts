@@ -154,8 +154,8 @@ export class ViewMessagePage {
   
   sendMessage(){
 	  this.user.postMessage(this.chatInfo).subscribe((resp) => {	
-		this.conversation.conversation_id = resp.conversation_id;
-		localStorage.setItem('last_message_id',resp.last_message_id);
+		this.conversation.conversation_id = resp['conversation_id'];
+		localStorage.setItem('last_message_id',resp['last_message_id']);
 		let message = new Array();
 		message['image'] = resp['image'];
 		message['message'] = resp['message'];

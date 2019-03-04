@@ -50,7 +50,7 @@ export class HomePage {
    ) {
 			this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getLiveLiteData() });	
-			this.menu.enable(false);   
+			//this.menu.enable(false);   
 			this.getProfileData(localStorage.getItem('user_id'));
 			this.sliderOpen();
 			

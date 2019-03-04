@@ -11,50 +11,14 @@ import { Badge } from '@ionic-native/badge';
 import { User } from '../providers';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 @Component({
-  template: `<ion-menu [content]="content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Pages</ion-title>
-      </ion-toolbar>
-    </ion-header>    
-
-    <ion-content>
-      <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          {{p.title}}
-        </button>
-      </ion-list>
-    </ion-content>
-
-  </ion-menu>
+  template: `
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
   rootPage = FirstRunPage;
   public alertShown:boolean = false;
   @ViewChild(Nav) nav: Nav;
-  pages: any[] = [
-    { title: 'Tutorial', component: 'TutorialPage' },
-    { title: 'Welcome', component: 'WelcomePage' },
-    { title: 'Tabs', component: 'TabsPage' },
-    { title: 'Cards', component: 'CardsPage' },
-    { title: 'Content', component: 'ContentPage' },
-    { title: 'Login', component: 'LoginPage' },
-    { title: 'Signup', component: 'SignupPage' },
-    { title: 'Master Detail', component: 'ListMasterPage' },
-    { title: 'Friends', component: 'FriendsPage' },
-    { title: 'Photos', component: 'PhotosPage' },
-    { title: 'Events', component: 'EventsPage' },
-    { title: 'Groups', component: 'GroupsPage' },
-    { title: 'Menu', component: 'MenuPage' },
-    { title: 'Settings', component: 'SettingsPage' },
-    { title: 'Search', component: 'SearchPage' },
-    { title: 'Forget Password', component: 'ForgetPasswordPage' },
-    { title: 'OTP page', component: 'OtpPage' },
-    { title: 'Reset Password page', component: 'ResetPasswordPage' },
-    { title: 'Profile page', component: 'ProfilePage' }
-    
-  ]
+  
   public notificationCount = '';
   sub : any = '';
   constructor(private translate: TranslateService, private androidPermissions: AndroidPermissions, public badge: Badge,public user: User, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
@@ -63,15 +27,9 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#750bb5');
-      //this.statusBar.styleBlackOpaque();
       this.splashScreen.hide();
 	  this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getNotifictionData() });
-	 /*  platform.registerBackButtonAction(() => {
-        if (this.alertShown==false) {
-          this.presentConfirm();  
-        }
-	 }, 0) */
 	 this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.GET_ACCOUNTS]);
    });
     this.initTranslate();
@@ -103,36 +61,7 @@ export class MyApp {
     });
   }
   
-  presentConfirm() {
-    let alert = this.alertCtrl.create({
-      title: 'Confirm Exit',
-      message: 'Do you want Exit?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-            this.alertShown=false;
-          }
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            console.log('Yes clicked');
-            navigator['app'].exitApp();         
-          }
-        }
-      ]
-    });
-     alert.present().then(()=>{
-      this.alertShown=true;
-    });
-  }
-
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
 
