@@ -18,7 +18,7 @@ export class PagesPage {
   pageszone: string = "suggested";
   pageLists: any = [];
   pageCategories: any = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public navParams: NavParams, public page: PageProvider, public user: User) {
 	  this.pageszone = navParams.get('pageszone') || 'suggested';
   }

@@ -17,7 +17,7 @@ import { Badge } from '@ionic-native/badge';
 })
 export class NotificationsPage {
   public notifications : any = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   private pageCount = 1;
   constructor(
 		public navCtrl: NavController, 
@@ -56,7 +56,7 @@ export class NotificationsPage {
   }
   
   viewProfile(user_name,user_id) {
-		this.nav.push('ProfilePage', {user_name: user_name,user_id:user_id});
+	this.nav.push('ProfilePage', {user_name: user_name,user_id:user_id});
   }
   
   isToday(data){

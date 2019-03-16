@@ -25,7 +25,7 @@ export class GeneralInfoSlidePage {
 	isReadyToSave: boolean;
 	profilePhotoOptions: FormGroup;
 	coverPhotoOptions: FormGroup;
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
   
 	
   constructor(

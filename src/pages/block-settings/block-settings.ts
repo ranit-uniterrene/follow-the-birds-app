@@ -15,7 +15,7 @@ import { User } from '../../providers';
 })
 export class BlockSettingsPage {
   private users : any = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public user: User, public navParams: NavParams, private alertCtrl: AlertController,public toastCtrl: ToastController) {
 }
 

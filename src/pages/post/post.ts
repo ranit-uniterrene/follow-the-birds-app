@@ -48,7 +48,7 @@ export class PostPage {
 	private pageCount = 2;
 	private arrayPosition = 0;
 	private isAndroid = false;
-	private mediapath = "https://dev.followthebirds.com/content/uploads/";
+	private mediapath = "https://followthebirds.com/content/uploads/";
 	usermayknow : any = [];
 	stories : any = [];
 	height : number = 300;

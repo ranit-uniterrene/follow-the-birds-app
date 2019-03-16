@@ -64,6 +64,33 @@ page-signup {
         #step2.active{
             left: 0;
         }
+		#step3{
+            position: absolute;
+            width: 100%;
+            transition: all 1s ease;
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+			h3 {
+				color: #fff;
+				text-align: center;
+			}
+			.terms_policy {
+				color: #fff;
+				text-align: justify;
+				padding: 5px;
+				margin-bottom: 26px;
+				font-size: 16px;
+			}
+        }
+        #step3.active{
+            left: 0;
+        }
     }
     h4{
         color: #fff;

@@ -20,7 +20,7 @@ export class MessagesPage {
   messagezone: string = "messages";
   public messages : any = [];
   public groups : any = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   private bulkMessage;
   private chatPhotos = [];
   private pageCount = 2;

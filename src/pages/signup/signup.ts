@@ -155,27 +155,28 @@ export class SignupPage {
    
     var tab1 = document.getElementById('tab1');
     var tab2 = document.getElementById('tab2');
+    var tab3 = document.getElementById('tab2');
     var step1 = document.getElementById('step1');
     var step2 = document.getElementById('step2');
+    var step3 = document.getElementById('step3');
     if(this.checkValidations()){
       if(step == 2){
-
-        let toast = this.toastCtrl.create({
-          message: 'Great! All details are fine',
-          duration: 1000,
-          position: 'middle',
-          dismissOnPageChange: true
-        });
-        toast.present();
         
         tab2.classList.add('active');
-       // tab1.classList.remove('active');      
         step1.classList.remove('active');   
+        step3.classList.remove('active');   
         step2.classList.add('active');   
-      }else{
+      }else if(step == 3){
+        tab3.classList.add('active');
+        step1.classList.remove('active');   
+        step2.classList.remove('active');   
+        step3.classList.add('active');   
+	  }	else{
         tab1.classList.add('active');
         tab2.classList.remove('active'); 
+        tab3.classList.remove('active'); 
         step2.classList.remove('active');   
+        step3.classList.remove('active');   
         step1.classList.add('active');  
       }
 
@@ -191,8 +192,16 @@ export class SignupPage {
 
     }
     
-
-
     
   }
+  
+  openTerm(){
+	this.navCtrl.push("TermsPage");	
+  }
+  
+  openPrivacy(){
+	this.navCtrl.push("PrivacyPage");	
+  }
+  
+  
 }

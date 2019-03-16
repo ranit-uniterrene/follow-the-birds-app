@@ -20,7 +20,7 @@ export class EventsPage {
   eventzone: string = "suggested";
 	eventLists: any = [];
 	eventCategories: any = [];
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public events: EventsProvider, public navParams: NavParams, public user: User) {
 	  this.loadEvent('suggested');
   }

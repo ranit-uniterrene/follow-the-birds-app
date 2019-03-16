@@ -16,7 +16,7 @@ export class StoryPage {
 	@ViewChild('slides') slides: Slides;
 	private story : any = [];
 	private mediaStory : any = [];
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
 	public loaderWidth : number = 0;
 	sub : any = '';
 	constructor(private navCtrl: NavController, private navParams: NavParams, private platform: Platform) {

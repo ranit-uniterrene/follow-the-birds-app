@@ -20,7 +20,7 @@ export class PhotosPage {
   albums : any = [];
 	private profile_id;
 	photoalbum: string = "uploads";
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   private pageCount = 2;
   private arrayPosition = 0;
   

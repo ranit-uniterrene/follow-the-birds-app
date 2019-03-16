@@ -53,7 +53,7 @@ export class EventProfilePage {
   };
   sub : any = '';
   private myId : number = parseInt(localStorage.getItem('user_id'));
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";	
+  private imageURL = "https://followthebirds.com/content/uploads/";	
   height : number = 300;
   width : number = 300;
   constructor(

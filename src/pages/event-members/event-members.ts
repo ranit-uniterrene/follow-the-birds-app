@@ -19,7 +19,7 @@ export class EventMembersPage {
   public going = [];
   public interested = [];
   public invited = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public events: EventsProvider, public navParams: NavParams) {
 	this.event_id = navParams.get('event_id') || '';
 	this.eventMembers = navParams.get('type') || '';

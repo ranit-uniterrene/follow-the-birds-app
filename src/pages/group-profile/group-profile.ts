@@ -30,7 +30,7 @@ export class GroupProfilePage {
   postFeeds: any = [];
   public groupDetailszone : string = "timeline";
   sub : any = '';
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";	
+  private imageURL = "https://followthebirds.com/content/uploads/";	
   post_type: any = {
     shared: 'shared',
     link: 'shared a link',

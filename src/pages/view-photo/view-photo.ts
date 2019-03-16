@@ -20,7 +20,7 @@ import { StorageProvider } from '../../providers/storage/storage';
 })
 export class ViewPhotoPage {
   public photo : any = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, 
     public user: User,
     public post: Post,  

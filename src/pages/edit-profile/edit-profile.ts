@@ -22,7 +22,7 @@ export class EditProfilePage {
   profile : any = {};
   profilePhotoOptions: FormGroup;
   coverPhotoOptions: FormGroup;
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   private myId :number = parseInt(localStorage.getItem('user_id'));
   constructor(public navCtrl: NavController, 
 		public user: User, 

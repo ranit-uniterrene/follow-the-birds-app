@@ -24,7 +24,7 @@ export class WelcomePage {
 		user_name: '',
 		user_password: ''
 	};
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
 	loggedinUser : any = [];
 	respUser : any = [];
 	// Our translated text strings

@@ -15,7 +15,7 @@ export class SearchPage {
   currentItems: any = [];
   event : any;
   item : any;
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items, public user: User) { 
 	this.event = navParams.get('event');
   }

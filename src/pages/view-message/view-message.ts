@@ -21,7 +21,7 @@ export class ViewMessagePage {
   postPhotoOptions: FormGroup;
   private conversation : any = [];
   private messages : any = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   private group = false;
   public publishPhotos : any = [];
   myId = localStorage.getItem('user_id');

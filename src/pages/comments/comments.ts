@@ -31,7 +31,7 @@ export class CommentsPage {
 	};
 	public title = "Comments";
 	public publishPhotos : any = '';
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
 	
 	private stickers = [];
 	private stickerHeight;

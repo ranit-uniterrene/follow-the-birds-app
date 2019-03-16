@@ -15,7 +15,7 @@ import { User } from '../../providers';
   templateUrl: 'user-settings.html',
 })
 export class UserSettingsPage {
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   private profile : any = [];
   constructor(
     public navCtrl: NavController, 

@@ -54,7 +54,7 @@ export class WhatsOnMindPage {
   public publishPhotos : any = [];
   public icon;
   private mediaPublisher : any ='';
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,

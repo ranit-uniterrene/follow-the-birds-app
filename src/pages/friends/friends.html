@@ -29,7 +29,7 @@
 	  <ion-list *ngSwitchCase="'suggested'">
 			<ion-item *ngFor="let friend of getSuggestedUsers">
 				<ion-thumbnail item-start (click)="viewProfile(friend.user_name,friend.user_id)">
-					<img src="https://dev.followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+					<img src="https://followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 					
 				</ion-thumbnail>			
 				<div>
@@ -50,7 +50,7 @@
 		</ion-item-divider> 
 		<ion-item *ngFor="let friend of pendindFriendLists" >
 			<ion-thumbnail item-start (click)="viewProfile(friend.user_name,friend.user_id)">
-				<img src="https://dev.followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+				<img src="https://followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 				
 			</ion-thumbnail>
 			<h2 (click)="viewProfile(friend.user_name,friend.user_id)">{{friend.user_firstname}} {{friend.user_lastname}}</h2>
@@ -67,7 +67,7 @@
 		
 		<ion-item *ngFor="let friend of friendLists">
 			<ion-thumbnail item-start (click)="viewProfile(friend.user_name,friend.user_id)">
-			  <img src="https://dev.followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
+			  <img src="https://followthebirds.com/content/uploads/{{friend.user_picture}}" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'">
 			</ion-thumbnail>
 			<h2 (click)="viewProfile(friend.user_name,friend.user_id)">{{friend.user_firstname}} {{friend.user_lastname}}</h2>
 			<p>	{{friend.mutual_friends_count}} Mutual Friends </p>	

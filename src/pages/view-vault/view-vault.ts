@@ -25,7 +25,7 @@ export class ViewVaultPage {
   @ViewChild('vaultFile') vaultFile;
   vaultPhotoOptions: FormGroup;
    public vault :any = [];
-   private imageURL = "https://dev.followthebirds.com/content/uploads/";
+   private imageURL = "https://followthebirds.com/content/uploads/";
    public files = [];
    public type = '';
    vaultFileOptions: FormGroup;

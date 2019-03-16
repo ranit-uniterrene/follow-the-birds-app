@@ -33,7 +33,7 @@ export class PageProfilePage {
   postFeeds: any = [];
   public pageDetailszone : string = "details";
   sub : any = '';
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";	
+  private imageURL = "https://followthebirds.com/content/uploads/";	
   post_type: any = {
     shared: 'shared',
     link: 'shared a link',

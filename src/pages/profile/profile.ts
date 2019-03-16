@@ -32,7 +32,7 @@ export class ProfilePage {
 	coverPhotoOptions: FormGroup;
 	sub : any = '';
 	public readyState = 'false';
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
 	private myId :number = parseInt(localStorage.getItem('user_id'));
 	headerActive = false;
 	private pageCount = 2;

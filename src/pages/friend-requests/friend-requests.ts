@@ -17,7 +17,7 @@ import { User } from '../../providers';
 export class FriendRequestsPage {
 	pendindFriendLists: any = [];
 	usermayknow : any = [];
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
 	
 	isAccept : boolean;
 	isDelete : boolean;

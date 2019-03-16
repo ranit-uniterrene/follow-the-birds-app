@@ -14,6 +14,7 @@
       <ul>
         <li id="tab1" class="active"><span></span></li>
         <li id="tab2"><span></span></li>
+        <li id="tab3"><span></span></li>
       </ul>
     </div>
     
@@ -60,7 +61,7 @@
                 <ion-label fixed><ion-icon ios="ios-transgender" md="md-transgender"></ion-icon></ion-label>
               <!-- <ion-input type="text" [(ngModel)]="account.user_firstname" placeholder="First Name" name="user_firstname"></ion-input> -->
 				<ion-select [(ngModel)]="account.user_gender" [ngModelOptions]="{standalone:true}" class="fullSelect">
-                  <ion-option value="" selected="true">Select Sex</ion-option>
+                  <ion-option value="" selected="true">Select Gender</ion-option>
                   <ion-option value="male">Male</ion-option>
                   <ion-option value="female">Female</ion-option>
                   <ion-option value="other">Other</ion-option>                  
@@ -68,56 +69,35 @@
             </ion-item>
 			<ion-item>
 			  <ion-label>Date of Birth</ion-label>
-			  <ion-datetime  style="color:white" displayFormat="MM/DD/YYYY" [(ngModel)]="account.user_DOB_date" name="user_DOB_date" [ngModelOptions]="{standalone:true}"></ion-datetime>
+			  <ion-datetime  style="color:white" displayFormat="DD MMM YYYY" pickerFormat="DD/MMMM/YYYY" max="2005" min="1938" [(ngModel)]="account.user_DOB_date" name="user_DOB_date" [ngModelOptions]="{standalone:true}"></ion-datetime>
 			</ion-item>
-             <!--<div class="listBox"> 
-			  <ion-item>
-				<ion-datetime displayFormat="DD" placeholder="Date" [(ngModel)]="account.user_DOB_date" [ngModelOptions]="{standalone:true}" class="fullSelect"></ion-datetime>
-			  </ion-item>
-			  
-			  <ion-item>
-				<ion-datetime displayFormat="MM" placeholder="Month" [(ngModel)]="account.user_DOB_month" [ngModelOptions]="{standalone:true}" class="fullSelect"></ion-datetime>
-			  </ion-item>
-			  
-              <ion-item>
-				<ion-datetime displayFormat="YYYY" placeholder="Year" [(ngModel)]="account.user_DOB_year" [ngModelOptions]="{standalone:true}" class="fullSelect"></ion-datetime>
-			  </ion-item>
-              <ion-item>
-                  <ion-select [(ngModel)]="account.user_DOB_date" [ngModelOptions]="{standalone:true}" class="fullSelect">
-                      <ion-option value="" selected="true">Day</ion-option>
-                      <ion-option value="monday">Monday</ion-option>
-                      <ion-option value="tuesday">Tuesday</ion-option>                                        
-                  </ion-select>
-              </ion-item>
-              <ion-item>
-                  <ion-select [(ngModel)]="account.user_DOB_month" [ngModelOptions]="{standalone:true}" class="fullSelect">
-                      <ion-option value="" selected="true">Month</ion-option>
-                      <ion-option value="january">January</ion-option>
-                      <ion-option value="february">February</ion-option>
-                      <ion-option value="march">March</ion-option>                  
-                  </ion-select>
-              </ion-item>
-              <ion-item>
-                  <ion-select [(ngModel)]="account.user_DOB_year" [ngModelOptions]="{standalone:true}" class="fullSelect">
-                      <ion-option value="" selected="true">Year</ion-option>
-                      <ion-option value="2018">2018</ion-option>
-                      <ion-option value="2017">2017</ion-option>
-                      <ion-option value="2016">2016</ion-option>                  
-                  </ion-select>
-              </ion-item>
-            </div>     -->   
              
-
-            <button class="login_btn" *ngIf="checkValidationsStep2()" ion-button color="light" block outline ion-button (click)="doSignup()">SIGN UP</button>
+            <!-- <button class="login_btn" *ngIf="checkValidationsStep2()" ion-button color="light" block outline ion-button (click)="doSignup()">SIGN UP</button>
             <button class="login_btn" *ngIf="!checkValidationsStep2()" disabled ion-button color="light" block outline ion-button (click)="doSignup()">SIGN UP</button>
+			-->
+			<button class="login_btn" *ngIf="checkValidationsStep2()" ion-button color="light" block outline ion-button (click)="gotoStep(3)">CONTINUE</button>
+            <button class="login_btn" *ngIf="!checkValidationsStep2()" disabled ion-button color="light" block outline ion-button (click)="gotoStep(3)">CONTINUE</button>
             <button class="login_btn backbtn" ion-button color="light" block clear ion-button (click)="gotoStep(1)">
               <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon> Previous
             </button>
         </div>
+		<div id="step3">
+
+			<h3>Term And Condition</h3>
+			<p class="terms_policy"> Tap sign up button, on agreeing to our <b (click)="openTerm()">Terms & Conditions</b> and <b (click)="openPrivacy()">Privacy Policy</b> provided. You will get an email notification instantly from us on installing the app. Your personal information and details given in this app is highly secured and helps you to stay connected with your known contacts and friends.</p>
+             
+            <button class="login_btn" *ngIf="checkValidationsStep2()" ion-button color="light" block outline ion-button (click)="doSignup()">SIGN UP</button>
+            <button class="login_btn" *ngIf="!checkValidationsStep2()" disabled ion-button color="light" block outline ion-button (click)="doSignup()">SIGN UP</button>
+			
+            <button class="login_btn backbtn" ion-button color="light" block clear ion-button (click)="gotoStep(2)">
+              <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon> Previous
+            </button>
+			
+        </div>
       </div>
     </ion-list>
   </form>
-
+  
   <div class="foot">
     <h6>Already have an account ? <button (tap)="loginPage()" color="primary" clear>LOGIN</button></h6>
   </div>

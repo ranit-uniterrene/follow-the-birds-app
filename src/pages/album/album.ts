@@ -17,7 +17,7 @@ import { AlbumProvider } from '../../providers/album/album';
 export class AlbumPage {
   private album_id = '';
   public photoAlbum :any = [];
-  private imageURL = "https://dev.followthebirds.com/content/uploads/";
+  private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public nav: Nav, public navParams: NavParams, public album: AlbumProvider) {
     this.album_id = navParams.get('album_id');
   }

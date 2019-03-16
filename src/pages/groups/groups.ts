@@ -17,7 +17,7 @@ import { User } from '../../providers';
 export class GroupsPage {
 	groupzone: string = "discover";
 	public groupLists : any = [];
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(public navCtrl: NavController, public navParams: NavParams, public user: User, public groups: Groups) {
     this.groupzone = navParams.get('groupzone') || 'discover';
   }
