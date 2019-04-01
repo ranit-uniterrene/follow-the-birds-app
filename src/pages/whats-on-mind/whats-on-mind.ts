@@ -218,13 +218,14 @@ export class WhatsOnMindPage {
 				icon: !this.platform.is('ios') ? 'ios-camera' : null,	
 				text: 'Take a Picture',
 				handler: () => {
-				this.takeCameraSnap()
+				this.takeCameraSnap(1)
 				}
 			},{
 				icon: !this.platform.is('ios') ? 'ios-images' : null,		
 				text: 'Upload from gallery',
 				handler: () => {
-				this.uploadFromGallery('photo');
+					this.takeCameraSnap(0)
+					//this.uploadFromGallery('photo');
 				}
 			},{
 				icon: !this.platform.is('ios') ? 'ios-folder' : null,		
@@ -333,7 +334,7 @@ export class WhatsOnMindPage {
   
   
   
-	takeCameraSnap(){
+	takeCameraSnap(sourceType:number){
 		// const options: CameraOptions = {
 		  // quality: 100,
 		  // destinationType: this.camera.DestinationType.DATA_URL,
@@ -353,6 +354,7 @@ export class WhatsOnMindPage {
 		  encodingType: this.camera.EncodingType.JPEG,
 		  mediaType: this.camera.MediaType.PICTURE,
 		  allowEdit:true,
+		  sourceType:sourceType,
 		  saveToPhotoAlbum: true,
 		  correctOrientation: true
 		}
@@ -363,7 +365,12 @@ export class WhatsOnMindPage {
 		   this.postPhotoOptions.patchValue({ 'multiple': false });
 		   this.uploadSinglePhoto(this.postPhotoOptions);
 		 }, (err) => {
-			alert('Unable to take photo');
+			let toast = this.toastCtrl.create({
+				message: "image capturing failed",
+				duration: 3000,
+				position: 'top'
+			});
+			toast.present();
 		 });
 	}
 	

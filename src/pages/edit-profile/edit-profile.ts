@@ -69,13 +69,13 @@ export class EditProfilePage {
 			  icon: !this.platform.is('ios') ? 'ios-camera' : null,	
 			  text: 'Take a Picture',
 			  handler: () => {
-				this.takeCameraSnap('profile')
+				this.takeCameraSnap('profile',1)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'ios-images' : null,		
 			  text: 'Upload from gallery',
 			  handler: () => {
-				this.uploadFromGallery("profile")
+				this.takeCameraSnap("profile",0)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'close' : null,
@@ -97,13 +97,13 @@ export class EditProfilePage {
 			  icon: !this.platform.is('ios') ? 'ios-camera' : null,	
 			  text: 'Take a Picture',
 			  handler: () => {
-				this.takeCameraSnap('cover')
+				this.takeCameraSnap('cover',1)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'ios-images' : null,		
 			  text: 'Upload from gallery',
 			  handler: () => {
-				this.uploadFromGallery("cover")
+				this.takeCameraSnap("cover",0)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'close' : null,
@@ -117,11 +117,11 @@ export class EditProfilePage {
 		actionSheet.present();
 	}
   
-	takeCameraSnap(type){
+	takeCameraSnap(type,sourceType:number){
 		if(type == 'profile'){
 			const options: CameraOptions = {
 				destinationType: this.camera.DestinationType.DATA_URL,
-				sourceType: this.camera.PictureSourceType.CAMERA,
+				sourceType: sourceType,
 				encodingType: this.camera.EncodingType.JPEG,
 				mediaType: this.camera.MediaType.PICTURE,
 				allowEdit:true,
@@ -140,12 +140,17 @@ export class EditProfilePage {
 				this.uploadCoverPhoto(this.coverPhotoOptions); 
 				}
 			 }, (err) => {
-				alert('Unable to take photo');
+				let toast = this.toastCtrl.create({
+					message: "Image uploading failed",
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
 			 });
 		} else {
 			const options: CameraOptions = {
 				destinationType: this.camera.DestinationType.DATA_URL,
-				sourceType: this.camera.PictureSourceType.CAMERA,
+				sourceType: sourceType,
 				encodingType: this.camera.EncodingType.JPEG,
 				mediaType: this.camera.MediaType.PICTURE,
 				allowEdit:true,
@@ -164,15 +169,17 @@ export class EditProfilePage {
 				this.uploadCoverPhoto(this.coverPhotoOptions); 
 				}
 			 }, (err) => {
-				alert('Unable to take photo');
+				let toast = this.toastCtrl.create({
+					message: "Image uploading failed",
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
 			 });
 		}
-		
-		
-		
 	}
 	
-	uploadFromGallery(type){
+	/* uploadFromGallery(type){
 		if(type == 'profile'){ 
 			this.profilePhoto.nativeElement.click(); 
 		} else { 
@@ -194,7 +201,7 @@ export class EditProfilePage {
 		 }		  
 		};
 		reader.readAsDataURL(event.target.files[0]);
-	}
+	} */
 	  
 	uploadProfilePhoto(params){
 
@@ -237,17 +244,17 @@ export class EditProfilePage {
 				duration: 3000,
 				position: 'top'
 			});
-      toast.present();
-      this.profile.user_cover = resp;
+			toast.present();
+			this.profile.user_cover = resp;
 			localStorage.setItem('user_cover',this.profile.user_cover);
 		}, (err) => {
 			loading.dismiss();
-		  let toast = this.toastCtrl.create({
-			message: "image uploading failed",
-			duration: 3000,
-			position: 'top'
-		  });
-		  toast.present();
+			  let toast = this.toastCtrl.create({
+				message: "image uploading failed",
+				duration: 3000,
+				position: 'top'
+			  });
+			  toast.present();
 		});
   }
   

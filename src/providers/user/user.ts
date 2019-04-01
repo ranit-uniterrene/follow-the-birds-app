@@ -27,7 +27,7 @@ import { File } from '@ionic-native/file';
 @Injectable()
 export class User {
   _user: any;
-   private imageURL = "https://dev.followthebirds.com/content/uploads/";
+   private imageURL = "https://followthebirds.com/content/uploads/";
 	constructor(
 		public api: Api,
 		private transfer: FileTransfer,
@@ -618,6 +618,35 @@ export class User {
 
     return seq;
  }
+ 
+ vaultImageUploader(params){
+	/* var options = {
+	};
+	
+	let body = new FormData();
+	for (var i = 0; i<=data.length; i++) {
+	  body.append('file[]',data[i]);
+	}
+	
+	//body.append('file[]', data);
+	console.log(data);
+	
+	for (var key in params) {
+	  body.append(key,params[key]);
+	}
+	console.log(body); */
+	
+	let seq = this.api.post('vault_image_upload', params.value).share();
+
+    seq.subscribe((res: any) => {
+        
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+ }
+ 
  
  removeVaultFiles(params: any) {
     let seq = this.api.post('remove_vault_files', params).share();

@@ -23,12 +23,12 @@ export class ViewVaultPage {
   @ViewChild('vaultVideo') vaultVideo;
   @ViewChild('vaultAudio') vaultAudio;
   @ViewChild('vaultFile') vaultFile;
-  vaultPhotoOptions: FormGroup;
    public vault :any = [];
    private imageURL = "https://followthebirds.com/content/uploads/";
    public files = [];
    public type = '';
    vaultFileOptions: FormGroup;
+   vaultPhotoOptions: FormGroup;
    public press: number = 0;
    public delete_file : any = [];
    public activeAdd = false;
@@ -58,8 +58,14 @@ export class ViewVaultPage {
 			this.handle = navParams.get('handle');
 			this.handle_id = navParams.get('handle_id');
 		}
-		console.log(this.handle+this.handle_id);
 		this.vaultFileOptions = formBuilder.group({
+			type: this.vault.type,
+			multiple: true,
+			folder_name: this.vault.folder_name,
+			my_id : localStorage.getItem('user_id')
+		});
+		this.vaultPhotoOptions = formBuilder.group({
+			file: "assets/followthebirdImgs/no-profile-img.jpeg",
 			type: this.vault.type,
 			multiple: true,
 			folder_name: this.vault.folder_name,
@@ -89,6 +95,7 @@ export class ViewVaultPage {
 			  text: 'Upload Photos',
 			  handler: () => {
 				this.uploadFromGallery('image');
+				//this.takeCameraSnap(0)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'close' : null,
@@ -167,20 +174,29 @@ export class ViewVaultPage {
 	  }
 	  
   
-	takeCameraSnap(){
+	takeCameraSnap(sourceType:number){
 		const options: CameraOptions = {
 		  quality: 100,
-		  destinationType: this.camera.DestinationType.FILE_URI,
+		  destinationType: this.camera.DestinationType.DATA_URL,
+		  sourceType: sourceType,
 		  encodingType: this.camera.EncodingType.JPEG,
-		  sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-		  mediaType: this.camera.MediaType.PICTURE
+		  mediaType: this.camera.MediaType.PICTURE,
+		  allowEdit:true,
+		  correctOrientation: true
 		}
 		
+		
 		this.camera.getPicture(options).then((imageData) => {
-		   this.uploadMedia(imageData);
-		 }, (err) => {
-			alert('Unable to take photo');
-		 });
+		   this.vaultPhotoOptions.patchValue({ 'file': "data:image/jpeg;base64,"+imageData }); 
+			this.uploadPhoto(this.vaultPhotoOptions);
+		}, (err) => {
+			let toast = this.toastCtrl.create({
+				message: "image capturing failed",
+				duration: 3000,
+				position: 'top'
+			});
+			toast.present();
+		});
 	}
   
 	uploadFromGallery(type){
@@ -209,12 +225,36 @@ export class ViewVaultPage {
 		this.uploadMedia(event.target.files);
 	}
 	
-	uploadPhoto(){
-		
+	uploadPhoto(params){
+		let loading = this.loadingCtrl.create({
+			content: 'Uploading...'
+		});
+		loading.present();
+		 this.user.vaultImageUploader(params).subscribe((resp) => {
+			loading.dismiss();	
+			let toast = this.toastCtrl.create({
+				message: "file has been successfully uploaded",
+				duration: 3000,
+				position: 'top'
+			});
+			toast.present();
+			let item = resp;
+			for(var key in item){
+				this.files.push(item[key]);
+			}
+		}, (err) => {
+			loading.dismiss();		
+			let toast = this.toastCtrl.create({
+				message: "image uploading failed",
+				duration: 3000,
+				position: 'top'
+			});
+			toast.present();
+		});
 	}
 	
 	uploadMedia(files){
-		//alert(files);
+		console.log(files);
 		let loading = this.loadingCtrl.create({
 			content: 'Uploading...'
 		});
@@ -234,8 +274,6 @@ export class ViewVaultPage {
 			for(var key in item){
 				this.files.push(item[key]);
 			}
-			//this.files.push(resp.file);
-			console.log(this.files);
 		}, (err) => {
 		 loading.dismiss();		
 		 let toast = this.toastCtrl.create({

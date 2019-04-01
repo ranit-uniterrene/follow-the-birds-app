@@ -48,10 +48,10 @@
 <ion-footer no-padding>
   <ion-toolbar>
 	<ion-buttons left *ngIf="publishPhotos.length < '1'">
-	  <button ion-button icon-only color="primary" (tap)="takeCameraSnap()">
+	  <button ion-button icon-only color="primary" (tap)="takeCameraSnap(1)">
 		<ion-icon name="camera"></ion-icon>
 	  </button>
-	  <button ion-button icon-only color="primary" (tap)="uploadFromGallery()"> 
+	  <button ion-button icon-only color="primary" (tap)="takeCameraSnap(0)"> 
 		<ion-icon ios="ios-image" md="md-image"></ion-icon>
 	  </button>	  
 	  <button ion-button icon-only color="primary" (tap)="showSticker()"> 
@@ -89,7 +89,7 @@
 	  <ion-grid *ngSwitchCase="'emoji'">
 		<ion-row>
 			<ion-col *ngFor="let sticker of allSticker" col-2 (tap)="sendStickerMsg(':STK-'+sticker.sticker_id+':')">
-			 emoji
+			 :)
 			</ion-col>
 		</ion-row>
 	  </ion-grid>

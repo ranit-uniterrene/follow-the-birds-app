@@ -43,6 +43,10 @@ export class UserSettingsPage {
 	});
   }
   
+  openTerm(){
+	this.navCtrl.push("TermsPage");	
+  }
+  
   viewProfile(){
 	  this.nav.push('ProfilePage', {user_name: this.profile.user_name,user_id:this.profile.user_id});  
   }

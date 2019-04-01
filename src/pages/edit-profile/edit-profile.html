@@ -11,7 +11,7 @@
           <strong>Upload cover Photo</strong>
       </ion-card-header> 
       <div class="profileAndCover" [style.backgroundImage]="getCoverBackgroundStyle()" >
-        <input type="file" #coverPhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'cover')" />
+        <!-- <input type="file" #coverPhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'cover')" /> -->
         <button ion-button class="editcoverBtn" (click)="uploadCoverPicture()" *ngIf="profile.user_id == myId">
             <ion-icon color="white" name="camera" role="img" class="icon icon-ios ion-ios-camera" aria-label="camera"></ion-icon>
             Edit
@@ -26,7 +26,7 @@
             <div class="profileImgArea">
               <img [src]="imageURL+profile.user_picture" onError="this.src='assets/followthebirdImgs/no-profile-img.jpeg'" >            
             </div>
-            <input type="file" #profilePhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'profile')" />
+            <!-- <input type="file" #profilePhoto style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event,'profile')" /> -->
             <button ion-fab class="profile-img" (click)="uploadProfilePicture()" *ngIf="profile.user_id == myId">					
               <ion-icon color="white" name="camera" role="img" class="icon icon-ios ion-ios-camera" aria-label="camera"></ion-icon>
             </button>

@@ -106,15 +106,6 @@ export class ProfilePage {
 			user_id : localStorage.getItem('user_id')
 		});
 		
-		this.post.getfeeds('posts_profile',this.profile_id,localStorage.getItem('user_id'),{'filter':'all'})
-		.then(data => {
-			let item = data[0];
-			localStorage.setItem('last_post_live',item[0].post_id);
-			for (var key in item) {
-			  this.postFeeds.push(item[key]);
-			}
-		});
-
 		this.sub = Observable.interval(10000)
 			.subscribe((val) => { this.getLiveLitePost() });
 	}
@@ -154,6 +145,14 @@ export class ProfilePage {
 			let item = data[0];
 			for (var key in item) {
 			  this.friendLists.push(item[key]);
+			}
+		});
+		this.post.getfeeds('posts_profile',this.profile_id,localStorage.getItem('user_id'),{'filter':'all'})
+		.then(data => {
+			let item = data[0];
+			localStorage.setItem('last_post_live',item[0].post_id);
+			for (var key in item) {
+			  this.postFeeds.push(item[key]);
 			}
 		});
 	}
@@ -209,13 +208,13 @@ export class ProfilePage {
 			  icon: !this.platform.is('ios') ? 'ios-camera' : null,	
 			  text: 'Take a Picture',
 			  handler: () => {
-				this.takeCameraSnap('profile')
+				this.takeCameraSnap('profile',1)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'ios-images' : null,		
 			  text: 'Upload from gallery',
 			  handler: () => {
-				this.uploadFromGallery("profile")
+				this.takeCameraSnap('profile',0)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'trash' : null,
@@ -243,13 +242,13 @@ export class ProfilePage {
 			  icon: !this.platform.is('ios') ? 'ios-camera' : null,	
 			  text: 'Take a Picture',
 			  handler: () => {
-				this.takeCameraSnap('cover')
+				this.takeCameraSnap('cover',1)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'ios-images' : null,		
 			  text: 'Upload from gallery',
 			  handler: () => {
-				this.uploadFromGallery("cover")
+				this.takeCameraSnap('cover',0)
 			  }
 			},{
 			  icon: !this.platform.is('ios') ? 'trash' : null,
@@ -269,11 +268,11 @@ export class ProfilePage {
 		actionSheet.present();
 	}
   
-	takeCameraSnap(type){
+	takeCameraSnap(type,sourceType:number){
 		if(type == 'profile'){
 			const options: CameraOptions = {
 				destinationType: this.camera.DestinationType.DATA_URL,
-				sourceType: this.camera.PictureSourceType.CAMERA,
+				sourceType: sourceType,
 				encodingType: this.camera.EncodingType.JPEG,
 				mediaType: this.camera.MediaType.PICTURE,
 				allowEdit:true,
@@ -292,12 +291,17 @@ export class ProfilePage {
 				this.uploadCoverPhoto(this.coverPhotoOptions); 
 				}
 			 }, (err) => {
-				alert('Unable to take photo');
+				let toast = this.toastCtrl.create({
+					message: "image capturing failed",
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
 			 });
 		} else {
 			const options: CameraOptions = {
 				destinationType: this.camera.DestinationType.DATA_URL,
-				sourceType: this.camera.PictureSourceType.CAMERA,
+				sourceType: sourceType,
 				encodingType: this.camera.EncodingType.JPEG,
 				mediaType: this.camera.MediaType.PICTURE,
 				allowEdit:true,
@@ -315,15 +319,17 @@ export class ProfilePage {
 						this.uploadCoverPhoto(this.coverPhotoOptions); 
 				}
 			}, (err) => {
-				alert('Unable to take photo');
+				let toast = this.toastCtrl.create({
+					message: "Image capturing failed",
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
 			});
 		}
-		
-		
-		
 	}
 	
-	uploadFromGallery(type){
+	/* uploadFromGallery(type){
 		if(type == 'profile'){ 
 			this.profilePhoto.nativeElement.click(); 
 		} else { 
@@ -345,7 +351,7 @@ export class ProfilePage {
 		 }		  
 		};
 		reader.readAsDataURL(event.target.files[0]);
-	}
+	} */
 	  
 	uploadProfilePhoto(params){
 
@@ -367,12 +373,12 @@ export class ProfilePage {
 
 		}, (err) => {
 			loading.dismiss();		
-		  let toast = this.toastCtrl.create({
+			let toast = this.toastCtrl.create({
 				message: "image uploading failed",
 				duration: 3000,
 				position: 'top'
-		  });
-		  toast.present();
+			});
+			toast.present();
 		});
 	}
 	
