@@ -32,7 +32,10 @@
 	  </ion-item>
 	  <ion-item>
 		<ion-label floating>I am</ion-label>
-		<ion-input type="text" [(ngModel)]="profile.user_gender" name="user_gender" ></ion-input>
+		<ion-select [(ngModel)]="profile.user_gender" name="user_gender">
+			<ion-option value="female">Female</ion-option>
+			<ion-option value="male">Male</ion-option>
+		</ion-select>
 	  </ion-item>
 	  <ion-item>
 		<ion-label floating>Birthdate</ion-label>

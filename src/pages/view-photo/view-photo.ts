@@ -40,6 +40,7 @@ export class ViewPhotoPage {
   }
 
   ionViewDidLoad() {
+	console.log(this.photo);  
     this.user.getPhoto(parseInt(localStorage.getItem('user_id')),{'photo_id':this.photo.photo_id})
 		.then(data => {
 		this.photo = data;
@@ -73,9 +74,8 @@ export class ViewPhotoPage {
 	 this.navCtrl.pop(); 
   }
   
-  photoActivity(photo){
-	  const actionSheet = this.actionSheetCtrl.create({
-	  buttons: [
+  photoActivity(photo){	
+	let  buttons : any = [
 		{
 		  icon: !this.platform.is('ios') ? 'ios-download' : null,	
 		  text: 'Save to phone',
@@ -88,15 +88,32 @@ export class ViewPhotoPage {
 		  handler: () => {
 			this.socialSharing.share("text", this.imageURL+photo.source,  '', this.imageURL+photo.source)
 		  }
-		},{
+		}
+	];
+	if(localStorage.getItem('user_id') == photo.post.author_id){		
+		let deleteBtn : any = {
+		  icon: !this.platform.is('ios') ? 'ios-trash' : null,		
+		  text: 'Delete Photo',
+		  handler: () => {
+			this.deletePhotoAction(photo.photo_id)
+		  }
+		};		
+		buttons.push(deleteBtn);
+	} else {
+		let report : any = {
 		  icon: !this.platform.is('ios') ? 'ios-alert' : null,		
 		  text: 'Report Photo',
 		  handler: () => {
-			
+			this.reportAction("post",photo.post.post_id)
 		  }
-		}
-	  ]
+		};		
+		buttons.push(report);
+	}
+	
+	const actionSheet = this.actionSheetCtrl.create({
+	  buttons
 	});
+	
 	actionSheet.present();
   }
   
@@ -170,36 +187,78 @@ export class ViewPhotoPage {
 			toast.present();
 		}
 	}
+	
+	deletePhotoAction(photo_id){
+		const confirm = this.alertCtrl.create({
+		  title: 'Delete Photo',
+		  message: 'Are you sure want to delete this photo?',
+		  buttons: [
+			{
+			  text: 'Cancel',
+			  handler: () => {
+				
+			  }
+			},
+			{
+			  text: 'Delete',
+			  handler: () => {
+				this.reactAction('delete_photo',photo_id)				
+			  }
+			}
+		  ]
+		});
+		confirm.present();
+	}
+	
+	reactAction(type,post_id){
+		let params :any = {
+			'do': type,
+			'id': post_id,
+			'my_id' : localStorage.getItem('user_id')
+		};
+		this.post.reaction(params).subscribe((resp) => {						
+			let toast = this.toastCtrl.create({
+				message: "Image has been deleted",
+				duration: 3000,
+				position: 'top',
+				dismissOnPageChange: true
+			});
+			toast.present();
+			this.goBack();
+		}, (err) => {
+			let toast = this.toastCtrl.create({
+				message: "sorry! image is unable to delete.",
+				duration: 3000,
+				position: 'top',
+				dismissOnPageChange: true
+			});
+			toast.present();
+		});
+	}
  
- /* shareImg() { 
-    let imageName = "FreakyJolly.jpg";
-    const ROOT_DIRECTORY = 'file:///sdcard//';
-    const downloadFolderName = 'tempDownloadFolder';
-    
-    //Create a folder in memory location
-    this.file.createDir(ROOT_DIRECTORY, downloadFolderName, true)
-      .then((entries) => {
- 
-        //Copy our asset/img/FreakyJolly.jpg to folder we created
-        this.file.copyFile(this.file.applicationDirectory + "www/assets/imgs/", imageName, ROOT_DIRECTORY + downloadFolderName + '//', imageName)
-          .then((entries) => {
- 
-            //Common sharing event will open all available application to share
-            this.socialSharing.share("Message","Subject", ROOT_DIRECTORY + downloadFolderName + "/" + imageName, imageName)
-              .then((entries) => {
-                console.log('success ' + JSON.stringify(entries));
-              })
-              .catch((error) => {
-                alert('error ' + JSON.stringify(error));
-              });
-          })
-          .catch((error) => {
-            alert('error ' + JSON.stringify(error));
-          });
-      })
-      .catch((error) => {
-        alert('error ' + JSON.stringify(error));
-      });
-  } */
+   reportAction(handle,id){
+	let params :any = {
+		'handle': handle,
+		'id': id,
+		'my_id' : localStorage.getItem('user_id')
+	};
+	this.user.report(params).subscribe((resp) => {						
+	  let toast = this.toastCtrl.create({
+		message: "Report has been submitted successfully",
+		duration: 3000,
+		position: 'top',
+		dismissOnPageChange: true
+	  });
+	  toast.present();
+	}, (err) => {
+	  let toast = this.toastCtrl.create({
+		message: "Failed to Submit Report. Please Try Again",
+		duration: 3000,
+		position: 'top',
+		dismissOnPageChange: true
+	  });
+	  toast.present();
+	});
+  }
 
 }

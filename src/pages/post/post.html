@@ -37,7 +37,9 @@
 	  </ion-avatar>
 	  <span style="font-weight:bold;padding-right:3px;" (click)="viewProfile(feeds)"> {{feeds.post_author_name}}</span> 
 	  <span *ngIf="feeds.feeling_action">is - <ion-icon [name]="feeds.feeling_icon"></ion-icon> {{feeds.feeling_action}} {{feeds.feeling_value}}</span>
-		{{post_type[feeds.post_type]}} 
+	  <span *ngIf="feeds.post_type == 'profile_picture' || feeds.post_type == 'profile_cover' " >
+		  {{post_type[feeds.post_type+'_'+feeds.user_gender]}}</span>
+	  <span *ngIf="feeds.post_type != 'profile_cover' || feeds.post_type != 'profile_picture'" >{{post_type[feeds.post_type]}}</span>
 	  <span *ngIf="feeds.wall_id > '0'" > to <strong>{{feeds.wall_fullname}}'s</strong> Timeline</span>
 	  <span *ngIf="feeds.post_type == 'shared'" > <strong (click)="viewProfile(feeds.origin)">{{feeds.origin.post_author_name}}</strong>'s Post</span>
 	  <span *ngIf="feeds.in_event == '1'" style="display:inline-block;"><ion-icon name="play" style="font-size: 11px;color: #750bb5;padding-right: 3px;"></ion-icon> <ion-icon name='calendar' style="color:#b5af0b;padding: 0;margin: 0;padding-right: 3px;" item-start></ion-icon>  {{feeds.event_title}}</span>
