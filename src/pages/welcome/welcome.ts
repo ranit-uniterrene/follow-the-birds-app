@@ -41,7 +41,7 @@ export class WelcomePage {
 		public nav: Nav		
 	)
 	{
-		this.createDirectory();
+		
 		this.menu.enable(false); 
 		this.translateService.get('LOGIN_ERROR').subscribe((value) => {
 		  this.loginErrorString = value;
@@ -52,6 +52,9 @@ export class WelcomePage {
 		}
 
 		
+	}
+	ionViewDidLoad() {
+      this.createDirectory();
 	}
 
 	// Attempt to login in through our User service

@@ -3,6 +3,7 @@ import { IonicPage, NavController, Nav, NavParams, ActionSheetController, AlertC
 import { User } from '../../providers';
 import { Post } from '../../providers/post/post';
 import { File } from '@ionic-native/file';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { FileOpener } from '@ionic-native/file-opener';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { StorageProvider } from '../../providers/storage/storage';
@@ -30,6 +31,7 @@ export class ViewPhotoPage {
 	public alertCtrl: AlertController,
     public menu: MenuController,
     public nav: Nav,
+	private transfer: FileTransfer,
 	private file: File, 
     private fileOpener: FileOpener, 
 	private socialSharing: SocialSharing,
@@ -38,7 +40,9 @@ export class ViewPhotoPage {
 	private platform: Platform) {
 	  this.photo = this.navParams.get('photo') || [];
   }
-
+  
+  fileTransfer: FileTransferObject = this.transfer.create();
+  
   ionViewDidLoad() {
 	console.log(this.photo);  
     this.user.getPhoto(parseInt(localStorage.getItem('user_id')),{'photo_id':this.photo.photo_id})
@@ -86,7 +90,8 @@ export class ViewPhotoPage {
 		  icon: !this.platform.is('ios') ? 'share-alt' : null,		
 		  text: 'Share External',
 		  handler: () => {
-			this.socialSharing.share("text", this.imageURL+photo.source,  '', this.imageURL+photo.source)
+			this.shareImg(photo.source,"ShareImage");  
+			//this.socialSharing.share("text", this.imageURL+photo.source,  '', this.imageURL+photo.source)
 		  }
 		}
 	];
@@ -258,6 +263,25 @@ export class ViewPhotoPage {
 		dismissOnPageChange: true
 	  });
 	  toast.present();
+	});
+  }
+  
+  shareImg(url,folder) {
+	var arr = url.split("/");
+	var imageName = arr[arr.length - 1];	
+	const absurl = this.imageURL+url;
+	this.fileTransfer.download(absurl, this.file.externalRootDirectory + 'FollowTheBirds/'+folder+'/'+imageName).then((entry) => {
+		return new Promise(resolve => {
+			console.log('success ' + resolve);
+			this.socialSharing.share("","Subject", this.file.externalRootDirectory + 'FollowTheBirds/'+folder+ "/" + imageName, '')
+				.then((entries) => {
+					console.log('success ' + JSON.stringify(entries));
+			}).catch((error) => {
+					alert('error ' + JSON.stringify(error));
+			});
+		});  
+	}, (error) => {
+			return false;
 	});
   }
 

@@ -29,6 +29,7 @@ import { AlbumProvider } from '../providers/album/album';
 import { PageProvider } from '../providers/page/page';
 import { Badge } from '@ionic-native/badge';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 
@@ -86,6 +87,7 @@ export function provideSettings(storage: Storage) {
 	Badge,
     SplashScreen,
     StatusBar,
+	LocalNotifications,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },

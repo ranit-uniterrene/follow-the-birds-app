@@ -20,7 +20,7 @@ import { File } from '@ionic-native/file';
 export class StorageProvider {
 	database: SQLiteObject;
 	private databaseReady: BehaviorSubject<boolean>;
-	private imageURL = "https://dev.followthebirds.com/content/uploads/";
+	private imageURL = "https://followthebirds.com/content/uploads/";
   constructor(
 	public httpclient: HttpClient,
 	public sqlitePorter: SQLitePorter, 

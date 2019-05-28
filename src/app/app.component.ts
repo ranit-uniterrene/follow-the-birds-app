@@ -10,6 +10,8 @@ import { AlertController } from 'ionic-angular';
 import { Badge } from '@ionic-native/badge';
 import { User } from '../providers';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { File } from '@ionic-native/file';
 @Component({
   template: `
   <ion-nav #content [root]="rootPage"></ion-nav>`
@@ -19,18 +21,24 @@ export class MyApp {
   public alertShown:boolean = false;
   @ViewChild(Nav) nav: Nav;
   
-  public notificationCount = '';
+  public notificationCount : any = 1;
   sub : any = '';
-  constructor(private translate: TranslateService, private androidPermissions: AndroidPermissions, public badge: Badge,public user: User, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(private translate: TranslateService, private file: File, public plt: Platform, private localNotifications: LocalNotifications, private androidPermissions: AndroidPermissions, public badge: Badge,public user: User, private alertCtrl: AlertController, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#750bb5');
       this.splashScreen.hide();
 	  this.sub = Observable.interval(3000)
 			.subscribe((val) => { this.getNotifictionData() });
-	 this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.GET_ACCOUNTS]);
+	  this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.STORAGE, this.androidPermissions.PERMISSION.GET_ACCOUNTS]);
+	  this.localNotifications.on('click').subscribe((notification) => {
+		let json = JSON.parse(notification.data);
+		let alert = this.alertCtrl.create({
+			title : notification.data,
+			subTitle : json.myData
+		});	
+		alert.present();
+	  });
    });
     this.initTranslate();
   }
@@ -66,12 +74,30 @@ export class MyApp {
   }
 
   getNotifictionData(){
-	this.user.getLiveLiteData({id: localStorage.getItem('user_id')}).subscribe((resp) => {	
-		if(resp['user_live_notifications_counter'] > this.notificationCount){
-		}
-		this.badge.set(resp['user_live_notifications_counter']);
-	}, (err) => {
-		
-	});	
+    if(localStorage.getItem('user_id')){
+      this.user.getLiveLiteData({id: localStorage.getItem('user_id')}).subscribe((resp) => {	
+        console.log(resp);
+        console.log(this.notificationCount);
+        if(resp['user_live_notifications_counter'] >= this.notificationCount){
+          this.notificationCount = this.notificationCount + 1;
+          this.badge.set(resp['user_live_notifications_counter']);
+          this.seduleNotification("John doe comments on your photo");
+        }
+        
+      }, (err) => {
+        
+      });	
+   }
+  }
+
+  seduleNotification(msg){
+	this.localNotifications.schedule({
+	  id: 1,
+	  title: 'Followthebirds',
+	  text: msg,
+	  //sound: !this.plt.is('ios')? this.file.externalRootDirectory +'call-beep.wav': this.file.externalRootDirectory +'call-beep.wav',
+	  sound: this.file.externalRootDirectory +'call-beep.wav',
+	  data: { myData: "my hidden notification" }
+	});
   }
 }
