@@ -40,6 +40,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FirebaseProvider } from '../providers/firebase/firebase';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 export const firebaseConfig = {
@@ -130,7 +131,8 @@ export function provideSettings(storage: Storage) {
     PageProvider,
     AngularFireDatabase,
     Firebase,    
-    FirebaseProvider
+    FirebaseProvider,
+    FCM
   ]
 })
 export class AppModule { }

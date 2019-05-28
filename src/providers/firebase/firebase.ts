@@ -6,6 +6,7 @@ import { Firebase } from '@ionic-native/firebase/ngx';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Platform } from 'ionic-angular';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 
@@ -23,7 +24,8 @@ export class FirebaseProvider {
     public firebase: Firebase,
     public afDB: AngularFireDatabase,
     public afAU: AngularFireAuth,
-    public platform: Platform
+    public platform: Platform,
+    private fcm: FCM
     ) {
    
   }
@@ -40,7 +42,7 @@ export class FirebaseProvider {
 
       .then((res)=>{
         
-        this.get_token().then((token)=>{        
+        this.fcm.getToken().then((token)=>{        
 
             var userData = {
               firstName: userDetails.user_firstname,
