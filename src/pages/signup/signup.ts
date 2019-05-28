@@ -6,6 +6,8 @@ import { User } from '../../providers';
 import { MainPage, FirstRunPage } from '../';
 import { StorageProvider } from '../../providers/storage/storage';
 
+import { FirebaseProvider } from '../../providers/firebase/firebase';
+
 interface PageItem {
   title: string
   component: any
@@ -54,7 +56,8 @@ export class SignupPage {
     public translateService: TranslateService,
     public storage: StorageProvider,
     public menu: MenuController,
-    public nav: Nav
+    public nav: Nav,
+    public firebaseProvider: FirebaseProvider
     ) {
 
     this.menu.enable(false);   
@@ -118,13 +121,32 @@ export class SignupPage {
       
       this.loading.present();
       //Attempt to login in through our User service
-      this.user.signup(this.account).subscribe((resp) => {
-        this.loading.dismiss();
-        this.storage.setUser(resp);
-        this.navCtrl.setRoot(MainPage);
-      }, (err) => {
 
-        this.navCtrl.push(MainPage);
+      this.firebaseProvider.addUser(this.account).then((res)=>{
+
+
+        this.user.signup(this.account).subscribe((resp) => { 
+
+          this.loading.dismiss();
+          this.storage.setUser(resp);
+          this.navCtrl.setRoot(MainPage);
+       
+        }, (err) => {
+
+          this.navCtrl.push(MainPage);
+
+          // Unable to sign up
+          let toast = this.toastCtrl.create({
+            message: this.signupErrorString,
+            duration: 3000,
+            position: 'top',
+            dismissOnPageChange: true
+          });
+          toast.present();
+        });
+
+
+      }).catch(err=>{
 
         // Unable to sign up
         let toast = this.toastCtrl.create({
@@ -134,7 +156,11 @@ export class SignupPage {
           dismissOnPageChange: true
         });
         toast.present();
-      });
+
+
+      })      
+
+
     }else{
 
       let toast = this.toastCtrl.create({

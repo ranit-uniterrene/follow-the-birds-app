@@ -33,6 +33,25 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 
+
+// firebase packages
+import { Firebase } from '@ionic-native/firebase/ngx';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { FirebaseProvider } from '../providers/firebase/firebase';
+
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyDcO7GLo03fcNGX9jqt_WuQL9ZjUTQ7UBg",
+  authDomain: "followthebirds-1552983472653.firebaseapp.com",
+  databaseURL: "https://followthebirds-1552983472653.firebaseio.com",
+  projectId: "followthebirds-1552983472653",
+  storageBucket: "followthebirds-1552983472653.appspot.com",
+  messagingSenderId: "146883486499",
+  appId: "1:146883486499:web:40b2ee0cab63d4a6"
+};
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -52,6 +71,7 @@ export function provideSettings(storage: Storage) {
     MyApp
   ],
   imports: [
+    
     BrowserModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -72,7 +92,10 @@ export function provideSettings(storage: Storage) {
       }
     }),
 	HttpModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -104,7 +127,10 @@ export function provideSettings(storage: Storage) {
 	SQLitePorter,
     SQLite,
     AlbumProvider,
-    PageProvider	
+    PageProvider,
+    AngularFireDatabase,
+    Firebase,    
+    FirebaseProvider
   ]
 })
 export class AppModule { }

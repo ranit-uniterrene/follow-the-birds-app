@@ -5,6 +5,7 @@ import { IonicPage, NavController, ToastController, LoadingController, Nav, NavP
 import { User } from '../../providers';
 import { StorageProvider } from '../../providers/storage/storage';
 import { MainPage } from '../';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 
 /**
@@ -38,7 +39,8 @@ export class WelcomePage {
 		public loadingCtrl: LoadingController,
 		public menu: MenuController,
 		public platform: Platform,
-		public nav: Nav		
+		public nav: Nav		,
+		public firebaseProvider: FirebaseProvider
 	)
 	{
 		
@@ -59,28 +61,34 @@ export class WelcomePage {
 
 	// Attempt to login in through our User service
 	doLogin() {
+		
 		let loading = this.loadingCtrl.create({
 			content: 'Verifing details...'
 		});
-		
 		loading.present();
-		this.user.login(this.account).subscribe((resp) => {			
-			loading.dismiss();
-			//this.getUserData(resp);	
+
+		this.firebaseProvider.firebaseLogin(this.account).then((res)=>{
 			
-			this.storage.setUser(resp);			
-		    this.nav.setRoot(MainPage, resp);
+			this.user.login(this.account).subscribe((resp) => {			
+				loading.dismiss();
+				//this.getUserData(resp);	
+				
+				this.storage.setUser(resp);			
+					this.nav.setRoot(MainPage, resp);
+				
+			}, (err) => {
+				loading.dismiss();
+				// Unable to log in
+				let toast = this.toastCtrl.create({
+				message: this.loginErrorString,
+				duration: 3000,
+				position: 'top'
+				});
+				toast.present();
+			});
 			
-		}, (err) => {
-			loading.dismiss();
-		  // Unable to log in
-		  let toast = this.toastCtrl.create({
-			message: this.loginErrorString,
-			duration: 3000,
-			position: 'top'
-		  });
-		  toast.present();
-		});
+    }).catch(err=> { console.log(err) })
+
 	}
 	
 	getUserData(params){
